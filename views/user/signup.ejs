@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>menz store </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<!-- validation -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+  </head>
+
+<body>
+  
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="home.html">menz store </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="oi oi-menu"></span> Menu
+        </button>
+  
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+           
+            <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+            <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
+          
+         
+  
+          </ul>
+        </div>
+      </div>
+    </nav>
+  
+
+
+    <div class="container-fluid">
+      
+  <div class="row no-gutter">
+    <!-- The image half -->
+    <div class="col-md-6 d-none d-md-flex bg-image"></div>
+
+    <!-- The content half -->
+    <div class="col-md-6 bg-light">
+      <div class="login d-flex align-items-center py-5">
+
+        <!-- Demo content-->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <h3 class="display-4">Welcome!</h3>
+              <p class="text-muted mb-4">Get the best deals.</p>
+             
+              <form action="/users/signup" id="form2" method="POST">
+                <div class="form-group mb-3">
+                  <input
+                    id="inputName"
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    required
+                    autofocus=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="phone"
+                    type="number"
+                    name="phone"
+                    placeholder="Phone number"
+                    required
+                    autofocus=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="inputEmail"
+                    type="email"
+                    name="email"
+                    placeholder="Email address"
+                    required
+                    autofocus=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="inputPassword"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                    class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                >Sign in</button>
+                <div class="text-center d-flex justify-content-between mt-4"><p
+                  >Already a member?<a
+                      href="/login"
+                      class="font-italic text-muted"
+                    >
+                      <u>Login here.</u></a></p></div>
+              </form>
+            </div>
+          </div>
+        </div><!-- End -->
+
+      </div>
+    </div><!-- End -->
+
+  </div>
+</div>
+
+<style>
+  /* * * ========================================== * CUSTOM UTIL CLASSES *
+  ========================================== * */ .login, .image { min-height:
+  100vh; } .bg-image { background-image:
+  url('../../images/about.jpg'); background-size: cover;
+  background-position: center center; }
+</style>
+
+<script>
+  jQuery('#form2').validate({
+    rules:{
+     
+      name:"required",
+      email:{
+        required:true,
+        email:true
+      },
+      password:"required"
+  
+    },phone:{
+      Number:"true",
+      maxlength: 10,
+      minlength:10,
+      required:true
+
+    },
+    submitHandler:function(form){
+      form.submit();
+    }
+  })
+
+  
+  </script>
+</body>
+
+</html>
+
+
