@@ -86,30 +86,40 @@
       </div>
     </nav>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>Section title</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
+  
+    <table class="table align-items-end col-md-9 col-lg-10 ml-auto " id="table1">
+      <thead class="thead-dark">
+        <tr>
+           
               <th scope="col">Name</th>
               <th scope="col">Email</th>
+              <th scope="col">Block</th>
               <th scope="col">status</th>
             
             </tr>
           </thead>
           <tbody>
+            <h1><listuser[i].name></h1>
+            <%listuser.forEach(function(listuser){%>
             <tr>
-              <td>1,001</td>
-              <td>Mukthar</td>
-              <td>mukthar@2001.com</td>
-              <td><button class="btn btn-danger">Block</button></td>
+             
+              <td><%= listuser.name%></td>
+              <td><%= listuser.email%></td>
+              
+              
+                <% if(listuser.isBlocked==false){%>
+                <td><a href="/admin/block/<%=listuser._id%>" class="btn btn-danger" >Block</a></td>
+               <% }else{ %>
+                  <td><a href="/admin/unblock/<%=listuser._id%>"  class="btn btn-danger" >UnBlock</a></td>
+              
+                <%} %>
+                <td><%=listuser.isBlocked%></td>
               
             </tr>
-      </div>
-    </main>
+            <%})%>
+          </tbody>
+          
+     
   </div>
 </div>
 

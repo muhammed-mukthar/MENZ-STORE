@@ -57,6 +57,9 @@
               <p class="text-muted mb-4">Get the best deals.</p>
              
               <form action="/users/signup" id="form2" method="POST">
+                <%if(message){%>
+                 <h5><%=message.message%></h5> 
+                  <%}%>
                 <div class="form-group mb-3">
                   <input
                     id="inputName"

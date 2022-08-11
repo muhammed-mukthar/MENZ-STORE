@@ -10,6 +10,8 @@
 
     <!-- Bootstrap core CSS -->
 <link href="../../css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css"/>
 
     <style>
       .bd-placeholder-img {
@@ -38,7 +40,7 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
       <a class="nav-link px-3" href="#">Sign out</a>
@@ -52,7 +54,7 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="admin.html">
+            <a class="nav-link " aria-current="page" href="/admin">
               <span data-feather="home"></span>
               Dashboard
             </a>
@@ -70,9 +72,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link active" href=".l">
               <span data-feather="users"></span>
-              Customers
+              Users
             </a>
           </li>
           <li class="nav-item">
@@ -81,73 +83,58 @@
               Reports
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers"></span>
-              Integrations
-            </a>
-          </li>
-        </ul>
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Last quarter
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Year-end sale
-            </a>
-          </li>
+       
         </ul>
       </div>
     </nav>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>Section title</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">status</th>
+  
+    <table class="table align-items-end col-md-9 col-lg-10 ml-auto " id="table1">
+      <thead class="thead-dark">
+        <%if(message){%>
+          <%=message.message%>
+          <%}%>
+        <tr>
+           
+              <th scope="col">Product name</th>
+              <th scope="col">description</th>
+              <th scope="col">category</th>
+              <th scope="col">subCategory</th>
+              <th scope="col">size</th>
+              <th scope="col">stock</th>
+              <th scope="col">price</th>
+              <th scope="col">image</th>
+              <th scope="col">action</th>
             
             </tr>
           </thead>
           <tbody>
+            <%productdetails.forEach(function(productdetails){%>
             <tr>
-              <td>1,001</td>
-              <td>Mukthar</td>
-              <td>mukthar@2001.com</td>
-              <td><button class="btn btn-danger">Block</button></td>
+             
+              <td><%=productdetails.product_name%></td>
+              <td><%=productdetails.desc%></td>
+              
+              
+               
+                <td><%=productdetails.category%></td>
+              
+                  <td> <%=productdetails.subcategory%></td>
+              
+                <td><%=productdetails.size%></td>
+                <td><%=productdetails.stock%></td>
+                <td><%=productdetails.price%></td>
+                <td><img src="/<%=productdetails.img%>"width="50" class="img-thumbnail" alt="product image"></td>
+                <td> 
+                  <a href="/admin/editproduct/<%=productdetails._id%>" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                  <a href="/admin/deleteproduct/<%=productdetails._id%>" class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a>
+                </td>
               
             </tr>
-      </div>
-    </main>
+        <%})%>
+          </tbody>
+          
+     
   </div>
 </div>
 
