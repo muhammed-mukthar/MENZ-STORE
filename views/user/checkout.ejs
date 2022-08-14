@@ -48,26 +48,31 @@
 		    </div>
 		  </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="home.html">menz store </a>
+	      <a class="navbar-brand" href="/">menz store </a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="home.html" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	         
-	          <li class="nav-item"><a href="shop.html" class="nav-link">shop</a></li>
-	          <li class="nav-item"><a href="signup.html" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+			  <%if(locals.isuser){%>
+				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<%}else{%>
+	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+			  <%}%>
+	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
 	        </ul>
 	      </div>
 	    </div>
 	  </nav>
+    <!-- END nav -
     <!-- END nav -->
 
     <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">

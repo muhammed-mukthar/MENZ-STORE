@@ -43,9 +43,13 @@
   
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+      <a class="nav-link px-3" href="/admin/logout"">Sign out</a>
+    </div>
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="/admin/addproduct"">add product</a>
     </div>
   </div>
+
 </header>
 
 <div class="container-fluid">
@@ -60,27 +64,27 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/orders">
               <span data-feather="file"></span>
               Orders
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link active" href="/admin/products">
               <span data-feather="shopping-cart"></span>
               Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href=".l">
+            <a class="nav-link" href="/admin/usermanagement">
               <span data-feather="users"></span>
               Users
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/category">
               <span data-feather="bar-chart-2"></span>
-              Reports
+              Category
             </a>
           </li>
        
@@ -126,7 +130,7 @@
                 <td><%=productdetails.price%></td>
                 <td><img src="/<%=productdetails.img%>"width="50" class="img-thumbnail" alt="product image"></td>
                 <td> 
-                  <a href="/admin/editproduct/<%=productdetails._id%>" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                  <a href="/admin/editproduct/<%=productdetails._id%>"  class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
                   <a href="/admin/deleteproduct/<%=productdetails._id%>" class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a>
                 </td>
               

@@ -41,7 +41,7 @@
   
   <div class="navbar-nav d-inline">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+      <a class="nav-link px-3" href="/admin/logout">Sign out</a>
     </div>
   </div>
 
@@ -53,39 +53,40 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link "href="/admin">
+            <a class="nav-link " aria-current="page" href="/admin">
               <span data-feather="home"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/orders">
               <span data-feather="file"></span>
               Orders
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active " aria-current="page"  href="#">
+            <a class="nav-link active" href="/admin/products">
               <span data-feather="shopping-cart"></span>
               Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href=".l">
+            <a class="nav-link" href="/admin/usermanagement">
               <span data-feather="users"></span>
               Users
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/category">
               <span data-feather="bar-chart-2"></span>
-              Reports
+              Category
             </a>
           </li>
        
         </ul>
       </div>
     </nav>
+
 
 
     
@@ -114,9 +115,11 @@
                                 <label for="category" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Category</label>
                                 <select class="custom-select col-xl-9 col-lg-8 col-md-8 col-sm-7" name="category"   id="category">
                                     <option value="<%=productdetails.category%>"  selected><%=productdetails.category%> </option>
-                                    <option value="Shirt">Shirt</option>
-                                    <option value="tshirt"> tshirt</option>
-                                    <option value="cap">cap</option>
+                                
+                                      <%categorys.forEach(function(categorys){%>
+                                    <option value="<%=categorys.categoryname%>"><%=categorys.categoryname%></option>
+                                 
+                                    <%})%>
                                 </select>
                             </div>
                             <div class="input-group mb-3">

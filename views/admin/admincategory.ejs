@@ -43,7 +43,7 @@
   
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+      <a class="nav-link px-3" href="/admin/logout">Sign out</a>
     </div>
   </div>
 </header>
@@ -51,85 +51,86 @@
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="/admin">
-              <span data-feather="home"></span>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              Orders
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
-              Products
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href=".l">
-              <span data-feather="users"></span>
-              Users
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-            category
-            </a>
-            <ul style=" list-style: none">
-                <li class="nav-item">
-                    <a class="nav-link " href=".l">
-                      <span data-feather="users"></span>
-                      Users
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link " href=".l">
-                      <span data-feather="users"></span>
-                      Users
-                    </a>
-                  </li>
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link " aria-current="page" href="/admin">
+                <span data-feather="home"></span>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">
+                <span data-feather="file"></span>
+                Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">
+                <span data-feather="shopping-cart"></span>
+                Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/usermanagement">
+                <span data-feather="users"></span>
+                Users
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/admin/category">
+                <span data-feather="bar-chart-2"></span>
+                Category
+              </a>
+            </li>
+         
+          </ul>
+        </div>
+      </nav>
+      <section class="col-md-9 col-lg-10 ml-auto mb-2">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="text-center">Add Category</h2>
+                  
+                    <form action="/admin/category" method="post">
+                        <label for="">Category Name</label>
+                        <input type="text" name="category" placeholder="New Category" class="form-control">
 
-            </ul>
-          </li>
-       
-        </ul>
-      </div>
-    </nav>
-
+                        <button type="submit" class="btn btn-success mt-4">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
   
-    <table class="table align-items-end col-md-9 col-lg-10 ml-auto " id="table1">
+    <table class="table align-items-end col-md-9 col-lg-10 ml-auto  " id="table1">
       <thead class="thead-dark">
         <%if(message){%>
           <%=message.message%>
           <%}%>
         <tr>
            
-              <th scope="col">Product name</th>
-              <th scope="col">description</th>
+          
               <th scope="col">category</th>
-              <th scope="col">subCategory</th>
-              <th scope="col">size</th>
-              <th scope="col">stock</th>
-              <th scope="col">price</th>
-              <th scope="col">image</th>
               <th scope="col">action</th>
+
             
             </tr>
           </thead>
           <tbody>
+            <%categories.forEach(function(categories){ %>
             <tr>
-             
-             
-            </tr>
+              <td><%=categories.categoryname%></td>
+              <td>
+                <a href="/admin/category/<%=categories._id%>" class="btn btn-danger">delete</a></td>
+              
+              </tr>
+           <%})%>
     
           </tbody>
+          </table>
+        
           
      
   </div>

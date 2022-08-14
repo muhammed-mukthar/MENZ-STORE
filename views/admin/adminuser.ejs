@@ -41,7 +41,7 @@
   
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+      <a class="nav-link px-3" href="/admin/logout"">Sign out</a>
     </div>
   </div>
 </header>
@@ -58,33 +58,34 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/orders">
               <span data-feather="file"></span>
               Orders
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/products">
               <span data-feather="shopping-cart"></span>
               Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href=".l">
+            <a class="nav-link active" href="/admin/usermanagement">
               <span data-feather="users"></span>
               Users
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/category">
               <span data-feather="bar-chart-2"></span>
-              Reports
+              Category
             </a>
           </li>
        
         </ul>
       </div>
     </nav>
+
 
   
     <table class="table align-items-end col-md-9 col-lg-10 ml-auto " id="table1">
@@ -94,7 +95,7 @@
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Block</th>
-              <th scope="col">status</th>
+             
             
             </tr>
           </thead>
@@ -113,7 +114,7 @@
                   <td><a href="/admin/unblock/<%=listuser._id%>"  class="btn btn-danger" >UnBlock</a></td>
               
                 <%} %>
-                <td><%=listuser.isBlocked%></td>
+             
               
             </tr>
             <%})%>

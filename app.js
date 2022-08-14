@@ -37,12 +37,11 @@ app.use('/users',userroute)
 app.use('/admin',adminroute)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs')
+
+
 app.get('/',(req,res)=>{
-    res.render('publicuser/home')
+    res.render('user/home')
 })
 
 
-
-
-
-app.listen(port,()=> console.log("server hosted in localhost:3000"))
+app.listen(port,()=> console.log("server hosted in localhost:8000"))
