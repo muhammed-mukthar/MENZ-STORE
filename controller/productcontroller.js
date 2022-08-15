@@ -5,7 +5,7 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 const SubCategory = require("../models/subcategory");
 
-const fs = require("fs");
+const fs = require("fs");   
 const path=require('path')
 /* ------------------------------ all products ------------------------------ */
 

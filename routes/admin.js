@@ -1,5 +1,6 @@
 const router = require("express").Router();
-
+const Product = require("../models/product");
+const Category = require("../models/category");
 const adminController=require('../controller/admincontroller')
 const userController=require('../controller/usercontroller')
 const productController=require('../controller/productcontroller')
@@ -83,10 +84,61 @@ router.get("/addproduct", adminauth, productController.addproductspage);
 
 /* ---------------------------- //post addproduct --------------------------- */
 
-router.post("/addproduct",(req,res)=>{
-  console.log(req.body); 
+router.post("/addproduct",async(req,res)=>{
+  try{
+    console.log(req.files.image1);
+    console.log(req.files.image2);
+    console.log(req.files.image1);
 
-  console.log(req.files);
+  let userfiles=[]
+
+  if(req.files?.image1){ userfiles.push(req.files?.image1)}
+  if(req.files?.image2){ userfiles.push(req.files?.image2)}
+
+  if(req.files?.image3){ userfiles.push(req.files?.image3)}
+
+    const imgPath=[]
+    if(userfiles.length){
+      for(let i=0;i<userfiles.length;i++){
+        var uploadpath='./public/productimage/'+Date.now()+i+'jpeg'
+       var img='productimage/'+Date.now()+i+'jpeg'
+
+        imgPath.push(img)
+        userfiles[i]?.mv(uploadpath,(err)=>{
+          if(err){
+            console.log(err)
+            return res.status(500).send(err)
+
+          }
+
+        })
+      }
+    }
+
+    const productsave= await new Product({
+      product_name:req.body.productname,
+      desc:req.body.description ,
+      category: req.body.category,
+      subcategory: req.body.subcategory,
+      size: req.body.size,
+      stock: req.body.stock,
+      price: req.body.price,
+      image:imgPath,
+      
+    })
+    if(productsave){
+       await productsave.save()
+
+       res.redirect('/admin/products')
+    }else{
+      res.send(err+"add product").status(500)
+    }
+
+  }catch(err){
+    res.send(err+"add product").status(500)
+
+  }
+
 });
 
 /* ---------------------------- //get editproduct --------------------------- */

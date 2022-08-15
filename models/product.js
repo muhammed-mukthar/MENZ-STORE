@@ -27,10 +27,7 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    image:  {
-        data: Buffer,
-        contentType: String
-    }
+    image: Array
     
   },
   { timestamps: true }

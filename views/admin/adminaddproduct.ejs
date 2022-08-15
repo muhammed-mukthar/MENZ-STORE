@@ -36,18 +36,20 @@
 
     <div class="container">
         
-        <form action="/admin/addproduct" method="post"    >
+        <form action="/admin/addproduct" method="post" enctype="multipart/form-data" >
             <div class="row">
               <div class="col-md-6 mt-3">
                 <label for="productname" >Product
                     Name
                 </label>
+
+
                 <input id="productname" name="productname" type="text"  class="form-control ">
               </div>
               <div class="col-md-6 mt-3">
                 <label for="description" >Description</label>
                 
-                <textarea maxlength="60" class="form-control "  rows="2" name="desc"></textarea>
+                <textarea maxlength="60" class="form-control "  rows="2" name="description"></textarea>
               </div>
               <div class=" mt-5 col-md-4">
                 <label for="category" class="mr-2">Category</label>
@@ -94,22 +96,34 @@
                                     <label for="productimage" class="">
                                       Image
                                     </label>
-                                    <input id="productimage" name="image1" accept="image/*" type="file" class="form-control ">
+                                    <input id="productimage1" name="image1" accept="image/*" type="file" class="form-control ">
+                                    <img src="" id="image1-preview" width="100px" pt-3  alt="image1">
                                     </div>
-                                 
-                                 <div class="mt-5 col-md-5">
-                                <div class="">
-                                <button type="submit" class="btn btn-primary ">Add
-                               </button>
-                               </div>
-                               </div>
-                </div>
+                                    <div class="mt-5 col-md-4">
+                                        <label for="productimage" class="">
+                                          Image
+                                        </label>
+                                        <input id="productimage2" name="image2" accept="image/*"  type="file" class="form-control ">
+                                        </div>
+                                        <div class="mt-5 col-md-4">
+                                            <label for="productimage" class="">
+                                              Image
+                                            </label>
+                                            <input id="productimage3" accept="image/*" name="image3" type="file" class="form-control ">
+                                            </div>
+                                            <div class="mt-5 col-md-5">
+                                                <div class="">
+                                                    <button type="submit" class="btn btn-primary ">Add
+                                                    </button>
+                                                </div>
+                                                </div>
+            </div>
           </form>
           
         </div>
 
+        
+
 
     
-   
-  
         <%-include('../include/adminresfooter.ejs')-%>

@@ -49,7 +49,7 @@
             <div class="col-md-6 mt-3">
               <label for="description" >Description</label>
               
-              <textarea maxlength="60" class="form-control "  rows="2" name="desc"><%=productdetails.desc%></textarea>
+              <textarea maxlength="60" class="form-control "  rows="2" name="description"><%=productdetails.desc%></textarea>
             </div>
             <div class=" mt-5 col-md-4">
               <label for="category" class="mr-2">Category</label>
@@ -100,22 +100,29 @@
                               <input  id="stock" name="stock" value="<%=productdetails.stock%>" type="number" class="form-control ">
                               </div>
                               <div class="mt-5 col-md-4">
+                              
                                   <label for="productimage" class="">
-                                    Image
+                                    Image1
                                   </label>
-                                  <input id="productimage" name="productimage" type="file" class="form-control ">
+                                  <input id="productimage" name="image1" type="file" accept="image/*"  class="form-control ">
+                               <img src="/<%=productdetails.image[0]%>" class="pt-4"  width="100px" alt="product image1">
                                   </div>
+                                  
                                   <div class="mt-5 col-md-4">
+                                  
                                       <label for="productimage" class="">
-                                        Image
+                                        Image2
                                       </label>
-                                      <input id="productimage" name="productimage" type="file" class="form-control ">
+                                      <input id="productimage" name="image2" type="file" accept="image/*"  class="form-control ">
+                                        <img src="/<%=productdetails.image[1]%>"class="pt-4"  width="100px" alt="product image1">
                                       </div>
                                       <div class="mt-5 col-md-4">
+                                        
                                           <label for="productimage" class="">
-                                            Image
+                                            Image3
                                           </label>
-                                          <input id="productimage" name="productimage" type="file" class="form-control ">
+                                          <input id="productimage" name="image3"  type="file" accept="image/*"  class="form-control ">
+                                          <img src="/<%=productdetails.image[2]%>" class="pt-4" width="100px" alt="product image1">
                                           </div>
                                           <div class="mt-5 col-md-5">
                                               <div class="">
