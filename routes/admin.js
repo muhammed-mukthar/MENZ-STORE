@@ -76,12 +76,18 @@ router.get("/products", adminauth, productController.allproducts);
 
 router.get("/addproduct", adminauth, productController.addproductspage);
 
+/* ------------------------ image upload using multer ----------------------- */
 
+/* ------------------------------------ * ----------------------------------- */
 
 
 /* ---------------------------- //post addproduct --------------------------- */
 
-router.post("/addproduct",productController.addproduct);
+router.post("/addproduct",(req,res)=>{
+  console.log(req.body); 
+
+  console.log(req.files);
+});
 
 /* ---------------------------- //get editproduct --------------------------- */
 
