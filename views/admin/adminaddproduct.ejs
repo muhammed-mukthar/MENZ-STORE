@@ -1,204 +1,126 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.84.0">
-    <title>Admin Dashboard</title>
+<%-include('../include/adminheader.ejs')-%>
 
-    <!-- Bootstrap core CSS -->
-<link href="../../css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link href="../../css/dashboard.css " rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-  </head>
   <body>
     
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Admin Dashboard</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  
-  <div class="navbar-nav d-inline">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="/admin/logout"">Sign out</a>
-    </div>
-  </div>
-  
-</header>
-
-<div class="container-fluid">
-  <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="/admin">
-              <span data-feather="home"></span>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/orders">
-              <span data-feather="file"></span>
-              Orders
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/admin/products">
-              <span data-feather="shopping-cart"></span>
-              Products
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/usermanagement">
-              <span data-feather="users"></span>
-              Users
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/category">
-              <span data-feather="bar-chart-2"></span>
-              Category
-            </a>
-          </li>
-       
-        </ul>
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link "  href="/admin">dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/admin/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category" class="nav-link ">Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
+    <h1 class="text-center"> Add Product</h1>
 
+    <div class="container">
+        
+        <form action="/admin/addproduct" method="post" enctype="multipart/form-data" >
+            <div class="row">
+              <div class="col-md-6 mt-3">
+                <label for="productname" >Product
+                    Name
+                </label>
+                <input id="productname" name="productname" type="text"  class="form-control ">
+              </div>
+              <div class="col-md-6 mt-3">
+                <label for="description" >Description</label>
+                
+                <textarea maxlength="60" class="form-control "  rows="2" name="desc"></textarea>
+              </div>
+              <div class=" mt-5 col-md-4">
+                <label for="category" class="mr-2">Category</label>
+                <select class="" name="category" id="category">
+                    <option selected>Select one</option>
+                    <% category.forEach(function(category){%>
+                    <option value=<%=category.categoryname%>><%=category.categoryname%></option>
+                   
+                    <%})%>
+                </select>
+                </div>
+                <div class="mt-5 col-md-4">
+                    <label for="subcategory" class="mr-2">Sub Category</label>
+                    <select class="" name="subcategory" id="subcategory">
+                        <option selected>Select one</option>
+                        <option value="Levis">Levis</option>
+                        <option value="allen solley">allen solley</option>
+                        
+                    </select>
+                    </div>
+                    <div class="mt-5 col-md-4">
+                        <label for="size" class="">size</label>
+                        <select class="" name="size" id="size">
+                          <option selected>Select one</option>
+                          <option value="sm">sm</option>
+                          <option value="md">md</option>
+                          <option value="lg">lg</option>
+                          <option value="xl">xl</option>
+                        </select>
+                        </div>
+                        <div class="mt-5 col-md-4">
+                            <label for="price" class="">
+                                Price
+                            </label>
+                            <input id="price" name="price"  type="number" class="form-control ">
+                            </div>
+                            <div class="mt-5 col-md-4">
+                                <label for="stock" class="">Units In
+                                    Stock
+                                </label>
+                                <input id="stock" name="stock"  type="number" class="form-control ">
+                                </div>
+                                <div class="mt-5 col-md-4">
+                                    <label for="productimage" class="">
+                                      Image
+                                    </label>
+                                    <input id="productimage" name="image1" accept="image/*" type="file" class="form-control ">
+                                    </div>
+                                    <div class="mt-5 col-md-4">
+                                        <label for="productimage" class="">
+                                          Image
+                                        </label>
+                                        <input id="productimage" name="image2" accept="image/*"  type="file" class="form-control ">
+                                        </div>
+                                        <div class="mt-5 col-md-4">
+                                            <label for="productimage" class="">
+                                              Image
+                                            </label>
+                                            <input id="productimage" accept="image/*" name="image3" type="file" class="form-control ">
+                                            </div>
+                                            <div class="mt-5 col-md-5">
+                                                <div class="">
+                                                    <button type="submit" class="btn btn-primary ">Add
+                                                    </button>
+                                                </div>
+                                                </div>
+            </div>
+          </form>
+          
+        </div>
 
 
     
-        <div class="col-md-9 col-lg-10 ml-auto mt-5">
-            <div class="bg-white tm-block">
-                <div class="row">
-                 
-                
-                </div>
-                <div class="row mt-4 tm-edit-product-row">
-                    <div class="col-xl-7 col-lg-7 col-md-12">
-                        <form action="/admin/addproduct" method="post" id="form3"  class="tm-edit-product-form">
-                            <div class="input-group mb-3">
-                                <label for="productname" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Product
-                                    Name
-                                </label>
-                                <input id="productname" name="productname" type="text" class="form-control  col-xl-9 col-lg-8 col-md-8 col-sm-7">
-                            </div>
-                            <div class="input-group mb-3">
-                                <label for="description" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 mb-2">Description</label>
-                                <textarea class="form-control  col-xl-9 col-lg-8 col-md-8 col-sm-7" rows="2" name="desc"></textarea>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label for="category" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Category</label>
-                                <select class="custom-select col-xl-9 col-lg-8 col-md-8 col-sm-7" name="category" id="category">
-                                  <% %>
-                                    <option selected>Select one</option>
-                                    <% category.forEach(function(category){%>
-                                    <option value=<%=category.categoryname%>><%=category.categoryname%></option>
-                                   
-                                    <%})%>
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label for="subcategory" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Sub Category</label>
-                                <select class="custom-select col-xl-9 col-lg-8 col-md-8 col-sm-7" name="subcategory" id="subcategory">
-                                    <option selected>Select one</option>
-                                    <option value="Levis">Levis</option>
-                                    <option value="allen solley">allen solley</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                              <label for="size" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">size</label>
-                              <select class="custom-select col-xl-9 col-lg-8 col-md-8 col-sm-7" name="size" id="size">
-                                  <option selected>Select one</option>
-                                  <option value="1">sm</option>
-                                  <option value="2">md</option>
-                                  <option value="3">xl</option>
-                              </select>
-                          </div>
-                            <div class="input-group mb-3">
-                                <label for="price" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
-                                    Price
-                                </label>
-                                <input id="price" name="price" type="number" class="form-control  col-xl-9 col-lg-8 col-md-8 col-sm-7"
-                                   >
-                            </div>
-                            <div class="input-group mb-3">
-                                <label for="stock" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Units In
-                                    Stock
-                                </label>
-                                <input id="stock" name="stock" type="number" class="form-control  col-xl-9 col-lg-8 col-md-7 col-sm-7">
-                            </div>
-                            <div class="input-group mb-3">
-                              <label for="productimage" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
-                                  Image
-                              </label>
-                              <input id="productimage" name="productimage" type="file" class="form-control col-xl-9 col-lg-8 col-md-7 col-sm-7">
-                          </div>
-                            <div class="input-group mb-3">
-                                <div class="ml-auto col-xl-8 col-lg-8 col-md-8 col-sm-7 pl-0">
-                                    <button type="submit" class="btn btn-primary">Add
-                                    </button>
-                                </div>
-                            </div> 
-                       
-                        </form>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
+   
   
- 
-  </div>
-</div>
-
-<script src="../../js/dashboard.js"></script>
-<script>
-  jQuery('#form3').validate({
-    rules:{
-     
-      productname:"required",
-      name:{
-        required:true,
-  
-      },
-      category:"required"
-      
-    },
-    submitHandler:function(form){
-      form.submit();
-    }
-  })
-</script>
-    <script src="../../js/bootstrap.bundle.min.js"></script>
-
-      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-  </body>
-</html>
+        <%-include('../include/adminresfooter.ejs')-%>

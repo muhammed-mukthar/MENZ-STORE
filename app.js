@@ -6,7 +6,12 @@ const path=require('path')
 const mongoose=require('mongoose')
 const session=require('express-session')
 
+
+
+const methodOverride = require("method-override");
+
 const dotenv=require('dotenv')
+const fileUpload = require('express-fileupload')
 
 
 dotenv.config()
@@ -37,6 +42,7 @@ app.use('/users',userroute)
 app.use('/admin',adminroute)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs')
+app.use(fileUpload())
 
 
 app.get('/',(req,res)=>{

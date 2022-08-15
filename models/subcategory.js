@@ -5,7 +5,7 @@ const SubCategorySchema=new mongoose.Schema({
     subcategoryname:{required:true,
     type:String ,unique:true},
     
-})
+},{timestamps:true})
 
 
 module.exports=mongoose.model("SubCategory",SubCategorySchema)

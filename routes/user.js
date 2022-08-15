@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require("../models/user");
 const Product = require("../models/product");
 const bcrypt = require("bcrypt");
-const { exists } = require("../models/admin");
+
+const userController = require("../controller/usercontroller");
 
 const userauth = (req, res, next) => {
   if (req.session.userlogin) {
@@ -13,48 +14,12 @@ const userauth = (req, res, next) => {
   }
 };
 
-//get login
-router.get("/login", (req, res) => {
-  res.render("user/login", { loginerror: req.session.loginerr });
-  req.session.loginerr = false;
-});
+/* ------------------------------- //get login ------------------------------ */
+router.get("/login", userController.userloginpage);
 
 //post login
 
-router.post("/login", async (req, res) => {
-  try {
-    const verifyUser = await User.findOne({ email: req.body.email });
-
-    if (verifyUser) {
-      const validpassword = bcrypt.compareSync(
-        req.body.password,
-        verifyUser.password
-      );
-
-      console.log(validpassword);
-      if (validpassword) {
-        if (verifyUser.isBlocked) {
-          req.session.loginerr = "you are restricted";
-          res.redirect("/users/login");
-        } else {
-          req.session.userlogin = true;
-          req.session.loginerr = false;
-          res.status(200).redirect("/users");
-        }
-      } else {
-        req.session.loginerr = "invalid credentials";
-
-        res.redirect("/users/login");
-      }
-    } else {
-      req.session.loginerr = "invalid credentials";
-
-      res.redirect("/users/login");
-    }
-  } catch (err) {
-    res.status(200).send(err);
-  }
-});
+router.post("/login", userController.userlogin);
 
 router.get("/logout", (req, res) => {
   req.session.userlogin = false;
@@ -69,7 +34,7 @@ router.get("/signup", (req, res) => {
   res.render("user/signup");
 });
 
-//signup
+/* -------------------------------- //signup -------------------------------- */
 router.post("/signup", async (req, res) => {
   try {
     const userexist = await User.findOne({ email: req.body.email });

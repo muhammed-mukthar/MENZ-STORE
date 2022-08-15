@@ -1,92 +1,38 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.84.0">
-    <title>Admin Dashboard</title>
+<%-include('../include/adminheader.ejs')-%>
 
-    <!-- Bootstrap core CSS -->
-<link href="../../css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css"/>
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link href="../../css/dashboard.css " rel="stylesheet">
-  </head>
   <body>
     
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Admin Dashboard</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="/admin/logout">Sign out</a>
-    </div>
-  </div>
-</header>
-
-<div class="container-fluid">
-  <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <div class="position-sticky pt-3">
-          <ul class="nav flex-column">
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="/admin">
-                <span data-feather="home"></span>
-                Dashboard
-              </a>
+              <a class="nav-link "  href="/admin">dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin/orders">
-                <span data-feather="file"></span>
-                Orders
-              </a>
+              <a class="nav-link" href="/admin/orders">Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin/products">
-                <span data-feather="shopping-cart"></span>
-                Products
-              </a>
+              <a class="nav-link " href="/admin/products">Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin/usermanagement">
-                <span data-feather="users"></span>
-                Users
-              </a>
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/admin/category">
-                <span data-feather="bar-chart-2"></span>
-                Category
-              </a>
+              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
             </li>
-         
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
           </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
+
       <section class="col-md-9 col-lg-10 ml-auto mb-2">
         <div class="container mt-4">
             <div class="row">
@@ -104,42 +50,43 @@
         </div>
     </section>
   
-    <table class="table align-items-end col-md-9 col-lg-10 ml-auto  " id="table1">
-      <thead class="thead-dark">
-        <%if(message){%>
-          <%=message.message%>
-          <%}%>
-        <tr>
+   <%if(message){%>
+              <p> <%=message.message%></p> 
+                <%}%>
+      <div class="container mt-3">
+          <table id="example" class="display responsive nowrap" style="width:100%">
+            <thead class="theadclass">
            
+              <tr>
+                 
+                
+                    <th scope="col">category</th>
+                    <th scope="col">action</th>
+      
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  <%categories.forEach(function(categories){ %>
+                  <tr>
+                    <td><%=categories.categoryname%></td>
+                    <td>
+                      <a href="/admin/category/<%=categories._id%>" class="btn btn-danger">delete</a></td>
+                    
+                    </tr>
+                 <%})%>
           
-              <th scope="col">category</th>
-              <th scope="col">action</th>
-
-            
-            </tr>
-          </thead>
-          <tbody>
-            <%categories.forEach(function(categories){ %>
-            <tr>
-              <td><%=categories.categoryname%></td>
-              <td>
-                <a href="/admin/category/<%=categories._id%>" class="btn btn-danger">delete</a></td>
-              
-              </tr>
-           <%})%>
-    
-          </tbody>
+                </tbody>
           </table>
         
-          
+      </div>
+
+
+
+
      
-  </div>
-</div>
+ 
+</body>
 
-<script src="../../js/dashboard.js"></script>
-
-    <script src="../../js/bootstrap.bundle.min.js"></script>
-
-      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-  </body>
-</html>
+  
+<%-include('../include/adminresfooter.ejs')-%>

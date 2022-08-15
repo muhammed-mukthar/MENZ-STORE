@@ -13,3 +13,13 @@
 .theadclass{
     background-color: green;
 }
+
+a{
+    color: #fff;
+    text-decoration: none;
+}
+
+#buttonstyle{
+    
+background-color: green;
+}
