@@ -38,7 +38,6 @@ exports.addCategory=async (req, res) => {
   }
 
   exports.deleteCategory=async(req,res)=>{
-
     await Category.findByIdAndDelete(req.params.id)
     res.redirect('/admin/category')
   }

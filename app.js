@@ -8,18 +8,22 @@ const session = require("express-session");
 var createError = require("http-errors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const cors=require('cors')
 const methodOverride = require("method-override");
-
+const crypto=require('crypto')
 const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
+
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
 
-app.use(session({ secret: "secret", saveUninitialized: true, resave: false }));
 
+app.use(session({ secret: "secret", saveUninitialized: true, resave: false }));
+app.use(cors({
+  origin:"*"
+}))
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -37,8 +41,7 @@ app.use("/admin", adminroute);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-mongoose
-  .connect(process.env.DB_CONNECT, {
+mongoose.connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -64,5 +67,7 @@ app.get("/", (req, res) => {
 //   res.status(err.status || 500);
 //   res.render("error");
 // });
+
+
 
 app.listen(port, () => console.log("server hosted in localhost:8000"));

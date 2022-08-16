@@ -3,7 +3,7 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
 const SubCategory = require("../models/subcategory");
-
+const bcrypt=require('bcrypt')
 const fs = require("fs");
 
 /* ----------------------------- userlogin page ----------------------------- */
@@ -28,7 +28,9 @@ exports.userlogin = async (req, res) => {
       console.log(validpassword);
       if (validpassword) {
         if (verifyUser.isBlocked) {
-          req.session.loginerr = "you are restricted";
+          req.session.message = {
+            message: "you are restricted",
+          };
           res.redirect("/users/login");
         } else {
           req.session.userlogin = true;
@@ -36,17 +38,21 @@ exports.userlogin = async (req, res) => {
           res.status(200).redirect("/users");
         }
       } else {
-        req.session.loginerr = "invalid credentials";
+        req.session.message = {
+          message: "Invalid credentials",
+        };
 
         res.redirect("/users/login");
       }
     } else {
-      req.session.loginerr = "invalid credentials";
+      req.session.message = {
+        message: "invalid credentials",
+      };
 
       res.redirect("/users/login");
     }
   } catch (err) {
-    res.status(200).send(err);
+    res.status(200).send(err+"login eroor");
   }
 };
 
