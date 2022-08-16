@@ -62,24 +62,43 @@ rel="stylesheet"
                       </div>
                       <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
+                          <%if(message){%>
+                            <p> <%=message.message%></p>
+                             <%}%>
           
-                          <form>
+                          <form action="/users/verifyotp" method="post" >
           
                             <div class="d-flex align-items-center mb-3 pb-1">
                               <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                               <span class="h1 fw-bold mb-0">Logo</span>
+                              <div id="Timer">59</div>
                             </div>
           
                             <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">OTP LOGIN</h5>
           
                             <div class="form-outline mb-4">
-                              <input type="number" id="form2Example17" class="form-control form-control-lg" />
+                              <input type="number" id="otp" name="otp" class="form-control form-control-lg" />
                               <label class="form-label" for="form2Example17">OTP Number</label>
                             </div>
           
                             <div class="pt-1 mb-4">
-                              <button class="btn btn-dark btn-lg btn-block col-md-4" type="button">submit</button>
+                              <button class="btn btn-dark btn-lg btn-block col-md-4" type="submit">submit</button>
                             </div>
+                            <div class="pt-1 mb-4">
+                              <button class="btn btn-dark btn-lg btn-block col-md-4" type="submit">resend</button>
+                            </div>
+          
+                         
+                          </form>
+                          
+                          <form action="/users/resend" method="post" >
+          
+                            <div class="new_user">
+                            <div class="pt-1 mb-4" id="hide_send" style="visibility: hidden;" >
+                              <input type="hidden" name="entered_value" value="<%=number%>" class="form-control pb-4 form-control-lg" />
+                              <button class="btn btn-dark btn-lg btn-block col-md-4" id="resend" type="submit">resend</button>
+                            </div>
+                           </div>
           
                          
                           </form>
@@ -104,6 +123,28 @@ rel="stylesheet"
 type="text/javascript"
 src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"
 ></script>
-    
+    <script>
+      function showdiv(){
+        document.getElementById('hide_send').style.visibility="visible";
+
+      }
+      setTimeout('showdiv()',60*100);
+      document.getElementsByTagName('button')[1].disabled=true
+      const myTimeout = setTimeout(myGreeting, 59 * 1000);
+        function myGreeting() {
+            document.getElementsByTagName("button")[1].disabled = false
+        }
+        var timeLeft=60;
+        var elem=document.getElementById('Timer');
+        var timeId=setInterval(countdown,1000)
+        function countdown (){
+          if(timeLeft==0){
+            clearTimeout(timeId);
+            elem.innerHTML='Resend:'+timeLeft+'sec';
+            timeLeft--;
+          }
+        }
+
+    </script>
 </body>
 </html>

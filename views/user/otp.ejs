@@ -48,9 +48,7 @@ rel="stylesheet"
 
           <section class="vh-100" style="background-color: #9A616D;">
             <div class="container py-5 h-100">
-              <%if(message){%>
-                <%=message.message%>
-                <%}%>
+             
               <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-xl-10">
                   <div class="card" style="border-radius: 1rem;">
@@ -61,6 +59,9 @@ rel="stylesheet"
                       </div>
                       <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
+                          <%if(message){%>
+                            <p> <%=message.message%></p>
+                             <%}%>
           
                           <form action="/users/sendotp" method="post">
           

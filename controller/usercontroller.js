@@ -56,6 +56,37 @@ exports.userlogin = async (req, res) => {
   }
 };
 
+
+
+/* --------------------------------- signup --------------------------------- */
+
+
+exports.signup=async (req, res) => {
+  try {
+    const userexist = await User.findOne({ email: req.body.email });
+    console.log(userexist);
+    if (userexist) {
+      req.session.message = {
+        message: "User already exists please login",
+      };
+      res.status(422).redirect("/users/signup");
+    } else {
+      const userdetails = await new User({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        password: await bcrypt.hash(req.body.password, 10),
+      });
+      await userdetails.save();
+      res.status(200).redirect("/users/login")
+    }
+  } catch (err) {
+    res.status(200).send(err)
+  }
+}
+
+
+
 //get all users admin
 
 exports.getallusers = async (req, res) => {
@@ -67,6 +98,9 @@ exports.getallusers = async (req, res) => {
     res.send(err).status(500);
   }
 };
+
+
+/* ------------------------------- block user ------------------------------- */
 
 exports.blockuserupdate = async (req, res) => {
   try {
@@ -81,6 +115,8 @@ exports.blockuserupdate = async (req, res) => {
     res.send(err).status(500);
   }
 };
+
+/* ------------------------------ unblock user ------------------------------ */
 
 exports.unblokuserupdate = async (req, res) => {
   try {
