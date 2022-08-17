@@ -41,8 +41,8 @@
                   
                     <form action="/admin/category" method="post">
                         <label for="">Category Name</label>
-                        <input type="text" name="category" placeholder="New Category" class="form-control">
-
+                        <input type="text" name="category" placeholder="New Category" class="form-control mb-3">
+                        <input type="text" name="subcategory" placeholder="subcategory" class="form-control">
                         <button type="submit" class="btn btn-success mt-4">Submit</button>
                     </form>
                 </div>
@@ -61,19 +61,30 @@
                  
                 
                     <th scope="col">category</th>
+                    <th scope="col">subcategory </th>
                     <th scope="col">action</th>
       
                   
                   </tr>
                 </thead>
                 <tbody>
-                  <%categories.forEach(function(categories){ %>
+                  <%categories.forEach(function(categories){%>
+                        <!-- <%for(let i=0;i<categorylength;i++){%> -->
+                       
+              
                   <tr>
+               
                     <td><%=categories.categoryname%></td>
+
+                
+                    <td><%=categories.subcategory[0]%></td>
+             
                     <td>
                       <a href="/admin/category/<%=categories._id%>" class="btn btn-danger">delete</a></td>
                     
                     </tr>
+                    <!-- <%}%> -->
+                  
                  <%})%>
           
                 </tbody>

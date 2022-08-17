@@ -10,18 +10,41 @@ const fs = require("fs");
 
 /* ------------------------------ category page ----------------------------- */
 exports.categorypage=async(req, res) => {
+   
     let categories= await Category.find()
-    res.render("admin/admincategory",{categories});
+    let categorylength=categories.length
+    // let subcategorys=categories[categorylength].subcategory
+    // console.log(categories,categorylength);
+    // console.log(categories[0].subcategory[0]);
+    res.render("admin/admincategory",{categories,categorylength});
   }
 
 
 
 
 exports.addCategory=async (req, res) => {
+  const categoryvalidate=await Category.findOne({categoryname:req.body.category})
+  const categoryexist=await Category.findOne({$and:[{categoryname:req.body.category},{subcategory:req.body.subcategory}]})
+    console.log(categoryexist);
+    if(!categoryexist){
 
-    console.log(req.body.category);
-    var categorysave = await new Category({
+      if(categoryvalidate){
+        const subcategorys=categoryvalidate.subcategory
+        subcategorys.push(req.body.subcategory)
+       await Category.findByIdAndUpdate(categoryvalidate._id,
+          {$set:{
+          subcategory:subcategorys
+
+        }})
+        
+
+
+
+      }else{
+          var categorysave = await new Category({
       categoryname: req.body.category,
+    subcategory:req.body.subcategory
+
     });
     console.log(categorysave);
     categorysave.save((err) => {
@@ -33,8 +56,18 @@ exports.addCategory=async (req, res) => {
           message: "category added succesfilly",
         };
         res.redirect("/admin/category");
+       
       }
     });
+      }
+  }else{
+    req.session.message = {
+      type: "danger",
+      message: "category already exist",
+    };
+    res.status(500).redirect('/admin/category')
+
+  }
   }
 
   exports.deleteCategory=async(req,res)=>{

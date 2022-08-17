@@ -84,6 +84,63 @@ router.get("/addproduct", adminauth, productController.addproductspage);
 
 /* ---------------------------- //post addproduct --------------------------- */
 
+
+
+
+// router.post('/addproduct',async(req,res)=>{
+
+//   try {
+//     const productsave= await new Product({
+//             product_name:req.body.productname,
+//             desc:req.body.description ,
+//             category: req.body.category,
+//             subcategory: req.body.subcategory,
+//             size: req.body.size,
+//             stock: req.body.stock,
+//             price: req.body.price,
+//           })
+//           if(productsave){
+//              await productsave.save() 
+//              let productid=await Product.findOne({product_name:req.body.product_name})
+//            let id=productid._id
+//              let image1=req.files.image1
+//              let image2=req.files.image1
+//              let image3=req.files.image1
+//              console.log(id)
+//             //  for(i=1;i<3;i++){
+//   image1.mv('./public/product-images/'+id+1+'.jpg'),
+//   image2.mv('./public/product-images/'+id+2+'.jpg'),
+//   image3.mv('./public/product-images/'+id+3+'.jpg')
+//             //  }
+           
+
+//              res.redirect('/admin/products')
+
+
+//           }else{
+//             res.send(err+"add product").status(500)
+//           }
+//   } catch (error) {
+
+//     console.log(error);
+//   }
+
+
+
+
+
+// })
+
+
+
+
+
+
+
+
+
+
+
 router.post("/addproduct",async(req,res)=>{
   try{
     console.log(req.files.image1);

@@ -36,8 +36,10 @@ app.use((req, res, next) => {
 app.use(fileUpload());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "uploads")));
+
 app.use("/users", userroute);
 app.use("/admin", adminroute);
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 

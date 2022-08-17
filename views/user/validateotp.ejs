@@ -84,10 +84,7 @@ rel="stylesheet"
                             <div class="pt-1 mb-4">
                               <button class="btn btn-dark btn-lg btn-block col-md-4" type="submit">submit</button>
                             </div>
-                            <div class="pt-1 mb-4">
-                              <button class="btn btn-dark btn-lg btn-block col-md-4" type="submit">resend</button>
-                            </div>
-          
+
                          
                           </form>
                           
@@ -132,7 +129,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"
       document.getElementsByTagName('button')[1].disabled=true
       const myTimeout = setTimeout(myGreeting, 59 * 1000);
         function myGreeting() {
-            document.getElementsByTagName("button")[1].disabled = false
+            document.getElementsByTagName("button")[0].disabled = false
         }
         var timeLeft=60;
         var elem=document.getElementById('Timer');

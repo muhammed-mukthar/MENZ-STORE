@@ -34,67 +34,69 @@ exports.addproductspage = async (req, res) => {
 
 /* ------------------------------- add product ------------------------------ */
 
-exports.addproduct = (req, res) => {  
-    
-  try {
- console.log(req.body.productname)
-   let images=[]
-    if(req.files?.image1){
-        images.push(req.files?.image1)
-    }
-    if(req.files?.image2){
-        images.push(req.files?.image2)
-
-    }
-    if(req.file?.image3){
-        images.push(req.files?.image3)
-    }
-    const imagepath=[]
 
 
-    if(images.length){
-    for(let i=0;i<images.length;i++){
-       let uploadpath='./public/productimage/' + Date.now()+i+'-'+ '.jpeg';
-       let img='productimage/'+Date.now()+i+'.jpeg'
-       imagepath.push(img)
-       images[i]?.mv(uploadpath,(err)=>{
-        console.log(err);
-        returnres.status(500).send(err)
-       })
-
-    }    
-    
- 
-    }
 
 
-    var Productsave = new Product({
-      product_name: req.body.productname,
-      desc: req.body.desc,
-      category: req.body.category,
-      subcategory: req.body.subcategory,
-      size: req.body.size,
-      stock: req.body.stock,
-      price: req.body.price,
-      image:imagepath
-    });
 
-    Productsave.save((err) => {
-      if (err) {
-        res.json({ message: err.message, type: "danger" });
-      } else {
-        req.session.message = {
-          type: "success",
-          message: "User added succesfilly",
-        };
-        res.redirect("/admin/products");
-      }
-    });
 
-  } catch (err) {
-    res.send(err+ "edit product").status(err);
-  }
-};
+
+// exports.addproduct = (req, res) => {  
+//   try {
+//     console.log(req.body,req.files);
+//  console.log(req.body.productname)
+//    let images=[]
+//     if(req.files?.image1){
+//         images.push(req.files?.image1)
+//     }
+//     if(req.files?.image2){
+//         images.push(req.files?.image2)
+//     }
+//     if(req.files?.image3){
+//         images.push(req.files?.image3)
+//     }
+//     const imagepath=[]
+//     if(images.length){
+//     for(let i=0;i<images.length;i++){
+//        let uploadpath='./public/productimage/' + Date.now()+i+'-'+ '.jpeg';
+//        let img='productimage/'+Date.now()+i+'.jpeg';
+//        imagepath.push(img)
+//        images[i]?.mv(uploadpath,(err)=>{
+//         console.log(err);
+//         returnres.status(500).send(err)
+//        })
+
+//     }    
+//     }
+
+// console.log(imagepath);
+//     var Productsave = new Product({
+//       product_name: req.body.productname,
+//       desc: req.body.desc,
+//       category: req.body.category,
+//       subcategory: req.body.subcategory,
+//       size: req.body.size,
+//       stock: req.body.stock,
+//       price: req.body.price,
+//       image:imagepath
+//     });
+
+//     Productsave.save((err) => {
+//       if (err) {
+//         res.json({ message: err.message, type: "danger" });
+//       } else {
+//         req.session.message = {
+//           type: "success",
+//           message: "User added succesfilly",
+//         };
+//         res.redirect("/admin/products");
+//       }
+//     });
+
+//   } catch (err) {
+//     res.send(err+ "edit product").status(err);
+//   }
+// };
 
 /* ------------------------------ editproducts page ------------------------------ */
 
@@ -115,7 +117,37 @@ exports.edit_productsPage = async (req, res) => {
 
 exports.editProduct = (req, res) => {
   try {
-   
+   const id=req.params.id
+   let images=[]
+    if(req.files?.image1){
+        images.push(req.files?.image1)
+    }
+    if(req.files?.image2){
+        images.push(req.files?.image2)
+
+    }
+    if(req.files?.image3){
+        images.push(req.files?.image3)
+    }
+    const imagepath=[]
+
+
+    if(images.length){
+    for(let i=0;i<images.length;i++){
+       let uploadpath='./public/productimage/' + Date.now()+i+'-'+ '.jpeg';
+       let img='productimage/'+Date.now()+i+'.jpeg';
+       imagepath.push(img)
+       images[i]?.mv(uploadpath,(err)=>{
+        console.log(err);
+        returnres.status(500).send(err)
+       })
+
+    }    
+    
+ 
+    }
+
+
     Product.findByIdAndUpdate(
       id,
       {
@@ -123,11 +155,10 @@ exports.editProduct = (req, res) => {
           product_name: req.body.productname,
           desc: req.body.desc,
           category: req.body.category,
-          subcategory: req.body.subcategory,
           size: req.body.size,
           stock: req.body.stock,
           price: req.body.price,
-          img: new_image,
+          img: imagepath,
         },
       },
       (err, result) => {
@@ -136,16 +167,16 @@ exports.editProduct = (req, res) => {
         } else {
           req.session.message = {
             type: "success",
-            message: "User updated succesfully",
+            message: "product updated succesfully",
           };
         }
         res.redirect("/admin/products");
       }
     );
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(err+"error");
   }
-};
+}
 
 /* ----------------------------- delete product ----------------------------- */
 

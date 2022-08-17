@@ -109,7 +109,7 @@ exports.resend_otp=(req,res)=>{
   client.verify
   .services(serviceId)
   .verifications.create({
-    to:`+91${req.body.phone}`,
+    to:`+91${req.body.entered_value}`,
     channel:"sms"
   })
   .then((resp)=>{

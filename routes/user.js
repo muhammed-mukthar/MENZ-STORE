@@ -104,6 +104,13 @@ router.get("/cart", (req, res) => {
   res.render("user/cart", { isuser: req.session.userlogin });
 });
 
+router.get('/product',(req,res)=>{
+  res.render('user/product-single');
+
+
+
+})
+
 router.get("/shop", async (req, res) => {
   const allProduct = await Product.find();
   res.render("user/shop", {
@@ -111,5 +118,7 @@ router.get("/shop", async (req, res) => {
     isuser: req.session.userlogin,
   });
 })
+
+
 
 module.exports = router;
