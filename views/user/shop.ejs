@@ -95,11 +95,11 @@
 						
 		    			<div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
 		    				<div class="product">
-		    					<a href="#" class="img-prod"><img class="img-fluid" src="/<%=products.image[0]%>" alt="Colorlib Template">
+		    					<a href="/users/productview/<%=products._id%>" class="img-prod"><img class="img-fluid" src="/<%=products.image[0]%>" alt="Colorlib Template">
 		    					
 		    					</a>
 		    					<div class="text py-3 px-3">
-		    						<h3><a href="#"><%=products.product_name%></a></h3>
+		    						<h3><a href="/users/productview/<%products._id%>"><%=products.product_name%></a></h3>
 		    						<div class="d-flex">
 		    							<div class="pricing">
 				    						<p class="price"><span class="price-sale"><%=products.price%> Rs</span></p>
@@ -115,8 +115,8 @@
 			    						</div>
 			    					</div>
 			    					<p class="bottom-area d-flex px-3">
-		    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
+		    							<a href="/users/add-to-cart/<%=products._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+		    							<a href="#" class="buy-now text-center py-2">add to wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
 		    						</p>
 		    					</div>
 		    				</div>

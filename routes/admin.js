@@ -138,9 +138,6 @@ router.get("/addproduct", adminauth, productController.addproductspage);
 
 
 
-
-
-
 router.post("/addproduct",async(req,res)=>{
   try{
     console.log(req.files.image1);
@@ -176,7 +173,6 @@ router.post("/addproduct",async(req,res)=>{
       product_name:req.body.productname,
       desc:req.body.description ,
       category: req.body.category,
-      subcategory: req.body.subcategory,
       size: req.body.size,
       stock: req.body.stock,
       price: req.body.price,

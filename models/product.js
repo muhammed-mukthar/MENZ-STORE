@@ -14,10 +14,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subcategory: {
-      type: String,
-      required: true,
-    },
+    // subcategory: {
+    //   type: String,
+    //   required: true,
+    // },
     size: {
       type: String,
       required: true,

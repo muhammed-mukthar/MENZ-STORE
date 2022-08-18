@@ -33,6 +33,7 @@ exports.userlogin = async (req, res) => {
           };
           res.redirect("/users/login");
         } else {
+          req.session.user=verifyUser
           req.session.userlogin = true;
           req.session.loginerr = false;
           res.status(200).redirect("/users");

@@ -35,8 +35,16 @@ app.use((req, res, next) => {
 });
 app.use(fileUpload());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "uploads")));
 
+
+
+app.use(
+  "/productimage",
+  express.static(path.join(__dirname, "/public/productimage")))
+app.use(
+  "/admin/productimage",
+  express.static(path.join(__dirname, "/public/productimage"))
+);
 app.use("/users", userroute);
 app.use("/admin", adminroute);
 

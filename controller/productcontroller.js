@@ -6,7 +6,7 @@ const Category = require("../models/category");
 const SubCategory = require("../models/subcategory");
 
 const fs = require("fs");   
-const path=require('path')
+
 /* ------------------------------ all products ------------------------------ */
 
 exports.allproducts = async (req, res) => {
@@ -104,19 +104,26 @@ exports.edit_productsPage = async (req, res) => {
   try {
     let categorys = await Category.find();
     let productdetails = await Product.findById(req.params.id);
+   
     res.render("admin/admineditproduct", {
       productdetails: productdetails,
       categorys: categorys,
     });
   } catch (err) {
-    res.send(err).status(500);
+    res.send(err +"errpr").status(500);
   }
 };
 
 /* ------------------------------ edit product ------------------------------ */
 
-exports.editProduct = (req, res) => {
+exports.editProduct = async(req, res) => {
   try {
+    console.log(req.files?.image1);
+    console.log(req.files?.image2);
+    console.log(req.body);
+    console.log(req.files);
+    console.log(req.files?.image3);
+    console.log(req.params.id);
    const id=req.params.id
    let images=[]
     if(req.files?.image1){
@@ -138,8 +145,11 @@ exports.editProduct = (req, res) => {
        let img='productimage/'+Date.now()+i+'.jpeg';
        imagepath.push(img)
        images[i]?.mv(uploadpath,(err)=>{
+        if(err){
+                
         console.log(err);
         returnres.status(500).send(err)
+        }
        })
 
     }    
@@ -148,23 +158,24 @@ exports.editProduct = (req, res) => {
     }
 
 
-    Product.findByIdAndUpdate(
-      id,
+  await   Product.findByIdAndUpdate(
+     id,
       {
         $set: {
           product_name: req.body.productname,
-          desc: req.body.desc,
+          desc: req.body.description,
           category: req.body.category,
           size: req.body.size,
           stock: req.body.stock,
           price: req.body.price,
-          img: imagepath,
+          image: imagepath,
         },
       },
       (err, result) => {
         if (err) {
           res.json({ message: err.message, type: "danger" });
         } else {
+          console.log(result);
           req.session.message = {
             type: "success",
             message: "product updated succesfully",
