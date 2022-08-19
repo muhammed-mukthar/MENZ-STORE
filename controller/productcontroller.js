@@ -3,7 +3,7 @@ const Admin = require("../models/admin");
 const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
-const SubCategory = require("../models/subcategory");
+
 
 const fs = require("fs");   
 
@@ -12,11 +12,11 @@ const fs = require("fs");
 exports.allproducts = async (req, res) => {
   try {
     let productdetails = await Product.find();
-
+   
     res.render("admin/adminproduct", { productdetails });
   } catch (err) {
-    log(err);
-    res.send(err).status(500);
+    console.log(err+"error in all products view");
+   
   }
 };
 
@@ -104,20 +104,23 @@ exports.edit_productsPage = async (req, res) => {
   try {
     let categorys = await Category.find();
     let productdetails = await Product.findById(req.params.id);
+
+ 
+   
    
     res.render("admin/admineditproduct", {
       productdetails: productdetails,
       categorys: categorys,
     });
   } catch (err) {
-    res.send(err +"errpr").status(500);
+    res.send(err +"error").status(500);
   }
 };
 
 /* ------------------------------ edit product ------------------------------ */
 
 exports.editProduct = async(req, res) => {
-  try {
+
     console.log(req.files?.image1);
     console.log(req.files?.image2);
     console.log(req.body);
@@ -136,57 +139,50 @@ exports.editProduct = async(req, res) => {
     if(req.files?.image3){
         images.push(req.files?.image3)
     }
+   
     const imagepath=[]
 
-
+console.log(images.length+"image length error here");
     if(images.length){
     for(let i=0;i<images.length;i++){
-       let uploadpath='./public/productimage/' + Date.now()+i+'-'+ '.jpeg';
+       let uploadpath='./public/productimage/'+ Date.now()+i+ '.jpeg';
        let img='productimage/'+Date.now()+i+'.jpeg';
        imagepath.push(img)
-       images[i]?.mv(uploadpath,(err)=>{
-        if(err){
-                
-        console.log(err);
-        returnres.status(500).send(err)
-        }
-       })
+       images[i]?.mv(uploadpath)
 
-    }    
-    
+    }
+       let updateProduct=   await   Product.findByIdAndUpdate({_id:id}
+        ,
+           {
+            $set: {
+               product_name: req.body.productname,
+               desc: req.body.description,
+               category: req.body.category,
+               size: req.body.size,
+               stock: req.body.stock,
+               price: req.body.price,
+               image: imagepath,
+             },
+           }
+      )
+      if(updateProduct){
+        req.session.message = {
+                  type: "success",
+                   message: "Product added succesfilly",
+        }
+        res.redirect('/admin/products')
+      }else{
+        console.log('error in updating products');
+        
+      }
+
  
+    }else{
+    console.log("error in image length");
+    
     }
 
 
-  await   Product.findByIdAndUpdate(
-     id,
-      {
-        $set: {
-          product_name: req.body.productname,
-          desc: req.body.description,
-          category: req.body.category,
-          size: req.body.size,
-          stock: req.body.stock,
-          price: req.body.price,
-          image: imagepath,
-        },
-      },
-      (err, result) => {
-        if (err) {
-          res.json({ message: err.message, type: "danger" });
-        } else {
-          console.log(result);
-          req.session.message = {
-            type: "success",
-            message: "product updated succesfully",
-          };
-        }
-        res.redirect("/admin/products");
-      }
-    );
-  } catch (err) {
-    res.status(500).send(err+"error");
-  }
 }
 
 /* ----------------------------- delete product ----------------------------- */

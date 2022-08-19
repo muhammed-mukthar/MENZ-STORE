@@ -8,6 +8,7 @@ const categoryController=require('../controller/categoryController')
 
 const fs = require("fs");
 
+
 /* ----------------------------- checking admin ----------------------------- */
 
 const adminauth = (req, res, next) => {
@@ -152,46 +153,48 @@ router.post("/addproduct",async(req,res)=>{
   if(req.files?.image3){ userfiles.push(req.files?.image3)}
 
     const imgPath=[]
+    console.log(userfiles.length +"image length add product");
     if(userfiles.length){
       for(let i=0;i<userfiles.length;i++){
-        var uploadpath='./public/productimage/'+Date.now()+i+'jpeg'
-       var img='productimage/'+Date.now()+i+'jpeg'
+        var uploadpath='./public/productimage/'+Date.now()+i+'.jpeg'
+       var img='productimage/'+Date.now()+i+'.jpeg'
 
         imgPath.push(img)
         userfiles[i]?.mv(uploadpath,(err)=>{
           if(err){
-            console.log(err)
-            return res.status(500).send(err)
-
-          }
-
-        })
-      }
-    }
-
-    const productsave= await new Product({
-      product_name:req.body.productname,
-      desc:req.body.description ,
-      category: req.body.category,
-      size: req.body.size,
-      stock: req.body.stock,
-      price: req.body.price,
-      image:imgPath,
+            console.log(err+"error happened while moving image in add product")
+          }else{
+            console.log("image"+i+"added");
+          }})
+      }//end of for loop
       
-    })
-    if(productsave){
-       await productsave.save()
-
-       res.redirect('/admin/products')
+      const productsave= await new Product({
+        product_name:req.body.productname,
+        desc:req.body.description ,
+        category: req.body.category,
+        size: req.body.size,
+        stock: req.body.stock,
+        price: req.body.price,
+        image:imgPath,
+        
+      })
+      if(productsave){
+         await productsave.save()
+         req.session.message = {
+          type: "success",
+           message: "Product added succesfilly",
+}
+         res.redirect('/admin/products')
+      }else{
+        res.console.log(err+"error in saving the new product in add product")
+      }
+//end of if statement 
     }else{
-      res.send(err+"add product").status(500)
+      console.log("error happend in moving images in add products");
     }
-
   }catch(err){
-    res.send(err+"add product").status(500)
-
+    console.log(err+"error in add product")
   }
-
 });
 
 /* ---------------------------- //get editproduct --------------------------- */

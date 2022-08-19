@@ -4,7 +4,7 @@ const Admin = require("../models/admin");
 const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
-const SubCategory = require("../models/subcategory");
+
 
 const fs = require("fs");
 
@@ -24,26 +24,25 @@ exports.categorypage=async(req, res) => {
 
 exports.addCategory=async (req, res) => {
   const categoryvalidate=await Category.findOne({categoryname:req.body.category})
-  const categoryexist=await Category.findOne({$and:[{categoryname:req.body.category},{subcategory:req.body.subcategory}]})
-    console.log(categoryexist);
-    if(!categoryexist){
+ 
+  
+    
 
       if(categoryvalidate){
-        const subcategorys=categoryvalidate.subcategory
-        subcategorys.push(req.body.subcategory)
-       await Category.findByIdAndUpdate(categoryvalidate._id,
-          {$set:{
-          subcategory:subcategorys
 
-        }})
-        
-
+          req.session.message = {
+            type: "danger",
+            message: "category already exist",
+          };
+          res.status(500).redirect('/admin/category')
+      
+      
 
 
       }else{
           var categorysave = await new Category({
       categoryname: req.body.category,
-    subcategory:req.body.subcategory
+ 
 
     });
     console.log(categorysave);
@@ -60,15 +59,8 @@ exports.addCategory=async (req, res) => {
       }
     });
       }
-  }else{
-    req.session.message = {
-      type: "danger",
-      message: "category already exist",
-    };
-    res.status(500).redirect('/admin/category')
-
   }
-  }
+  
 
   exports.deleteCategory=async(req,res)=>{
     await Category.findByIdAndDelete(req.params.id)

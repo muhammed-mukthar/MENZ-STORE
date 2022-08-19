@@ -38,7 +38,7 @@
 <h1 class="text-center">Edit product</h1>
     <div class="container">
         
-      <form action="/admin/editproduct/<%= productdetails._id%>" method="post" >
+      <form action="/admin/editproduct/<%= productdetails._id%>"  enctype="multipart/form-data"  method="post" >
           <div class="row">
             <div class="col-md-6 mt-3">
               <label for="productname" >Product
@@ -104,7 +104,7 @@
 
                               <div class="mt-5 col-md-4">
                               <img src="/<%=productdetails.image[0]%>" id="imgView1" alt="" style="height:100px">
-                              <input type="file" id="id_image1" value="<%=productdetails.image[0]%>" name="image1" accept="image/*" onchange="viewImage1(event)"style="width:100%;"><br>
+                              <input type="file" id="id_image1"  name="image1" accept="image/*" onchange="viewImage1(event)"style="width:100%;"><br>
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image1_error_message"></h5>
                               <div style="display:flex">
@@ -117,7 +117,7 @@
 
                             <div class="mt-5 col-md-4">
                               <img src="/<%=productdetails.image[1]%>" id="imgView2" alt="" style="height:100px">
-                              <input type="file" id="id_image2" value="<%=productdetails.image[1]%>" name="image2" accept="image/*" onchange="viewImage2(event)"style="width:100%;"><br>
+                              <input type="file" id="id_image2" name="image2" accept="image/*" onchange="viewImage2(event)"style="width:100%;"><br>
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image2_error_message"></h5>
                               <div style="display:flex">
@@ -132,7 +132,7 @@
 
                             <div class="mt-5 col-md-4">
                               <img src="/<%=productdetails.image[2]%>" id="imgView3" alt="" style="width: 100px;  height:100px">
-                              <input type="file" id="id_image3" name="image3" value="<%=productdetails.image[2]%>" accept="image/*" onchange="viewImage3(event)"style="width:100%;"><br>
+                              <input type="file" id="id_image3" name="image3"  accept="image/*" onchange="viewImage3(event)"style="width:100%;"><br>
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image3_error_message"></h5>
                               <div style="display:flex">
