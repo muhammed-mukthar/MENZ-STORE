@@ -23,14 +23,19 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
     stock: { type: Number, required: true },
+  
     price: {
       type: Number,
+      required: true,
+    },  offerprice:{
+      type:Number,
       required: true,
     },
     image: Array
     
   },
-  { timestamps: true }
+  { timestamps: true },
+  { }
 );
 
 module.exports = mongoose.model("Product", ProductSchema);

@@ -1,5 +1,6 @@
 <%-include('../include/adminheader.ejs')-%>
 
+
   <body>
     
     <nav class="navbar navbar-expand-lg navbackground mb-5">
@@ -35,8 +36,8 @@
     <h1 class="text-center"> Add Product</h1>
 
     <div class="container">
-        
-        <form action="/admin/addproduct" method="post" enctype="multipart/form-data" >
+
+        <form  id="myform"       action="/admin/addproduct" method="post" enctype="multipart/form-data" >
             <div class="row">
               <div class="col-md-6 mt-3">
                 <label for="productname" >Product
@@ -44,7 +45,7 @@
                 </label>
 
 
-                <input id="productname" name="productname" type="text"  class="form-control ">
+                <input id="productname" name="productname" type="text"  id="name" class="form-control ">
               </div>
               <div class="col-md-6 mt-3">
                 <label for="description" >Description</label>
@@ -54,7 +55,7 @@
               <div class=" mt-5 col-md-4">
                 <label for="category" class="mr-2">Category</label>
                 <select class="" name="category" id="category">
-                    <option selected>Select one</option>
+                    <option value="" selected>Select one</option>
                     <% category.forEach(function(category){%>
                     <option value=<%=category.categoryname%>><%=category.categoryname%></option>
                    
@@ -73,19 +74,26 @@
                     <div class="mt-5 col-md-4">
                         <label for="size" class="">size</label>
                         <select class="" name="size" id="size">
-                          <option selected>Select one</option>
+                          <option value="" selected>Select one</option>
                           <option value="sm">sm</option>
                           <option value="md">md</option>
                           <option value="lg">lg</option>
                           <option value="xl">xl</option>
                         </select>
                         </div>
+                        
                         <div class="mt-5 col-md-4">
                             <label for="price" class="">
-                                Price
+                               actual Price
                             </label>
                             <input id="price" name="price"  type="number" class="form-control ">
                             </div>
+                            <div class="mt-5 col-md-4">
+                              <label for="price" class="">
+                                 discounted Price
+                              </label>
+                              <input id="offerprice" name="offerprice"  type="number" class="form-control ">
+                              </div>
                             <div class="mt-5 col-md-4">
                                 <label for="stock" class="">Units In
                                     Stock
@@ -101,7 +109,7 @@
                                     Image
                                   </label>
                                   
-                                  <input type="file" id="id_image1" name="image1" accept="image/*" class="form-control" onchange="viewImage1(event)"
+                                  <input type="file" required id="id_image1" name="image1" accept="image/*" class="form-control" onchange="viewImage1(event)"
                                   style="width:100%;"><br>
                                 <img src="" id="imgView1" alt="" style="height:100px">
                                
@@ -109,17 +117,17 @@
                                 <h5 class="error_form text-danger" id="image1_error_message"></h5>
                                 <div style="display:flex">
                                   <div id="image-box1" class="image-container" style="height: 300px; width:20%"></div>
-                                  <button type="button" class="btn btn-outline-info" id="crop-btn1" style=" margin-top: 10px; display: none;
-                                        width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
+                                  <button type="button" class="btn btn-outline-info" id="crop-btn1" style=" margin-top: 10px;  display: none;
+                                        width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button> 
                                 </div>
                               </div>
 
-                              <div class="mt-2 col-md-4"> 
+                              <div class="mt-5 col-md-4"> 
                                 <label for="productimage" class="">
                                   Image
                                 </label>
                                 
-                                <input type="file" id="id_image2" name="image2" accept="image/*" class="form-control" onchange="viewImage2(event)"
+                                <input type="file" id="id_image2" required name="image2" accept="image/*" class="form-control" onchange="viewImage2(event)"
                                 style="width:100%;"><br>
                               <img src="" id="imgView2" alt="" style="height:100px">
                              
@@ -144,12 +152,12 @@
                                             <input id="productimage3" accept="image/*" name="image3" type="file" class="form-control ">
                                             </div> -->
 
-                                            <div class="mt-1  col-md-4"> 
+                                            <div class="mt-1 mb-5 col-md-4"> 
                                               <label for="productimage" class="">
                                                 Image
                                               </label>
                                               
-                                              <input type="file" id="id_image3" name="image3" accept="image/*" class="form-control" onchange="viewImage3(event)"
+                                              <input type="file" required id="id_image3" name="image3" accept="image/*" class="form-control" onchange="viewImage3(event)"
                                               style="width:100%;"><br>
                                             <img src="" id="imgView3" alt="" style="height:100px">
                                            
@@ -169,7 +177,7 @@
 
                                             <div class="mt-5 col-md-5">
                                                 <div class="">
-                                                    <button type="submit" class="btn btn-primary ">Add
+                                                    <button type="submit" class="btn btn-big btn-primary  w-10" >Add
                                                     </button>
                                                 </div>
                                                 </div>
@@ -177,6 +185,56 @@
           </form>
           
         </div>
+
+        <script>
+
+     
+ $("#myform").validate({
+   rules: {
+    
+     productname: {
+      required:true,
+      minlength:4,
+      
+     },description:{
+      required:true,
+      minlength:10,
+      maxlength:42
+     },category:{
+      required:true
+     },size:{
+      required:true,
+     },price:{
+      required:true,
+      number:true
+     },
+     stock:{
+      required:true,
+      number:true
+
+     },image1: {
+      required: true,
+      accept: "image/*"
+    },image2: {
+      required: true,
+      accept: "image/*"
+    },image3: {
+      required: true,
+      accept: "image/*"
+    },offerprice:{
+      required:true
+    }
+   }
+   ,messages:{
+    size:"please select one",
+    stock:"please enter stock left"
+
+   }
+ });
+        
+
+      
+          </script>
 
 
 <script>
@@ -380,8 +438,6 @@ crop_btn3.addEventListener('click', () => {
 
 
 </script>
-        
-
-
     
         <%-include('../include/adminresfooter.ejs')-%>
+

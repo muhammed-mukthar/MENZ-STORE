@@ -13,46 +13,57 @@ const smskey=process.env.SMS_SECRET_KEY
 
 exports.sendOTP=async(req,res)=>{
 
-  const isphoneregistered=await User.findOne({phone:req.body.phone})
-  console.log(isphoneregistered);
-
-  if(!isphoneregistered){
-    req.session.message = {
-      type: "danger",
-      message: "please register first",
-    };
-    res.redirect('/users/sendotp')
-  }else{
+  try{
 
 
-    if(isphoneregistered.isBlocked==true){
-      req.session.message={
-        type:"danger",
-        message:"you are restricted to login"
-      }
-      res.redirect('/admin/sendotp')
+    const isphoneregistered=await User.findOne({phone:req.body.phone})
+    console.log(isphoneregistered);
+  
+    if(!isphoneregistered){
+      req.session.message = {
+        type: "danger",
+        message: "please register first",
+      };
+      res.redirect('/users/sendotp')
     }else{
+  
+  
+      if(isphoneregistered.isBlocked==true){
+        req.session.message={
+          type:"danger",
+          message:"you are restricted to login"
+        }
+        res.redirect('/admin/sendotp')
+      }else{
+  
+      client.verify
+    .services(serviceId)
+    .verifications.create({
+      to:`+91${req.body.phone}`,
+      channel:"sms"
+    })
+    .then((resp)=>{
+      console.log('response',resp);
+      req.session.number=req.body.phone
+      res.status(200).redirect('/users/verifyotp')
+    }).catch((err)=>{
+  
+      console.log(err);
+    })
+  
+      }
+  
+      
+  }
+  
 
-    client.verify
-  .services(serviceId)
-  .verifications.create({
-    to:`+91${req.body.phone}`,
-    channel:"sms"
-  })
-  .then((resp)=>{
-    console.log('response',resp);
-    req.session.number=req.body.phone
-    res.status(200).redirect('/users/verifyotp')
-  }).catch((err)=>{
+  }catch(err){
 
-    console.log(err);
-  })
 
-    }
+    console.log(err +"error sending otp");
+  }
 
-    
-}
-
+ 
   
 }
 

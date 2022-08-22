@@ -59,6 +59,8 @@
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+
+			  
 	         
 	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
 			  <%if(locals.isuser){%>
@@ -90,8 +92,12 @@
     <section class="ftco-section">
     	<div class="container">
     		<div class="row">
-    			<div class="col-lg-6 mb-5 ftco-animate">
-    				<a href="/images/menu-2.jpg" class="image-popup"><img id="image-zoom" src="/<%=products.image[0]%>" class="img-fluid" alt="Colorlib Template"></a>
+    			<div class="col-lg-6 mb-5 ftco-animate owl-carousel ">
+					<%for(i=0;i< imagelength;i++){%>
+					
+    				<div><img id="image-zoom" src="/<%=products.image[i]%>" class="img-fluid" alt="product image"></div>
+				
+					<%}%>
     			</div>
     			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
     				<h3><%=products.product_name%></h3>
@@ -111,8 +117,11 @@
 								<a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
 							</p> -->
 						</div>
-    				<p class="price"><span>$<%=products.price%>.</span></p>
+    				<p class="price"><span><del><%=products.price%></del></span></p>
     				<p><%=products.desc%></p>
+					<div class="pricing">
+						<p class="price"><span class="price-sale"><%=products.offerprice%> Rs</span></p>
+					</div>
     		
 						
 						<div class="row mt-4">
@@ -150,8 +159,8 @@
 	          	</div>
           	</div>
 			<div class="d-flex justify-content-between">
-          	<p ><a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a></p>
-			  <p><a href="cart.html" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
+          	<p ><a href="/users/add-to-cart" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+			  <p><a href="/users/widhlist" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
 			</div>
     			</div>
     		</div>
@@ -382,6 +391,22 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/js/google-map.js"></script>
   <script src="/js/main.js"></script>
+
+
+<script>
+	$(document).ready(function(){
+  $(".owl-carousel").owlCarousel({
+	items:1,
+    margin:10,
+    autoHeight:true,
+	lazyLoad: true,
+
+    loop:true,
+    // singleItem: true 
+  });
+});
+
+</script>
 
   <script>
 		$(document).ready(function(){

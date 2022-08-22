@@ -38,7 +38,7 @@
 <h1 class="text-center">Edit product</h1>
     <div class="container">
         
-      <form action="/admin/editproduct/<%= productdetails._id%>"  enctype="multipart/form-data"  method="post" >
+      <form action="/admin/editproduct/<%= productdetails._id%>" id="myform"  enctype="multipart/form-data"  method="post" >
           <div class="row">
             <div class="col-md-6 mt-3">
               <label for="productname" >Product
@@ -94,6 +94,12 @@
                           <input id="price" name="price" value="<%=productdetails.price%>" type="number"class="form-control ">
                           </div>
                           <div class="mt-5 col-md-4">
+                            <label for="price" class="">
+                               discounted Price
+                            </label>
+                            <input id="offerprice" value="<%=productdetails.offerprice%>" name="editedofferprice"  type="number" class="form-control ">
+                            </div>
+                          <div class="mt-5 col-md-4">
                               <label for="stock" class="">Units In
                                   Stock
                               </label>
@@ -104,7 +110,7 @@
 
                               <div class="mt-5 col-md-4">
                               <img src="/<%=productdetails.image[0]%>" id="imgView1" alt="" style="height:100px">
-                              <input type="file" id="id_image1"  name="image1" accept="image/*" onchange="viewImage1(event)"style="width:100%;"><br>
+                              <input type="file" id="id_image1" value=""  name="image1" accept="image/*" onchange="viewImage1(event)"style="width:100%;"><br>
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image1_error_message"></h5>
                               <div style="display:flex">
@@ -117,7 +123,7 @@
 
                             <div class="mt-5 col-md-4">
                               <img src="/<%=productdetails.image[1]%>" id="imgView2" alt="" style="height:100px">
-                              <input type="file" id="id_image2" name="image2" accept="image/*" onchange="viewImage2(event)"style="width:100%;"><br>
+                              <input type="file" id="id_image2" value=""name="image2" accept="image/*" onchange="viewImage2(event)"style="width:100%;"><br>
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image2_error_message"></h5>
                               <div style="display:flex">
@@ -132,7 +138,7 @@
 
                             <div class="mt-5 col-md-4">
                               <img src="/<%=productdetails.image[2]%>" id="imgView3" alt="" style="width: 100px;  height:100px">
-                              <input type="file" id="id_image3" name="image3"  accept="image/*" onchange="viewImage3(event)"style="width:100%;"><br>
+                              <input type="file" id="id_image3"  name="image3" value=""  accept="image/*" onchange="viewImage3(event)"style="width:100%;"><br>
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image3_error_message"></h5>
                               <div style="display:flex">
@@ -168,6 +174,46 @@
 
 
 
+      <script>
+
+     
+        $("#myform").validate({
+          rules: {
+           
+            productname: {
+             required:true,
+             minlength:4
+            },description:{
+             required:true,
+             minlength:10,
+             maxlength:42
+            },category:{
+             required:true
+            },size:{
+             required:true,
+            },price:{
+             required:true,
+             number:true
+            },offerprice:{
+              required:true
+            },
+            stock:{
+             required:true,
+             number:true
+       ,
+            }
+          }
+          ,messages:{
+           size:"please select one",
+           stock:"please enter stock left"
+       
+          }
+        });
+               
+       
+             
+                 </script>
+       
 
 
 

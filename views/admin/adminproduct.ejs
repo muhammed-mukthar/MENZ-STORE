@@ -52,7 +52,8 @@
 
                     <th scope="col">size</th>
                     <th scope="col">stock</th>
-                    <th scope="col">price</th>
+                    <th scope="col">actual price</th>
+                    <th scope="col">offerprice</th>
                     <th scope="col">image</th>
                     <th scope="col">action</th>
                   
@@ -74,10 +75,11 @@
                       <td><%=productdetails[i].size%></td>
                       <td><%=productdetails[i].stock%></td>
                       <td><%=productdetails[i].price%></td>
+                      <td><%=productdetails[i].offerprice%></td>
                       <td><img src="/<%=productdetails[i].image[0]%>"width="50" class="img-thumbnail" alt="product image"></td>
                       <td> 
                         <a href="/admin/editproduct/<%=productdetails[i]._id%>"  class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
-                        <a href="/admin/deleteproduct/<%=productdetails[i]._id%>" onclick="return confirm('do you want to delete <%=productdetails[i].product_name%>')" class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a>
+                        <a onclick="confirmation('<%=productdetails[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a>
                       </td>
                     
                   </tr>
@@ -94,7 +96,33 @@
 
 
  
+<script>
+  function confirmation(id) {
+    
+// id.preventDefault();
+// var urlToRedirect = id.currentTarget.getAttribute('href'); //use currentTarget because the click may be on the nested i tag and not a tag causing the href to be empty
+// console.log(urlToRedirect); // verify if this is the right URL
+swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this product!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
+  if (willDelete) {
+    location.href = `/admin/deleteproduct/${id}`;
 
+    swal("file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Your  file is safe!");
+  }
+});
+}
+</script>
 
 
 <%-include('../include/adminresfooter.ejs')-%>

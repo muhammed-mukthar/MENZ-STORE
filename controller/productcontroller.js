@@ -3,7 +3,7 @@ const Admin = require("../models/admin");
 const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
-
+const path=require('path')
 
 const fs = require("fs");   
 
@@ -117,17 +117,38 @@ exports.edit_productsPage = async (req, res) => {
   }
 };
 
+
 /* ------------------------------ edit product ------------------------------ */
 
 exports.editProduct = async(req, res) => {
+  const id=req.params.id
 
-    console.log(req.files?.image1);
+
+  //deletingfiles to be replaced
+//   let existproduct= await Product.findById({_id:id})
+//   let existimages=[];
+//   existimages=existproduct.image
+// console.log("existing images"+existimages);
+//   // for(let j=0;j<existimages.length;j++){
+//     try {
+//       fs.unlinkSync("/C:/Users/mukth/OneDriveDocuments/menz store/public/productimage/public/productimage/mukt.jpeg")
+  
+//       console.log(existimages[j]+"deleted");
+//   } catch (error) {
+//       console.log(error+"error occured while deleting existing images");
+//   }
+  
+  // }
+
+  
+
+    console.log(req.files?.editedofferprice);
     console.log(req.files?.image2);
     console.log(req.body);
     console.log(req.files);
     console.log(req.files?.image3);
     console.log(req.params.id);
-   const id=req.params.id
+  
    let images=[]
     if(req.files?.image1){
         images.push(req.files?.image1)
@@ -139,12 +160,14 @@ exports.editProduct = async(req, res) => {
     if(req.files?.image3){
         images.push(req.files?.image3)
     }
-   
+
     const imagepath=[]
 
 console.log(images.length+"image length error here");
     if(images.length){
+    
     for(let i=0;i<images.length;i++){
+   
        let uploadpath='./public/productimage/'+ Date.now()+i+ '.jpeg';
        let img='productimage/'+Date.now()+i+'.jpeg';
        imagepath.push(img)
@@ -161,6 +184,7 @@ console.log(images.length+"image length error here");
                size: req.body.size,
                stock: req.body.stock,
                price: req.body.price,
+               offerprice:req.body.editedofferprice,
                image: imagepath,
              },
            }
@@ -168,7 +192,7 @@ console.log(images.length+"image length error here");
       if(updateProduct){
         req.session.message = {
                   type: "success",
-                   message: "Product added succesfilly",
+                   message: "Product updated succesfilly",
         }
         res.redirect('/admin/products')
       }else{
@@ -178,11 +202,30 @@ console.log(images.length+"image length error here");
 
  
     }else{
-    console.log("error in image length");
+    
+      let updateproductwithoutimage=await Product.findByIdAndUpdate({_id:id},{
+        $set:{
+          product_name: req.body.productname,
+          desc: req.body.description,
+          category: req.body.category,
+          size: req.body.size,
+          stock: req.body.stock,
+          price: req.body.price,
+          offerprice:req.body.editedofferprice,
+
+        }
+      })
+
+      if(updateproductwithoutimage){
+        req.session.message = {
+          type: "success",
+           message: "Product updated succesfilly",
+           }
+          res.redirect('/admin/products')
+
+      }
     
     }
-
-
 }
 
 /* ----------------------------- delete product ----------------------------- */

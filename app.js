@@ -51,16 +51,13 @@ app.use("/admin", adminroute);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-mongoose.connect(process.env.DB_CONNECT, {
+mongoose.connect('mongodb://localhost:27017/Menzshop', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => console.log("database connected succesfully"))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => {
-  res.render("user/home");
-});
 
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

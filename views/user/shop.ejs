@@ -57,7 +57,7 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
 	         
 	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
 			  <%if(locals.isuser){%>
@@ -79,7 +79,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="home.html">Home</a></span> <span>Products</span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/users">Home</a></span> <span>Products</span></p>
             <h1 class="mb-0 bread">Collection Products</h1>
           </div>
         </div>
@@ -102,7 +102,10 @@
 		    						<h3><a href="/users/productview/<%products._id%>"><%=products.product_name%></a></h3>
 		    						<div class="d-flex">
 		    							<div class="pricing">
-				    						<p class="price"><span class="price-sale"><%=products.price%> Rs</span></p>
+				    						<p class="price"><span class="price-sale"><del><%=products.price%></del> Rs</span></p>
+				    					</div>
+										<div class="pricing">
+				    						<p class="price"><span class="price-sale"><%=products.offerprice%> Rs</span></p>
 				    					</div>
 				    					<div class="rating">
 			    							<p class="text-right">
@@ -129,12 +132,14 @@
 
 		    	<div class="col-md-4 col-lg-2 sidebar">
 		    		<div class="sidebar-box-2">
-		    			<h2 class="heading mb-4"><a href="#">Clothing</a></h2>
+		    			<h2 class="heading mb-4"><a href="#">shop By category</a></h2>
 		    			<ul>
-		    				<li><a href="#">Shirts &amp; Tops</a></li>
-								<li><a href="#">Dresses</a></li>
-								<li><a href="#">Shorts &amp; Skirts</a></li>
-								<li><a href="#">Jackets</a></li>
+							<li><a href="/users/shop">All</a></li>
+
+							<%categories.forEach(function(categories){%>
+								<li><a href="/users/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
+								
+								<%})%>
 				
 		    			</ul>
 		    		</div>

@@ -79,13 +79,13 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="home.html">Home</a></span> <span>Cart</span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/users">Home</a></span> <span>Cart</span></p>
             <h1 class="mb-0 bread">My Cart</h1>
           </div>
         </div>
       </div>
     </div>
-
+	
     <section class="ftco-section ftco-cart">
 			<div class="container">
 				<div class="row">
@@ -103,47 +103,42 @@
 						      </tr>
 						    </thead>
 						    <tbody>
+								<%for(let i=0;i< cartItems.length;i++){%>
 						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+								<td class="product-remove"><a href="/users/cart/remove/<%=cartItems[i].product?._id%>"><span class="ion-ios-close"></span></a></td>
 						        
-						        <td class="image-prod"><div class="img" style="background-image:url(/images/product-3.jpg);"></div></td>
+						        <td class="image-prod"><div class="img" style="background-image:url(/<%=cartItems[i].product?.image[0]%>);"></div></td>
 						        
 						        <td class="product-name">
-						        	<h3>Young Woman Wearing Dress</h3>
-						        	<p>Far far away, behind the word mountains, far from the countries</p>
+						        	<h3><%=cartItems[i].product.product_name%></h3>
+						        	<p><%=cartItems[i].product.desc%></p>
 						        </td>
 						        
-						        <td class="price">$4.90</td>
+						        <td class="price"><%=cartItems[i].product.price%>Rs</td>
 						        
 						        <td class="quantity">
-						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-					          	</div>
+									<div class="input-group" style="width:auto; display:flex">
+                                        <button style="height:3rem ; width:3rem;"
+                                            onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>', '<%=user._id%>',' <%=cartItems[i].quantity%>' , -1)">-</button>
+                                        <p id="<%=cartItems[i].product._id%>"
+                                            style="display: flex; padding-top:0.4rem; margin: 0px 1rem">
+                                            <%=cartItems[i].quantity%>
+                                        </p>
+                                        <button style="height:3rem ; width:3rem; "
+                                            onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>', '<%=user._id%>' , 1)">+</button>
+                                    </div>
+
+						        	<!-- <div class="input-group mb-3">
+					             	<button >-</button><input type="number" name="quantity" class="quantity form-control input-number" onclick="changequantity('cartItems[i]._id,<cartItems[i].product._id',1)" value="<%=cartItems[i].quantity%>" min="1" max="100">
+					          	</div> -->
 					          </td>
 						        
-						        <td class="total">$4.90</td>
+						        <td class="total"><%=cartItems[i].product.price%></td>
 						      </tr><!-- END TR-->
 
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><div class="img" style="background-image:url(/images/product-4.jpg);"></div></td>
-						        
-						        <td class="product-name">
-						        	<h3>Young Woman Wearing Dress</h3>
-						        	<p>Far far away, behind the word mountains, far from the countries</p>
-						        </td>
-						        
-						        <td class="price">$15.70</td>
-						        
-						        <td class="quantity">
-						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-					          	</div>
-					          </td>
-						        
-						        <td class="total">$15.70</td>
-						      </tr><!-- END TR-->
+						     
+							  <%}%>
+							
 						    </tbody>
 						  </table>
 					  </div>
@@ -155,7 +150,7 @@
     					<h3>Cart Totals</h3>
     					<p class="d-flex">
     						<span>Subtotal</span>
-    						<span>$20.60</span>
+    						<span>100Rs</span>
     					</p>
     					<p class="d-flex">
     						<span>Delivery</span>
@@ -163,12 +158,12 @@
     					</p>
     					<p class="d-flex">
     						<span>Discount</span>
-    						<span>$3.00</span>
+    						<span>100</span>
     					</p>
     					<hr>
     					<p class="d-flex total-price">
     						<span>Total</span>
-    						<span>$17.60</span>
+    						<span>100Rs</span>
     					</p>
     				</div>
     				<p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
@@ -274,41 +269,63 @@
   <script src="/js/google-map.js"></script>
   <script src="/js/main.js"></script>
 
-  <script>
-		$(document).ready(function(){
 
-		var quantitiy=0;
-		   $('.quantity-right-plus').click(function(e){
+
+  <script>
+
+	function changeQuantity(cartId,productId,count){
+		$.ajax({
+			type:'POST',
+			url:'/users/change-product-quantity',
+		
+			data:{
+				cart:cartId,
+				product:productId,
+				count:count,
+				quantity: quantity
+			},
+			success:(response)=>{
+				alert(response)
+			}
+		})
+	}
+  </script>
+
+  <script>
+		// $(document).ready(function(){
+
+		// var quantitiy=0;
+		//    $('.quantity-right-plus').click(function(e){
 		        
-		        // Stop acting like a button
-		        e.preventDefault();
-		        // Get the field name
-		        var quantity = parseInt($('#quantity').val());
+		//         // Stop acting like a button
+		//         e.preventDefault();
+		//         // Get the field name
+		//         var quantity = parseInt($('#quantity').val());
 		        
-		        // If is not undefined
+		//         // If is not undefined
 		            
-		            $('#quantity').val(quantity + 1);
+		//             $('#quantity').val(quantity + 1);
 
 		          
-		            // Increment
+		//             // Increment
 		        
-		    });
+		//     });
 
-		     $('.quantity-left-minus').click(function(e){
-		        // Stop acting like a button
-		        e.preventDefault();
-		        // Get the field name
-		        var quantity = parseInt($('#quantity').val());
+		//      $('.quantity-left-minus').click(function(e){
+		//         // Stop acting like a button
+		//         e.preventDefault();
+		//         // Get the field name
+		//         var quantity = parseInt($('#quantity').val());
 		        
-		        // If is not undefined
+		//         // If is not undefined
 		      
-		            // Increment
-		            if(quantity>0){
-		            $('#quantity').val(quantity - 1);
-		            }
-		    });
+		//             // Increment
+		//             if(quantity>0){
+		//             $('#quantity').val(quantity - 1);
+		//             }
+		//     });
 		    
-		});
+		// });
 	</script>
     
   </body>
