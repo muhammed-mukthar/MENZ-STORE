@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
@@ -25,6 +29,9 @@
     <link rel="stylesheet" href="/css/flaticon.css">
     <link rel="stylesheet" href="/css/icomoon.css">
     <link rel="stylesheet" href="/css/style.css">
+
+	
+	
   </head>
   <body class="goto-here">
 		<div class="py-1 bg-black">
@@ -105,9 +112,9 @@
 						    <tbody>
 								<%for(let i=0;i< cartItems.length;i++){%>
 						      <tr class="text-center">
-								<td class="product-remove"><a href="/users/cart/remove/<%=cartItems[i].product?._id%>"><span class="ion-ios-close"></span></a></td>
+								<td class="product-remove"><a class="btn"  onclick="deleteproduct('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' )"><span class="ion-ios-close"></span></a></td>
 						        
-						        <td class="image-prod"><div class="img" style="background-image:url(/<%=cartItems[i].product?.image[0]%>);"></div></td>
+						        <td class="image-prod"><div  class="img" style="background-image:url(/<%=cartItems[i].product?.image[0]%>);"></div></td>
 						        
 						        <td class="product-name">
 						        	<h3><%=cartItems[i].product.product_name%></h3>
@@ -115,23 +122,20 @@
 						        </td>
 						        
 						        <td class="price"><%=cartItems[i].product.price%>Rs</td>
-						        
+								
+						       
+						       
 						        <td class="quantity">
 									<div class="input-group" style="width:auto; display:flex">
                                         <button style="height:3rem ; width:3rem;"
-                                            onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>', '<%=user._id%>',' <%=cartItems[i].quantity%>' , -1)">-</button>
+                                            onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' ,-1)">-</button>
                                         <p id="<%=cartItems[i].product._id%>"
                                             style="display: flex; padding-top:0.4rem; margin: 0px 1rem">
                                             <%=cartItems[i].quantity%>
                                         </p>
                                         <button style="height:3rem ; width:3rem; "
-                                            onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>', '<%=user._id%>' , 1)">+</button>
+                                            onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' , 1)">+</button>
                                     </div>
-
-						        	<!-- <div class="input-group mb-3">
-					             	<button >-</button><input type="number" name="quantity" class="quantity form-control input-number" onclick="changequantity('cartItems[i]._id,<cartItems[i].product._id',1)" value="<%=cartItems[i].quantity%>" min="1" max="100">
-					          	</div> -->
-					          </td>
 						        
 						        <td class="total"><%=cartItems[i].product.price%></td>
 						      </tr><!-- END TR-->
@@ -166,7 +170,7 @@
     						<span>100Rs</span>
     					</p>
     				</div>
-    				<p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				<p class="text-center"><a href="/users/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
     			</div>
     		</div>
 			</div>
@@ -247,6 +251,87 @@
     </footer>
     
   
+	<script type="text/javascript">
+		 function changeQuantity(cartId, proId, userId,count) {
+        const quantity = parseInt(document.getElementById(proId).innerHTML)
+   
+        // count = parseInt(count)
+      
+        $.ajax({
+          url: '/users/change-product-quantity',
+          data: {
+            user: userId,
+            cart: cartId,
+            product: proId,
+            count: count,
+            quantity: quantity
+          },
+          method: 'post',
+          success: (res) => {
+		
+				if(res.removeproduct){
+
+					swal.fire({
+						showCancelButton: false, // There won't be any cancel button
+						showConfirmButton: false ,
+						title:'product has been removed from the cart',
+						
+					})
+					
+
+					setTimeout(()=>{
+						location.reload()
+						
+					},2000)
+				
+				}else{
+					document.getElementById(proId).innerHTML=quantity+count;
+				}
+          }
+        })
+      }
+
+	  function  deleteproduct(cartId, proId, userId){
+		const quantity = parseInt(document.getElementById(proId).innerHTML)
+
+		
+
+
+				Swal.fire({
+            title: 'Are you want to Remove?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Remove'
+        }).then((result) => {
+           
+			$.ajax({
+			url:'/users/cart/remove',
+			data:{
+				user: userId,
+            cart: cartId,
+            product: proId,
+         
+            quantity: quantity
+			},
+			method: 'post',
+			success:(res)=>{
+				location.reload()
+			}
+            
+        })
+    
+				
+				
+
+			})
+		}
+
+		
+
+
+		  </script>
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
@@ -271,62 +356,6 @@
 
 
 
-  <script>
 
-	function changeQuantity(cartId,productId,count){
-		$.ajax({
-			type:'POST',
-			url:'/users/change-product-quantity',
-		
-			data:{
-				cart:cartId,
-				product:productId,
-				count:count,
-				quantity: quantity
-			},
-			success:(response)=>{
-				alert(response)
-			}
-		})
-	}
-  </script>
-
-  <script>
-		// $(document).ready(function(){
-
-		// var quantitiy=0;
-		//    $('.quantity-right-plus').click(function(e){
-		        
-		//         // Stop acting like a button
-		//         e.preventDefault();
-		//         // Get the field name
-		//         var quantity = parseInt($('#quantity').val());
-		        
-		//         // If is not undefined
-		            
-		//             $('#quantity').val(quantity + 1);
-
-		          
-		//             // Increment
-		        
-		//     });
-
-		//      $('.quantity-left-minus').click(function(e){
-		//         // Stop acting like a button
-		//         e.preventDefault();
-		//         // Get the field name
-		//         var quantity = parseInt($('#quantity').val());
-		        
-		//         // If is not undefined
-		      
-		//             // Increment
-		//             if(quantity>0){
-		//             $('#quantity').val(quantity - 1);
-		//             }
-		//     });
-		    
-		// });
-	</script>
-    
   </body>
 </html>

@@ -93,12 +93,12 @@
                           </label>
                           <input id="price" name="price" value="<%=productdetails.price%>" type="number"class="form-control ">
                           </div>
-                          <div class="mt-5 col-md-4">
+                          <!-- <div class="mt-5 col-md-4">
                             <label for="price" class="">
                                discounted Price
                             </label>
                             <input id="offerprice" value="<%=productdetails.offerprice%>" name="editedofferprice"  type="number" class="form-control ">
-                            </div>
+                            </div> -->
                           <div class="mt-5 col-md-4">
                               <label for="stock" class="">Units In
                                   Stock
@@ -194,9 +194,11 @@
             },price:{
              required:true,
              number:true
-            },offerprice:{
-              required:true
             },
+            // offerprice:{
+            //   required:true
+            // }
+            // ,
             stock:{
              required:true,
              number:true

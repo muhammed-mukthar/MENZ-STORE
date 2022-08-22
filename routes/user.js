@@ -60,7 +60,7 @@ router.post("/resend", otpcontroller.resend_otp);
 
 router.get("/logout", (req, res) => {
   req.session.userlogin = false;
-  res.redirect("/");
+  res.redirect("/users");
 });
 
 /* -------------------------------- user home ------------------------------- */
@@ -120,30 +120,45 @@ router.get("/cart",userauth, async (req, res) => {
 
   // console.log(JSON.stringify(cartItems) + "gjhgkg");
 
-  res.render("user/cart", { cartItems,user });
+  res.render("user/cart", { cartItems,user ,isuser: req.session.userlogin});
 });
 
 
 /* ------------------------- change product quantity ------------------------ */
 
-router.post('/change-product-quantity',async(req,res)=>{
+router.post('/change-product-quantity',async(req,res,next)=>{
 try{
-    let cartId= req.body.cart
-    let productId= req.body.product
-    let count= req.body.count
-    let quantity= req.body.quantity
+let  count = req.body.count
+  console.log(count);
+let quantity = parseInt(req.body.quantity)
+let cartid=req.body.cart;
+let productId=req.body.product
 
-    await Cart.updateOne({_id:ObjectId(cartId),'products.item': ObjectId(productId)},{
-      $inc:{'products.$.quantity':count}
+if(count==-1 && quantity==1){
+
+
+  await Cart.updateOne({_id:ObjectId(cartid)},{
+    $pull:{
+      products:{
+        item:ObjectId(productId) 
+      }
     }
-    )
+  }).then(
+    res.json({removeproduct:true})
+  )
+}else{
 
+  await Cart.updateOne({_id:ObjectId(req.body.cart),'products.item':ObjectId(req.body.product )},
+            {
+                $inc:{'products.$.quantity':Number(count)}
+            }).then(
+              res.json(true)
+            )
 
-
-
-
+}
 }catch(err){
   console.error("eoor"+err);
+
 }
 
 
@@ -199,16 +214,79 @@ router.get("/add-to-cart/:id", userauth, async (req, res) => {
   }
 });
 
+/* ------------------------------ order checkout ------------------------------ */
+/* -------------------------------- checkout -------------------------------- */
+
+
+
+router.get('/checkout',userauth,async(req,res)=>{
+  let userId = req.session.user._id;
+  let total=await Cart.aggregate([
+    {
+      $match:{user:ObjectId(userId)}
+    },
+    {
+      $unwind:'$products'
+    },{
+      $project:{
+        item:'$products.item',
+        quantity:'$products.quantity'
+      }
+    },
+    {
+      $lookup:{
+        from:'products',
+        localField:'item',
+        foreignField:'_id',
+        as:'product'
+    }
+  },
+  {
+      $project: {
+        item: 1,
+        quantity: 1,
+        product: { $arrayElemAt: ["$product", 0] },
+      }, 
+  },
+  {
+    $group:{
+      _id:null,
+      total:{$sum:{$multiply:['$quantity','$product.price']}}
+    }
+  }
+  ])
+  console.log(total);
+ let fulltotal= total[0].total
+  res.render('user/checkout',{total:fulltotal})
+
+
+
+})
+
+
+
+
+
+
+/* ------------------------------------  ----------------------------------- */
 
 
 /* ------------------------------- remove cart ------------------------------ */
 
-router.get('/cart/remove/:id',async(req,res)=>{
+router.post('/cart/remove',async(req,res)=>{
   try{
-    await Cart.aggregate([{
-      $unwind
-    }])
-res.redirect('/users/cart')
+    let quantity = parseInt(req.body.quantity)
+let cartid=req.body.cart;
+let productId=req.body.product
+
+    await Cart.updateOne({_id:ObjectId(cartid)},{
+      $pull:{
+        products:{
+          item:ObjectId(productId)
+        }
+      }
+    })
+res.json(removeproduct =true)
   }catch(err){
     console.log(err+"error occured in deleting cart");
     
@@ -216,39 +294,6 @@ res.redirect('/users/cart')
   }
 })
 
-
-// router.get("/add-to-cart/:id",userauth, async(req, res) => {
-//   try{
-
-// let  userId= req.session.user._id
-// let  productId=req.params.id
-// console.log(userId+"user id"+productId+"cart id");
-// let productObj={
-//
-// }
-
-//   let usercart=await Cart.findOne({user:userId,products:ObjectId(productId)})
-//   console.log(usercart+"user cart");
-//   if(usercart){
-//   await  Cart.updateOne({user:userId},{
-//       $push:{products:productObj}
-//   })
-//   res.redirect('/users/cart')
-
-//   }else{
-//     let newCart=  new Cart({
-//       user:userId,
-//     products: [productObj]
-//     })
-//     newCart.save()
-//     res.redirect('/users/cart')
-//   }
-//   }catch(err){
-//     console.log(err +'add to cart');
-//   }
-
-//   // res.render("user/cart/:id", { isuser: req.session.userlogin });
-// });
 
 
 /* ---------------------------- productview---------------------------- */
@@ -262,6 +307,7 @@ router.get("/productview/:id", async (req, res) => {
 
   res.render("user/product-single", { products, imagelength });
 });
+/* ---------------------------------- shop ---------------------------------- */
 
 router.get("/shop", async (req, res) => {
   try {
@@ -302,5 +348,7 @@ router.get("/category/:id", async (req, res) => {
     console.log(err + "error in category id");
   }
 });
+
+
 
 module.exports = router;

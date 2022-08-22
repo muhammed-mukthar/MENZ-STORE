@@ -125,7 +125,7 @@ router.post("/addproduct",async(req,res)=>{
         size: req.body.size,
         stock: req.body.stock,
         price: req.body.price,
-        offerprice:req.body.offerprice,
+        // offerprice:req.body.offerprice,
         image:imgPath,
         
       })

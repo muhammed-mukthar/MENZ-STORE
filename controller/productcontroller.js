@@ -184,7 +184,7 @@ console.log(images.length+"image length error here");
                size: req.body.size,
                stock: req.body.stock,
                price: req.body.price,
-               offerprice:req.body.editedofferprice,
+              //  offerprice:req.body.editedofferprice,
                image: imagepath,
              },
            }
@@ -211,7 +211,7 @@ console.log(images.length+"image length error here");
           size: req.body.size,
           stock: req.body.stock,
           price: req.body.price,
-          offerprice:req.body.editedofferprice,
+          // offerprice:req.body.editedofferprice,
 
         }
       })

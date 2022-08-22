@@ -27,10 +27,12 @@ const ProductSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-    },  offerprice:{
-      type:Number,
-      required: true,
-    },
+    },  
+    // offerprice:{
+    //   type:Number,
+    //   required: true,
+    // }
+    // ,
     image: Array
     
   },
