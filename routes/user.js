@@ -167,7 +167,7 @@ router.post('/place-order',async(req,res)=>{
   let products=cart?.products
   console.log(products);
   let order=req.body
-  let totalPrice=total[0].total
+  let totalPrice=total[0]?.total
   // let orders=req.body
   let status=req.body['paymentmethod']==='cod'?'placed':'pending'
   
@@ -209,7 +209,9 @@ router.post('/place-order',async(req,res)=>{
 
 
 
-
+router.get('/mukthar',(req,res)=>{
+  res.render('user/shophe')
+})
 
 
 

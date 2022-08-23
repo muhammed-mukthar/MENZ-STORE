@@ -4,7 +4,7 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
 const path=require('path')
-
+var ObjectId = require("mongoose").Types.ObjectId;
 const fs = require("fs");   
 
 /* ------------------------------ all products ------------------------------ */
@@ -104,7 +104,8 @@ exports.edit_productsPage = async (req, res) => {
   try {
     let categorys = await Category.find();
     let productdetails = await Product.findById(req.params.id);
-
+  //   let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(req.params.id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
+  // console.log(existproduct[0].image[0]);
  
    
    
@@ -121,7 +122,7 @@ exports.edit_productsPage = async (req, res) => {
 /* ------------------------------ edit product ------------------------------ */
 
 exports.editProduct = async(req, res) => {
-  const id=req.params.id
+ 
 
 
   //deletingfiles to be replaced
@@ -138,11 +139,17 @@ exports.editProduct = async(req, res) => {
 //       console.log(error+"error occured while deleting existing images");
 //   }
   
-  // }
+//   }
 
   
+  const id=req.params.id
+  let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
+  // console.log(existproduct[0].image[0]);
+  
 
-    console.log(req.files?.editedofferprice);
+
+
+    console.log(existproduct[0].image[0]);
     console.log(req.files?.image2);
     console.log(req.body);
     console.log(req.files);
@@ -150,6 +157,7 @@ exports.editProduct = async(req, res) => {
     console.log(req.params.id);
   
    let images=[]
+   
     if(req.files?.image1){
         images.push(req.files?.image1)
     }
@@ -163,17 +171,48 @@ exports.editProduct = async(req, res) => {
 
     const imagepath=[]
 
-console.log(images.length+"image length error here");
+console.log(images.length+"image length here");
     if(images.length){
     
-    for(let i=0;i<images.length;i++){
-   
-       let uploadpath='./public/productimage/'+ Date.now()+i+ '.jpeg';
-       let img='productimage/'+Date.now()+i+'.jpeg';
+    // for(let i=1;i<=3;i++){
+      console.log('mukthar');
+      console.log(req.files.image1);
+   if(req.files.image1){
+      let uploadpath='./public/productimage/'+ Date.now()+0+ '.jpeg';
+       let img='productimage/'+Date.now()+0+'.jpeg';
        imagepath.push(img)
-       images[i]?.mv(uploadpath)
+       req.files.image1.mv(uploadpath)
+   }
+   else{
+    let img=existproduct[0].image[0];
+    imagepath.push(img)
+   }
 
-    }
+   if(req.files.image2){
+    let uploadpath='./public/productimage/'+ Date.now()+1+ '.jpeg';
+     let img='productimage/'+Date.now()+1+'.jpeg';
+     imagepath.push(img)
+     req.files.image2.mv(uploadpath)
+ }
+ else{
+  let img=existproduct[0].image[1];
+  imagepath.push(img)
+ }
+ if(req.files.image3){
+  let uploadpath='./public/productimage/'+ Date.now()+2+ '.jpeg';
+   let img='productimage/'+Date.now()+2+'.jpeg';
+   imagepath.push(img)
+   req.files.image3.mv(uploadpath)
+}
+else{
+let img=existproduct[0].image[2];
+imagepath.push(img)
+}
+     
+
+    // }
+
+  
        let updateProduct=   await   Product.findByIdAndUpdate({_id:id}
         ,
            {
@@ -241,6 +280,7 @@ exports.deleteproduct = async (req, res) => {
 
 
 exports.productviewuser= async (req, res) => {
+  try{
   const products = await Product.findById({ _id: req.params.id });
 
   let images = products.image;
@@ -248,4 +288,8 @@ exports.productviewuser= async (req, res) => {
   let imagelength = images.length;
 
   res.render("user/product-single", { products, imagelength });
+  }catch(err){
+    console.error('error occured on product view user');
+  }
+
 }

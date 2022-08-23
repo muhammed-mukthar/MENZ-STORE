@@ -158,8 +158,8 @@ exports.displaycart=async (req, res) => {
         }
       }
       ])
-      console.log(total);
-     let totals= total[0].total
+   
+     let totals= total[0]?.total
     
       
         res.json({removeproduct:true,totals})

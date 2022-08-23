@@ -93,7 +93,7 @@ router.post("/addproduct",async(req,res)=>{
   try{
     console.log(req.files.image1);
     console.log(req.files.image2);
-    console.log(req.files.image1);
+    console.log(req.files.image3);
 
   let userfiles=[]
 
