@@ -238,3 +238,14 @@ exports.deleteproduct = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+
+exports.productviewuser= async (req, res) => {
+  const products = await Product.findById({ _id: req.params.id });
+
+  let images = products.image;
+
+  let imagelength = images.length;
+
+  res.render("user/product-single", { products, imagelength });
+}

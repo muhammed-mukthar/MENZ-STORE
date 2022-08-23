@@ -4,6 +4,7 @@ const User = require("../models/user");
 const Cart = require("../models/cart");
 const Product = require("../models/product");
 const Category = require("../models/category");
+const Order=require('../models/order')
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
@@ -12,9 +13,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
 
+const cartController=require('../controller/cartController')
 const otpcontroller = require("../controller/otpcontroller");
-
+const productController=require('../controller/productcontroller')
 const userController = require("../controller/usercontroller");
+const categoryController=require('../controller/categoryController')
 const user = require("../models/user");
 const category = require("../models/category");
 const { pipeline } = require("stream");
@@ -84,143 +87,49 @@ router.post("/signup", userController.signup);
 
 /* ------------------------------ cart display ------------------------------ */
 
-router.get("/cart",userauth, async (req, res) => {
-  let userId = req.session.user?._id;
-
-
-
-
-  let cartItems = await Cart.aggregate([
-    {
-      $match: { user: ObjectId(userId) },
-    },
-    {
-      $unwind:'$products'
-    },{
-      $project:{
-        item:'$products.item',
-        quantity:"$products.quantity"
-      }
-    },{
-      $lookup:{
-        from:'products',
-        localField:'item',
-        foreignField:'_id',
-        as:'product'
-    }
-    },
-    {
-      $project: {
-        item: 1,
-        quantity: 1,
-        product: { $arrayElemAt: ["$product", 0] },
-      },
-    }
-  ])
-
-  // console.log(JSON.stringify(cartItems) + "gjhgkg");
-
-  res.render("user/cart", { cartItems,user ,isuser: req.session.userlogin});
-});
+router.get("/cart",userauth, cartController.displaycart);
 
 
 /* ------------------------- change product quantity ------------------------ */
 
-router.post('/change-product-quantity',async(req,res,next)=>{
-try{
-let  count = req.body.count
-  console.log(count);
-let quantity = parseInt(req.body.quantity)
-let cartid=req.body.cart;
-let productId=req.body.product
-
-if(count==-1 && quantity==1){
-
-
-  await Cart.updateOne({_id:ObjectId(cartid)},{
-    $pull:{
-      products:{
-        item:ObjectId(productId) 
-      }
-    }
-  }).then(
-    res.json({removeproduct:true})
-  )
-}else{
-
-  await Cart.updateOne({_id:ObjectId(req.body.cart),'products.item':ObjectId(req.body.product )},
-            {
-                $inc:{'products.$.quantity':Number(count)}
-            }).then(
-              res.json(true)
-            )
-
-}
-}catch(err){
-  console.error("eoor"+err);
-
-}
-
-
-})
+router.post('/change-product-quantity',cartController.changequantity)
 
 
 /* ------------------------------- add to cart ------------------------------ */
 
-router.get("/add-to-cart/:id", userauth, async (req, res) => {
-  try {
-    let userId = req.session.user._id;
-    let productId = req.params.id;
-
-    let iscart = await Cart.findOne({ user: userId });
-
-    let productadd = {
-      item: ObjectId(productId),
-      quantity: 1,
-    };
-    if (iscart == null) {
-      console.log(iscart + "is caty");
-
-      let newcart = new Cart({
-        user: userId,
-        products: [productadd],
-      });
-      newcart.save();
-      req.session.isproductincart = false;
-    } else {
-
-     const alreadyExists = iscart.products.findIndex(product => product.item == productId)
-      if (alreadyExists === -1) {
-        const adding = await Cart.updateOne(
-          { user: userId },
-          { $push: { products: { item: ObjectId(productId), quantity: 1 } } }
-        );
-        req.session.isproductincart = false;
-        console.log(adding);
-      } else {
-        await Cart.updateOne({"user":ObjectId(userId),"products.item":ObjectId(productId)},
-        {
-            $inc:{"products.$.quantity":1}
-        }
-        )
-        
-        req.session.isproductincart = false;
-        console.log("product already added to cart");
-      }
-    }
-    res.redirect("/users/cart");
-  } catch (err) {
-    console.log(err + "error add to cart");
-  }
-});
+router.get("/add-to-cart/:id", userauth,cartController.addtocart );
 
 /* ------------------------------ order checkout ------------------------------ */
 /* -------------------------------- checkout -------------------------------- */
 
 
 
-router.get('/checkout',userauth,async(req,res)=>{
-  let userId = req.session.user._id;
+router.get('/checkout',userauth,cartController.ordercheckout)
+
+
+
+
+
+
+/* ------------------------------------  ----------------------------------- */
+
+
+/* ------------------------------- remove cart ------------------------------ */
+
+router.post('/cart/remove',cartController.removeCart)
+
+
+
+
+/* ---------------------------------- order --------------------------------- */
+
+router.post('/place-order',async(req,res)=>{
+
+  try{
+    let userId=req.body.userId
+    console.log(userId);
+    console.log(req.body);
+  let cart= await Cart.findOne({user:ObjectId(userId)})
   let total=await Cart.aggregate([
     {
       $match:{user:ObjectId(userId)}
@@ -255,58 +164,61 @@ router.get('/checkout',userauth,async(req,res)=>{
     }
   }
   ])
-  console.log(total);
- let fulltotal= total[0].total
-  res.render('user/checkout',{total:fulltotal})
+  let products=cart?.products
+  console.log(products);
+  let order=req.body
+  let totalPrice=total[0].total
+  // let orders=req.body
+  let status=req.body['paymentmethod']==='cod'?'placed':'pending'
+  
+ let   deliverydetails={
+      mobile:order.phone,
+      address:order.address1,
+      pincode:order.postcode,
+      city:order.town
+    }
 
+  let ordersave=new Order({
+    deliveryDetails:deliverydetails,
+    userId:ObjectId(order.userId),
+    paymentMethod:order['paymentmethod'],
+    products:products,
+    totalAmount:totalPrice,
+    status:status,
+    date: new Date()
+  })
+  res.json({status:true})
 
+  await ordersave.save()
 
-})
-
-
-
-
-
-
-/* ------------------------------------  ----------------------------------- */
-
-
-/* ------------------------------- remove cart ------------------------------ */
-
-router.post('/cart/remove',async(req,res)=>{
-  try{
-    let quantity = parseInt(req.body.quantity)
-let cartid=req.body.cart;
-let productId=req.body.product
-
-    await Cart.updateOne({_id:ObjectId(cartid)},{
-      $pull:{
-        products:{
-          item:ObjectId(productId)
-        }
-      }
-    })
-res.json(removeproduct =true)
+  await Cart.deleteOne({user:ObjectId(order.userId)})
   }catch(err){
-    console.log(err+"error occured in deleting cart");
-    
-
+    console.log(err+"error happened while placing order");
   }
+ 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 /* ---------------------------- productview---------------------------- */
 
-router.get("/productview/:id", async (req, res) => {
-  const products = await Product.findById({ _id: req.params.id });
-
-  let images = products.image;
-
-  let imagelength = images.length;
-
-  res.render("user/product-single", { products, imagelength });
-});
+router.get("/productview/:id",productController.productviewuser);
 /* ---------------------------------- shop ---------------------------------- */
 
 router.get("/shop", async (req, res) => {
@@ -324,30 +236,16 @@ router.get("/shop", async (req, res) => {
   }
 });
 
+
+
+
+
+
+
 /* ---------------------------- category display ---------------------------- */
 
 
-router.get("/category/:id", async (req, res) => {
-  try {
-    let allcategories = await Category.find();
-    let category = await Category.findOne({ _id: req.params.id });
-    let categoryname = category.categoryname;
-
-    let Prducts = await Product.find({
-      category: categoryname,
-    });
-    if (Prducts) {
-      res.render("user/shopCategory", {
-        Products: Prducts,
-        categories: allcategories,
-      });
-    } else {
-      res.redirect("/users/shop");
-    }
-  } catch (err) {
-    console.log(err + "error in category id");
-  }
-});
+router.get("/category/:id", categoryController.displaybycategory);
 
 
 

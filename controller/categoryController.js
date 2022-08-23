@@ -66,3 +66,25 @@ exports.addCategory=async (req, res) => {
     await Category.findByIdAndDelete(req.params.id)
     res.redirect('/admin/category')
   }
+
+  exports.displaybycategory=async (req, res) => {
+    try {
+      let allcategories = await Category.find();
+      let category = await Category.findOne({ _id: req.params.id });
+      let categoryname = category.categoryname;
+  
+      let Prducts = await Product.find({
+        category: categoryname,
+      });
+      if (Prducts) {
+        res.render("user/shopCategory", {
+          Products: Prducts,
+          categories: allcategories,
+        });
+      } else {
+        res.redirect("/users/shop");
+      }
+    } catch (err) {
+      console.log(err + "error in category id");
+    }
+  }

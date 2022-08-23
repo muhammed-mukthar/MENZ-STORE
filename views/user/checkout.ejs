@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 
     <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
@@ -72,8 +77,8 @@
 	      </div>
 	    </div>
 	  </nav>
-    <!-- END nav -
     <!-- END nav -->
+ 
 
     <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
       <div class="container">
@@ -90,74 +95,55 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-8 ftco-animate">
-						<form action="#" class="billing-form">
+						<form action="" id="checkout-form" class="billing-form">
 							<h3 class="mb-4 billing-heading">Billing Details</h3>
 	          	<div class="row align-items-end">
 	          		<div class="col-md-6">
 	                <div class="form-group">
-	                	<label for="firstname">Firt Name</label>
-	                  <input type="text" class="form-control" placeholder="">
+	                	<label for="name">Name</label>
+	                  <input type="text "name="name" class="form-control" placeholder="">
 	                </div>
 	              </div>
-	              <div class="col-md-6">
-	                <div class="form-group">
-	                	<label for="lastname">Last Name</label>
-	                  <input type="text" class="form-control" placeholder="">
-	                </div>
-                </div>
+	             
                 <div class="w-100"></div>
-		            <div class="col-md-12">
-		            	<div class="form-group">
-		            		<label for="country">State / Country</label>
-		            		<div class="select-wrap">
-		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-		                  <select name="" id="" class="form-control">
-		                  	<option value="">France</option>
-		                    <option value="">Italy</option>
-		                    <option value="">Philippines</option>
-		                    <option value="">South Korea</option>
-		                    <option value="">Hongkong</option>
-		                    <option value="">Japan</option>
-		                  </select>
-		                </div>
-		            	</div>
-		            </div>
+		           
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
 	                	<label for="streetaddress">Street Address</label>
-	                  <input type="text" class="form-control" placeholder="House number and street name">
+	                  <input type="text" class="form-control" name="address1"  placeholder="House number and street name">
 	                </div>
 		            </div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
-	                  <input type="text" class="form-control" placeholder="Appartment, suite, unit etc: (optional)">
+	                  <input type="text" class="form-control" name="address2" placeholder="Appartment, suite, unit etc: (optional)">
 	                </div>
 		            </div>
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
 	                	<label for="towncity">Town / City</label>
-	                  <input type="text" class="form-control" placeholder="">
+	                  <input type="text " name="town" class="form-control" placeholder="">
 	                </div>
 		            </div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
 		            		<label for="postcodezip">Postcode / ZIP *</label>
-	                  <input type="text" class="form-control" placeholder="">
+	                  <input type="text" name="postcode" class="form-control" placeholder="">
 	                </div>
 		            </div>
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 	                <div class="form-group">
 	                	<label for="phone">Phone</label>
-	                  <input type="text" class="form-control" placeholder="">
+	                  <input type="text" name="phone" class="form-control" placeholder="">
 	                </div>
 	              </div>
 	              <div class="col-md-6">
 	                <div class="form-group">
 	                	<label for="emailaddress">Email Address</label>
-	                  <input type="text" class="form-control" placeholder="">
+	                  <input type="text" name="email" class="form-control" placeholder="">
+					  <input type="text" name="userId" value="<%=userId%>" hidden class="form-control" placeholder="">
 	                </div>
                 </div>
                 <div class="w-100"></div>
@@ -170,7 +156,7 @@
 									</div>
                 </div>
 	            </div>
-	          </form><!-- END -->
+	          <!-- END -->
 
 
 
@@ -194,30 +180,32 @@
 		    					<p class="d-flex total-price">
 		    						<span>Total</span>
 		    						<span>$<%=total%></span>
+								
 		    					</p>
 								</div>
 	          	</div>
 	          	<div class="col-md-6">
 	          		<div class="cart-detail bg-light p-3 p-md-4">
 	          			<h3 class="billing-heading mb-4">Payment Method</h3>
+						  <div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" value="cod"  name="paymentmethod" class="mr-2"> Cash on delivery</label>
+								</div>
+							</div>
+						</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Direct Bank Tranfer</label>
+											   <label><input type="radio" value="bank" name="paymentmethod" class="mr-2"> Direct Bank Tranfer</label>
 											</div>
 										</div>
 									</div>
+									
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Check Payment</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio"  name="optradio" class="mr-2"> Paypal</label>
+											   <label><input type="radio" value="paypal"  name="paymentmethod" class="mr-2"> Paypal</label>
 											</div>
 										</div>
 									</div>
@@ -228,10 +216,12 @@
 											</div>
 										</div>
 									</div> -->
-									<p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+									<button  type="submit"  class="btn btn-primary py-3 px-4">Place an order</button>
 								</div>
+							
 	          	</div>
 	          </div>
+			</form>
           </div> <!-- .col-md-8 -->
         </div>
       </div>
@@ -313,8 +303,26 @@
     
   
 
+
+
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+<script>
+	$('#checkout-form').submit((e)=>{
+		e.preventDefault()
+		$.ajax({
+			url:'/users/place-order',
+			method:'post',
+			data:$('#checkout-form').serialize(),
+			success:(res)=>{
+				alert(res+"success")
+			}
+		})
+	})
+
+</script>
 
 
   <script src="/js/jquery.min.js"></script>

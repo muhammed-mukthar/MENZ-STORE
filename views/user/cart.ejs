@@ -154,23 +154,23 @@
     					<h3>Cart Totals</h3>
     					<p class="d-flex">
     						<span>Subtotal</span>
-    						<span>100Rs</span>
+    						<span>Rs <%=fulltotal?fulltotal:'0.00'%></span>
     					</p>
     					<p class="d-flex">
     						<span>Delivery</span>
-    						<span>$0.00</span>
+    						<span>Rs 0.00</span>
     					</p>
-    					<p class="d-flex">
+    					<!-- <p class="d-flex">
     						<span>Discount</span>
-    						<span>100</span>
-    					</p>
+    						<span>Rs 0.00</span>
+    					</p> -->
     					<hr>
     					<p class="d-flex total-price">
     						<span>Total</span>
-    						<span>100Rs</span>
+    						<span id="totalvalue">Rs <%=fulltotal?fulltotal:'0.00'%></span>
     					</p>
     				</div>
-    				<p class="text-center"><a href="/users/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				<p class="text-center"><a id="checkoutpage" href="/users/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
     			</div>
     		</div>
 			</div>
@@ -286,6 +286,7 @@
 				
 				}else{
 					document.getElementById(proId).innerHTML=quantity+count;
+          document.getElementById('totalvalue').innerHTML=res.totals;
 				}
           }
         })
@@ -305,8 +306,8 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Remove'
         }).then((result) => {
-           
-			$.ajax({
+          if(result.isConfirmed){
+            $.ajax({
 			url:'/users/cart/remove',
 			data:{
 				user: userId,
@@ -317,10 +318,19 @@
 			},
 			method: 'post',
 			success:(res)=>{
-				location.reload()
+    
+          location.reload()
+     
+			
 			}
             
         })
+
+
+
+          }
+           
+		
     
 				
 				
