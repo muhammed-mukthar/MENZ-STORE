@@ -39,16 +39,7 @@ router.get("/logout",adminController.adminlogout );
 
 router.get("/usermanagement", adminauth,userController.getallusers );
 
-// router.put('/block/:id',async(req,res)=>{
-//   console.log(req.params.id);
-//     await User.findByIdAndUpdate(req.params.id,{
 
-//         $set:{
-//             isBlocked:true
-//         }
-//     })
-// res.redirect('/admin/usermanagement')
-// })
 
 
 /* --------------------------- //update blockuser --------------------------- */
@@ -57,14 +48,6 @@ router.get("/block/:id", adminauth, userController.blockuserupdate);
 
 // router.put('/unblock/:id',async(req,res)=>{
 
-//     await User.findByIdAndUpdate(req.params.id,{
-
-//         $set:{
-//             isBlocked:false
-//         }
-//     })
-// res.redirect('/admin/usermanagement')
-// })
 
 /* ---------------------------- // update unblock --------------------------- */
 

@@ -63,13 +63,23 @@ router.post("/resend", otpcontroller.resend_otp);
 
 router.get("/logout", (req, res) => {
   req.session.userlogin = false;
+  req.session.user=false;
   res.redirect("/users");
 });
 
 /* -------------------------------- user home ------------------------------- */
 
-router.get("/", (req, res) => {
-  res.render("user/home", { isuser: req.session.userlogin });
+router.get("/", async(req, res) => {
+  if(req.session.userlogin){
+    let userid= req.session.user._id
+      let cartdetails= await Cart.findOne({user:userid})
+      let cartcount= cartdetails?.products.length
+      
+      res.render("user/home", { isuser: req.session.userlogin,cartcount });
+
+  }else{
+      res.render("user/home", { isuser: req.session.userlogin,cartcount:'0' });
+  }
 });
 
 /* ---------------------------------get signup --------------------------------- */
@@ -77,6 +87,8 @@ router.get("/", (req, res) => {
 router.get("/signup", (req, res) => {
   res.render("user/signup");
 });
+
+
 
 /* -------------------------------- //signup  post-------------------------------- */
 router.post("/signup", userController.signup);
@@ -120,11 +132,9 @@ router.post('/cart/remove',cartController.removeCart)
 
 
 
-
-/* ---------------------------------- order --------------------------------- */
+/* ---------------------------------- order placed --------------------------------- */
 
 router.post('/place-order',async(req,res)=>{
-
   try{
     let userId=req.body.userId
     console.log(userId);
@@ -173,7 +183,8 @@ router.post('/place-order',async(req,res)=>{
   
  let   deliverydetails={
       mobile:order.phone,
-      address:order.address1,
+      address1:order.address1,
+      address2:order.address2,
       pincode:order.postcode,
       city:order.town
     }
@@ -199,20 +210,24 @@ router.post('/place-order',async(req,res)=>{
 })
 
 
-
-
-
-
-
-
-
-
-
-
-router.get('/mukthar',(req,res)=>{
-  res.render('user/shophe')
+/* ----------------------------- get orderplacedpage ----------------------------- */
+ 
+router.get('/orderplaced',userauth,(req,res)=>{
+  res.render('user/orderplaced')
 })
 
+/* ----------------------------- goto order page ---------------------------- */
+
+
+router.get('/orders',userauth,async(req,res)=>{
+  let userId=req.session.user._id
+
+  let orders= await  Order.find({userId:ObjectId(userId)})
+
+  console.log(orders);
+
+  res.render('user/orderdetails',{orders})
+})
 
 
 
@@ -227,12 +242,23 @@ router.get("/shop", async (req, res) => {
   try {
     const categories = await Category.find();
     const allProduct = await Product.find();
+    if(req.session.userlogin){
+      let userid= req.session.user._id
+        let cartdetails= await Cart.findOne({user:userid})
+        let cartcount= cartdetails?.products.length
+        res.render("user/shop", {
+          products: allProduct,
+          isuser: req.session.userlogin,
+          categories,cartcount
+        });
+    }else{
+      res.render("user/shop", {
+        products: allProduct,
+        isuser: req.session.userlogin,
+        categories,cartcount:'0'
+      });
 
-    res.render("user/shop", {
-      products: allProduct,
-      isuser: req.session.userlogin,
-      categories,
-    });
+    }
   } catch (err) {
     console.log(err + "shop");
   }

@@ -80,7 +80,7 @@
                     
              
                     <td>
-                      <a href="/admin/category/<%=categories._id%>" class="btn btn-danger">delete</a></td>
+                      <a href="/admin/category/<%=categories._id%>" id="confirm" onclick="confirmation('confirm')" class="btn btn-danger">delete</a></td>
                     
                     </tr>
                   
@@ -100,6 +100,25 @@
 </body>
 
 <script>
+  function  confirmation(){
+    swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
+		}
+
 
   
   $("#form1").validate({

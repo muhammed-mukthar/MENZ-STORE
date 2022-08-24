@@ -287,7 +287,7 @@ exports.productviewuser= async (req, res) => {
 
   let imagelength = images.length;
 
-  res.render("user/product-single", { products, imagelength });
+  res.render("user/product-single", { products, imagelength,  isuser: req.session.userlogin, });
   }catch(err){
     console.error('error occured on product view user');
   }

@@ -77,7 +77,7 @@ rel="stylesheet"
                       </div>
                       <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
-          
+                          
                           <form action="/users/login" method="post" >
           
                             <div class="d-flex align-items-center mb-3 pb-1">
@@ -88,27 +88,29 @@ rel="stylesheet"
                             <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
           
                             <div class="form-outline mb-4">
+                              <label class="form-label" for="">Email address</label>
                               <input
+          
                               id="email"
-                                class="form-control form-control-lg"
+                                class="form-control form-control-lg border"
                                 type="email"
                                 name="email"
                                 placeholder="Enter your email"
                                 required
                               /> 
-                              <label class="form-label" for="email">Email address</label>
+                              
                             </div>
-          
+                            <label class="form-label" for="">Password</label>
                             <div class="form-outline mb-4">
                               <input
-                              class="form-control form-control-lg"
+                              class="form-control form-control-lg border"
                               type="password"
                               name="password"
                               id="password"
                               placeholder="Enter your password"
                               required
                             />
-                              <label class="form-label" for="password">Password</label>
+                             
                             </div>
           
                             <div class="pt-1 mb-4">

@@ -78,7 +78,7 @@
    
     <!-- END nav -->
 
-    <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
+    <!-- <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
@@ -87,7 +87,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <section class="ftco-section">
     	<div class="container">
@@ -99,24 +99,24 @@
 				
 					<%}%>
     			</div>
-    			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
+    			<div class="mt-lg-5 col-lg-6 product-details pl-md-5 ftco-animate">
     				<h3><%=products.product_name%></h3>
-    				<div class="rating d-flex">
-							<p class="text-left mr-4">
+    				<!-- <div class="rating d-flex"> -->
+							<!-- <p class="text-left mr-4">
 								<a href="#" class="mr-2">5.0</a>
 								<a href="#"><span class="ion-ios-star-outline"></span></a>
 								<a href="#"><span class="ion-ios-star-outline"></span></a>
 								<a href="#"><span class="ion-ios-star-outline"></span></a>
 								<a href="#"><span class="ion-ios-star-outline"></span></a>
 								<a href="#"><span class="ion-ios-star-outline"></span></a>
-							</p>
+							</p> -->
 							<!-- <p class="text-left mr-4">
 								<a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
 							</p>
 							<p class="text-left">
 								<a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
 							</p> -->
-						</div>
+						<!-- </div> -->
     				<p class="price"><span>Rs <%=products.price%></span></p>
     				<p><%=products.desc%></p>
 					<!-- <div class="pricing">
@@ -140,7 +140,7 @@
 		            </div>
 							</div>
 							<div class="w-100"></div>
-							<div class="input-group col-md-6 d-flex mb-3">
+							<!-- <div class="input-group col-md-6 d-flex mb-3">
 	             	<span class="input-group-btn mr-2">
 	                	<button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
 	                   <i class="ion-ios-remove"></i>
@@ -152,14 +152,14 @@
 	                     <i class="ion-ios-add"></i>
 	                 </button>
 	             	</span>
-	          	</div>
+	          	</div> -->
 	          	<div class="w-100"></div>
 	          	<div class="col-md-12">
 	          		<p style="color: #000;"><%=products.stock%> piece available</p>
 	          	</div>
           	</div>
 			<div class="d-flex justify-content-between">
-          	<p ><a href="/users/add-to-cart" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+          	<p ><a href="/users/add-to-cart/<%=products._id%>" class="btn btn-black py-3 px-5">Add to Cart</a></p>
 			  <p><a href="/users/widhlist" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
 			</div>
     			</div>
@@ -167,7 +167,7 @@
     	</div>
     </section>
 
-    <section class="ftco-section bg-light">
+    <!-- <section class="ftco-section bg-light">
     	<div class="container">
 				<div class="row justify-content-center mb-3 pb-3">
           <div class="col-md-12 heading-section text-center ftco-animate">
@@ -293,17 +293,11 @@
     			</div>
     		</div>
     	</div>
-    </section>
+    </section> -->
 
     <footer class="ftco-footer bg-light ftco-section">
       <div class="container">
-      	<div class="row">
-      		<div class="mouse">
-						<a href="#" class="mouse-icon">
-							<div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
-						</a>
-					</div>
-      	</div>
+      	
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">

@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="/css/animate.css">
+    <!-- <link rel="stylesheet" href="/css/animate.css"> -->
     
     <link rel="stylesheet" href="/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/css/owl.theme.default.min.css">
@@ -66,7 +66,7 @@
 	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
 	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
 			  <%}%>
-	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[<%=cartcount%>]</a></li>
 
 	        </ul>
 	      </div>
@@ -75,7 +75,7 @@
   
     <!-- END nav -->
 
-    <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
+    <!-- <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
@@ -84,7 +84,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <section class="ftco-section bg-light">
     	<div class="container">
@@ -93,7 +93,7 @@
     				<div class="row">
 						<%products.forEach(function(products){%>
 						
-		    			<div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
+		    			<div class="col-sm-6 col-md-6 col-lg-4 ">
 		    				<div class="product">
 		    					<a href="/users/productview/<%=products._id%>" class="img-prod"><img class="img-fluid" src="/<%=products.image[0]%>" alt="Colorlib Template">
 		    					
@@ -107,7 +107,7 @@
 										<!-- <div class="pricing">
 				    						<p class="price"><span class="price-sale"><%=products.offerprice%> Rs</span></p>
 				    					</div> -->
-				    					<div class="rating">
+				    					<!-- <div class="rating">
 			    							<p class="text-right">
 			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
 			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
@@ -115,11 +115,11 @@
 			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
 			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
 			    							</p>
-			    						</div>
+			    						</div> -->
 			    					</div>
-			    					<p class="bottom-area d-flex px-3">
-		    							<a href="/users/add-to-cart/<%=products._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="#" class="buy-now text-center py-2">add to wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
+			    					<p class="bottom-area d-flex px-lg-3">
+		    							<a href="/users/add-to-cart/<%=products._id%>" class="add-to-cart text-center py-lg-2 mr-lg-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+		    							<a href="#" class="buy-now text-center py-2">add to wishlist<span></span></a>
 		    						</p>
 		    					</div>
 		    				</div>

@@ -4,10 +4,7 @@ const router = require("express").Router();
 const Admin = require("../models/admin");
 const User = require("../models/user");
 const Product = require("../models/product");
-const Category = require("../models/category");
-
-
-const fs = require("fs");
+const Category = require("../models/category")
 
 //admin_login, admin_logout admin_getall_users admin_blockuser admin_unblockuser admin_get_Allproducts admin_add_Product admin_edit_Product admin_delete_products admin_add_category admin_delete_category
 
@@ -32,6 +29,12 @@ exports.AdminAashboardpage=(req, res) => {
 
 exports.adminlogin= async (req, res) => {
   try {
+    if(req.session.adminlog){
+      res.redirect('/admin')
+
+    }else{
+
+  
     const adminvalid = await Admin.findOne({
       $and: [{ email: req.body.email }, { password: req.body.password }],
     });
@@ -47,6 +50,7 @@ exports.adminlogin= async (req, res) => {
       req.session.adminlog = false;
       res.redirect("/admin/login");
     }
+  }
   } catch (err) {
     res.status(500).send(err);
   }

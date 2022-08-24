@@ -9,14 +9,19 @@ const fs = require("fs");
 /* ----------------------------- userlogin page ----------------------------- */
 
 exports.userloginpage = (req, res) => {
-  res.render("user/login", { loginerror: req.session.loginerr });
+  if(req.session.userlogin){
+    res.redirect('/users')
+  }else{
+ res.render("user/login", { loginerror: req.session.loginerr });
   req.session.loginerr = false;
-};
+  }
+}
 
 /* ------------------------------- user login ------------------------------- */
 
 exports.userlogin = async (req, res) => {
   try {
+    
     const verifyUser = await User.findOne({ email: req.body.email });
 
     if (verifyUser) {
