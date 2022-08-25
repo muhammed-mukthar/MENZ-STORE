@@ -70,15 +70,16 @@ router.get("/logout", (req, res) => {
 /* -------------------------------- user home ------------------------------- */
 
 router.get("/", async(req, res) => {
+  let newproducts=await Product.find().sort({createdAt:-1}).limit(3)
+  console.log(newproducts);
   if(req.session.userlogin){
     let userid= req.session.user._id
       let cartdetails= await Cart.findOne({user:userid})
       let cartcount= cartdetails?.products.length
-      
-      res.render("user/home", { isuser: req.session.userlogin,cartcount });
+      res.render("user/home", { isuser: req.session.userlogin,cartcount ,newproducts});
 
   }else{
-      res.render("user/home", { isuser: req.session.userlogin,cartcount:'0' });
+      res.render("user/home", { isuser: req.session.userlogin,cartcount:'0',newproducts });
   }
 });
 
@@ -264,7 +265,7 @@ router.get('/orderproducts/:id',async(req,res)=>{
     }
   ])
 
-res.render('user/orderedProducts',{orderdItems})
+res.render('user/orderedProducts',{orderdItems,isuser: req.session.userlogin})
 
 
 })
@@ -277,13 +278,13 @@ res.render('user/orderedProducts',{orderdItems})
 router.get('/orders',userauth,async(req,res)=>{
   let userId=req.session.user._id
 
-  let orders= await  Order.find({userId:ObjectId(userId)})
+  let orders= await  Order.find({userId:ObjectId(userId)}).sort({date:-1})
 
   
 let date=orders[0].date.toLocaleDateString()
 console.log(date);
 
-  res.render('user/orderdetails',{orders})
+  res.render('user/orderdetails',{orders,isuser: req.session.userlogin})
 })
 
 
@@ -295,7 +296,7 @@ console.log(date);
 router.get("/productview/:id",productController.productviewuser);
 /* ---------------------------------- shop ---------------------------------- */
 
-router.get("/shop", async (req, res) => {
+router.get("/shop",async (req, res) => {
   try {
     const categories = await Category.find();
     const allProduct = await Product.find();

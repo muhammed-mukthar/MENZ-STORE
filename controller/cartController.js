@@ -311,7 +311,7 @@ exports.displaycart=async (req, res) => {
         ])
         console.log(total);
        let fulltotal= total[0].total
-        res.render('user/checkout',{total:fulltotal,userId,islogin: req.session.userlogin })
+        res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin })
         }catch(err){
           console.log(err+"error happenedd in order checkout");
         }

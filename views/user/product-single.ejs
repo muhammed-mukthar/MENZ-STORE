@@ -95,7 +95,7 @@
     			<div class="col-lg-6 mb-5 ftco-animate owl-carousel ">
 					<%for(i=0;i< imagelength;i++){%>
 					
-    				<div><img id="image-zoom" src="/<%=products.image[i]%>" class="img-fluid" alt="product image"></div>
+    				<div  ><img id="image-zoom" src="/<%=products.image[i]%>" class="img-fluid" alt="product image"></div>
 				
 					<%}%>
     			</div>
@@ -368,7 +368,16 @@
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
-
+  <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+ <script>
+var options = {
+    width: 400,
+    zoomWidth: 500,
+    offset: {vertical: 0, horizontal: 10}
+};
+new ImageZoom(document.getElementById("img-container"), options);
+ 
+</script>
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
   <script src="/js/popper.min.js"></script>

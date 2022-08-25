@@ -278,10 +278,8 @@ const cropper1 = new Cropper(image1, {
   movable: false,
   minCropBoxWidth: 50,
   minCropBoxHeight: 50,
-  data:{ //define cropbox size
-      width: 240,
-      height:  90,
-    }, 
+  aspectRatio: 1 / 1,
+
 })
 // When crop button is clicked this event will get triggered
 crop_btn1.addEventListener('click', () => {
@@ -348,10 +346,8 @@ const cropper2 = new Cropper(image2, {
   movable: false,
   minCropBoxWidth: 50,
   minCropBoxHeight: 50,
-  data:{ //define cropbox size
-      width: 240,
-      height:  90,
-    }, 
+  aspectRatio: 1 / 1,
+
 })
 // When crop button is clicked this event will get triggered
 crop_btn2.addEventListener('click', () => {
@@ -421,11 +417,12 @@ const cropper3 = new Cropper(image3, {
   movable: false,
   minCropBoxWidth: 50,
   minCropBoxHeight: 50,
-  data:{ //define cropbox size
-      width: 240,
-      height:  90,
-    }, 
+  
+    aspectRatio: 1 / 1,
+   
+
 })
+
 // When crop button is clicked this event will get triggered
 crop_btn3.addEventListener('click', () => {
   // This method coverts the selected cropped image on the cropper canvas into a blob object
