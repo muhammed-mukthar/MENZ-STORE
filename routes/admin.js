@@ -229,5 +229,25 @@ res.render('admin/orderedusers',{userDetails})
 })
 
 
+router.post('/orderstatus/:id',async(req,res)=>{
+  try{
+    let orderId=req.params.id
+    let updatedstatus=req.body.status
+  
+    await Order.updateOne({_id:orderId},{
+      $set:{
+        status:updatedstatus
+      }
+    })
+    res.redirect('/admin/orders')
+
+  }catch(err){
+    console.log('error happened in order status'+err);
+  }
+
+ 
+})
+
+
 
 module.exports = router;

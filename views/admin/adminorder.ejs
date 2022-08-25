@@ -75,11 +75,14 @@
                       <td><a class="btn btn-primary" href="/admin/orderedproducts/<%=orderinfo[i]._id%>">products</a></td>
                       <td><a class="btn btn-primary" href="/admin/userinfo/<%=orderinfo[i]._id%>">user Info</a></td>
                       <td><%=orderinfo[i].status%></td>
+                      <% if(orderinfo[i].status =='cancelled'){%>
+                        <td><p class="text-danger">Order has been cancelled</p></td>
+                        <%}else{%>
                        <td>
-                        <form action="/admin/orderstatus" method="post">
-                        <select class="" name="size" id="size">
+                        <form action="/admin/orderstatus/<%=orderinfo[i]._id%>" method="post">
+                        <select class="" name="status" id="size">
                         <option value="<%=orderinfo[i].status%>" selected><%=orderinfo[i].status%></option>
-                        <option value="Canceled">cancelled</option>
+                        <option value="cancelled">cancelled</option>
                         <option value="shipped">shipped</option>
                         <option value="out for delivery">out for delivery</option>
                         <option value="delivered">delivered</option>
@@ -88,6 +91,7 @@
                     <button class="btn btn-success" type="submit">submit</button>
                 </form>
             </td> 
+            <%}%>
         
                   </tr>
               <%}%>
