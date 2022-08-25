@@ -5,6 +5,8 @@ const adminController=require('../controller/admincontroller')
 const userController=require('../controller/usercontroller')
 const productController=require('../controller/productcontroller')
 const categoryController=require('../controller/categoryController')
+const Order=require('../models/order')
+var ObjectId = require("mongoose").Types.ObjectId;
 
 const fs = require("fs");
 
@@ -157,6 +159,74 @@ router.post("/category",adminauth,categoryController.addCategory );
 
 router.get('/category/:id',adminauth,categoryController.deleteCategory)
 
+
+router.get('/orders',adminauth,async(req,res)=>{
+
+  let  orderinfo=await Order.find()
+
+  
+ 
+
+  res.render('admin/adminorder',{orderinfo})
+})
+
+
+router.get('/orderedproducts/:id',async(req,res)=>{
+  let orderId=req.params.id
+  let orderdItems = await Order.aggregate([
+    {
+      $match: { _id: ObjectId(orderId) },
+    },
+    {
+      $unwind:'$products'
+    },{
+      $project:{
+        item:'$products.item',
+        quantity:"$products.quantity"
+      }
+    },{
+      $lookup:{
+        from:'products',
+        localField:'item',
+        foreignField:'_id',
+        as:'product'
+    }
+    },
+    {
+      $project: {
+        item: 1,
+        quantity: 1,
+        product: { $arrayElemAt: ["$product", 0] },
+      },
+    }
+  ])
+
+res.render('admin/orderproducts',{orderdItems})
+
+
+})
+
+router.get('/userinfo/:id',async(req,res)=>{
+  let orderId=req.params.id
+
+  const userDetails = await Order.aggregate([
+        
+    {
+     
+        $match: { _id: ObjectId(orderId) },
+      },{
+        $lookup:{
+            from:'users',
+            localField:'userId',
+            foreignField:'_id',
+            as:'userData'
+        }
+    },
+  ])
+  console.log(userDetails[0].userData[0].name);
+
+res.render('admin/orderedusers',{userDetails})
+})
 
 
 

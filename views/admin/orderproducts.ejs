@@ -1,0 +1,85 @@
+<%-include('../include/adminheader.ejs')-%>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+         
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+  
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+    <section>
+        <div class="container mt-3">
+         
+            <table id="example" class="display responsive nowrap" style="width:100%">
+              <thead class="theadclass">
+                <%if(message){%>
+                  <%=message.message%>
+                  <%}%>
+                <tr>
+                   
+                      <th scope="col">Product name</th>
+                      <th scope="col">description</th>
+                      <th scope="col">category</th>
+  
+                    
+                      <th scope="col">actual price</th>
+                      <th scope="col">quantity</th>
+                      
+                      <th scope="col">image</th>
+                     
+                    
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for ( let i=0; i < orderdItems.length; i++){ %>
+                    <tr>
+                     
+                      <td><%=orderdItems[i].product.product_name%></td>
+                      <td><%=orderdItems[i].product.desc%></td>
+                      
+                      
+                       
+                        <td><%=orderdItems[i].product.category%></td>
+                      
+                          
+                      
+                    
+                        <td><%=orderdItems[i].product.price%></td>
+                        <td><%=orderdItems[i].quantity%></td>
+                        <td><img src="/<%=orderdItems[i].product.image[0]%>"width="50" class="img-thumbnail" alt="product image"></td>
+                      
+                      
+                    </tr>
+                <%}%>
+                  </tbody>
+                  
+       
+          </table>
+          
+        </div>
+  
+  </section>
+
+
+
+ 
+
+
+<%-include('../include/adminresfooter.ejs')-%>

@@ -17,13 +17,13 @@
               <a class="nav-link" href="/admin/orders">Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/admin/products">Products</a>
+              <a class="nav-link " href="/admin/products">Products</a>
             </li>
             <li class="nav-item">
               <a href="/admin/usermanagement" class="nav-link ">Users</a>
             </li>
             <li class="nav-item">
-              <a href="/admin/category" class="nav-link ">Category</a>
+              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
             </li>
             <li class="nav-item">
               <a href="/admin/logout" class="nav-link ">Sign out</a>
@@ -32,8 +32,6 @@
         </div>
       </div>
     </nav>
-
-
 
     
     <section>
@@ -65,13 +63,7 @@
                    
                     <td><%=productdetails[i].product_name%></td>
                     <td><%=productdetails[i].desc%></td>
-                    
-                    
-                     
                       <td><%=productdetails[i].category%></td>
-                    
-                        
-                    
                       <td><%=productdetails[i].size%></td>
                       <td><%=productdetails[i].stock%></td>
                       <td><%=productdetails[i].price%></td>

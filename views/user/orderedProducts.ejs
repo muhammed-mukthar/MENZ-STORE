@@ -14,7 +14,6 @@ rel="stylesheet"
 />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
@@ -113,33 +112,28 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                     
                       <div class="card shadow-0 border mb-4">
                         <div class="card-body">
-                          <%orders.forEach( function(orders){%>
-                          <div class="row py-5">
+                          <%for(let i=0;i < orderdItems.length;i++){%>
+                            <div class="row">
+                            <div class="col-md-2">
+                                <img src="/<%=orderdItems[i].product.image[0]%>"
+                                  class="img-fluid" alt="<%=orderdItems[i].product.product_name%>">
+                              </div>
                          
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0"><%=orders.date.toLocaleDateString()%></p>
+                            <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                              <p class="text-muted mb-0"><%=orderdItems[i].product.product_name%></p>
                             </div>
-                            <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0 small"><%=orders.deliveryDetails.address1%></p>
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0 small"><%=orders.totalAmount%></p>
+                            <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                              <p class="text-muted mb-0 small"><%=orderdItems[i].product.desc%></p>
                             </div>
                             <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0 small"><%=orders.status%></p>
+                              <p class="text-muted mb-0 small"><%=orderdItems[i].product.price%></p>
                             </div>
+                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                <p class="text-muted mb-0 small"><%=orderdItems[i].quantity%></p>
+                              </div>
                             
-                            <div class="col-md-2 text-center d-flex flex-column justify-content-center align-items-center">
-                             <a class="btn btn-success my-2" href="/users/orderproducts/<%=orders._id%>">Products</a>
-                              <%if(orders.status=='cancelled'){%>
-                              <%}else{%>
-
-                             <a class="btn btn-danger my-2 text-white " onclick="confirm_Delete('<%=orders._id%>')">Cancel</a>
-                                <%}%>
-                            </div>
-                       
                           </div>
-                          <%})%>
+                          <%}%>
                           
                           </div>
                         </div>
@@ -156,81 +150,7 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    function confirm_Delete(id){
-      Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        data:{
-				'orderId': id,
-			},
-      url : '/users/ordercancel/',
-        method:'post',
-       
-        success:(response)=>{
-          location.reload()
-        }
-      })
-            
   
-    }
-  
-  })
-    }
-  </script>
-
-  <!-- <script>
-    function confirm_Delete(id) {
-      
-    
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this product!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((result) => {
-      
-
-      
-      // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
-      if (result.isConfirmed) {
-        $.ajax({
-		
-			data:{
-				'orderId': id,
-			},
-      url : '/users/ordercancel/'+orderId,
-			method: 'post',
-			success:(res)=>{
-    
-          location.reload()
-          Swal.fire("order has been deleted!", {
-          icon: "success",
-        });
-     
-      }
-        })
-      
-     
-      } else {
-        swal("canceled delete order!");
-      }
-    });
-    }
-    </script>  -->
-    
- 
-
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
   <script src="/js/popper.min.js"></script>

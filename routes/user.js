@@ -216,6 +216,61 @@ router.get('/orderplaced',userauth,(req,res)=>{
   res.render('user/orderplaced')
 })
 
+/* ----------------------------- order cancelled ---------------------------- */
+
+router.post('/ordercancel',async(req,res)=>{
+
+  let id=req.body.orderId
+let updated=await  Order.updateOne({_id:ObjectId(id)},{
+  $set:{
+    status:"cancelled"
+  }
+})
+console.log(updated);
+// res.redirect('/users/orders')  
+res.json('res')
+
+})
+
+/* ------------------------ ordered products details ------------------------ */
+
+router.get('/orderproducts/:id',async(req,res)=>{
+  let orderId=req.params.id
+  let orderdItems = await Order.aggregate([
+    {
+      $match: { _id: ObjectId(orderId) },
+    },
+    {
+      $unwind:'$products'
+    },{
+      $project:{
+        item:'$products.item',
+        quantity:"$products.quantity"
+      }
+    },{
+      $lookup:{
+        from:'products',
+        localField:'item',
+        foreignField:'_id',
+        as:'product'
+    }
+    },
+    {
+      $project: {
+        item: 1,
+        quantity: 1,
+        product: { $arrayElemAt: ["$product", 0] },
+      },
+    }
+  ])
+
+res.render('user/orderedProducts',{orderdItems})
+
+
+})
+
+
+
 /* ----------------------------- goto order page ---------------------------- */
 
 
@@ -224,7 +279,9 @@ router.get('/orders',userauth,async(req,res)=>{
 
   let orders= await  Order.find({userId:ObjectId(userId)})
 
-  console.log(orders);
+  
+let date=orders[0].date.toLocaleDateString()
+console.log(date);
 
   res.render('user/orderdetails',{orders})
 })

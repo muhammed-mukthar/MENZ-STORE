@@ -29,9 +29,6 @@ const cart = require("../models/cart");
 exports.displaycart=async (req, res) => {
   let userId = req.session.user?._id;
 
-
-
-
   let cartItems = await Cart.aggregate([
     {
       $match: { user: ObjectId(userId) },

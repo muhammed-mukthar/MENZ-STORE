@@ -13,8 +13,6 @@ const methodOverride = require("method-override");
 const crypto=require('crypto')
 const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
-
-
 dotenv.config();
 
 const port = process.env.PORT || 3000;
