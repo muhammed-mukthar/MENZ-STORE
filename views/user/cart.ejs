@@ -124,7 +124,7 @@
 						        	<p><%=cartItems[i].product.desc%></p>
 						        </td>
 						        
-						        <td class="price"><%=cartItems[i].product.price%>Rs</td>
+						        <td class="price" id="prosingleprice" ><%=cartItems[i].product.price%>Rs</td>
 								
 						       
 						       
@@ -140,7 +140,7 @@
                                             onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' , 1)">+</button>
                                     </div>
 						        
-						        <td class="total"><%=cartItems[i].product.price%></td>
+						        <td class="total" id="productpriceincrease" ><%= cartItems[i].quantity * cartItems[i].product.price%></td>
 						      </tr><!-- END TR-->
 
 						     
@@ -323,7 +323,7 @@
 	<script type="text/javascript">
 		 function changeQuantity(cartId, proId, userId,count) {
         const quantity = parseInt(document.getElementById(proId).innerHTML)
-   
+		const singleprodprice=parseInt(document.getElementById('prosingleprice').innerHTML)
         // count = parseInt(count)
       
         $.ajax({
@@ -333,7 +333,9 @@
             cart: cartId,
             product: proId,
             count: count,
-            quantity: quantity
+            quantity: quantity,
+			singleproductprice:singleprodprice,
+
           },
           method: 'post',
           success: (res) => {
@@ -357,6 +359,9 @@
 					document.getElementById(proId).innerHTML=quantity+count;
           document.getElementById('totalvalue').innerHTML=res.totals;
 		  document.getElementById('fulltotal').innerHTML=res.totals;
+		  document.getElementById('productpriceincrease').innerHTML=res.singleproamount;
+		//   console.log(res.singleproamount);
+
 				}
           }
         })

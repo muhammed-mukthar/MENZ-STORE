@@ -1,11 +1,24 @@
-const router = require("express").Router();
+
 const Admin = require("../models/admin");
-const User = require("../models/user");
-const Product = require("../models/product");
-const Category = require("../models/category");
+
+
 const path=require('path')
 var ObjectId = require("mongoose").Types.ObjectId;
 const fs = require("fs");   
+
+const User = require("../models/user");
+const Cart = require("../models/cart");
+const Product = require("../models/product");
+const Category = require("../models/category");
+const Order=require('../models/order')
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const cookieParser = require("cookie-parser");
+
+const dotenv = require("dotenv");
+dotenv.config();
+
+
 
 /* ------------------------------ all products ------------------------------ */
 
@@ -33,70 +46,64 @@ exports.addproductspage = async (req, res) => {
 };
 
 /* ------------------------------- add product ------------------------------ */
+exports.addproduct=async(req,res)=>{
+  try{
+    console.log(req.files.image1);
+    console.log(req.files.image2);
+    console.log(req.files.image3);
 
+  let userfiles=[]
 
+  if(req.files?.image1){ userfiles.push(req.files?.image1)}
+  if(req.files?.image2){ userfiles.push(req.files?.image2)}
 
+  if(req.files?.image3){ userfiles.push(req.files?.image3)}
 
+    const imgPath=[]
+    console.log(userfiles.length +"image length add product");
+    if(userfiles.length){
+      for(let i=0;i<userfiles.length;i++){
+        var uploadpath='./public/productimage/'+Date.now()+i+'.jpeg'
+       var img='productimage/'+Date.now()+i+'.jpeg'
 
-
-
-
-// exports.addproduct = (req, res) => {  
-//   try {
-//     console.log(req.body,req.files);
-//  console.log(req.body.productname)
-//    let images=[]
-//     if(req.files?.image1){
-//         images.push(req.files?.image1)
-//     }
-//     if(req.files?.image2){
-//         images.push(req.files?.image2)
-//     }
-//     if(req.files?.image3){
-//         images.push(req.files?.image3)
-//     }
-//     const imagepath=[]
-//     if(images.length){
-//     for(let i=0;i<images.length;i++){
-//        let uploadpath='./public/productimage/' + Date.now()+i+'-'+ '.jpeg';
-//        let img='productimage/'+Date.now()+i+'.jpeg';
-//        imagepath.push(img)
-//        images[i]?.mv(uploadpath,(err)=>{
-//         console.log(err);
-//         returnres.status(500).send(err)
-//        })
-
-//     }    
-//     }
-
-// console.log(imagepath);
-//     var Productsave = new Product({
-//       product_name: req.body.productname,
-//       desc: req.body.desc,
-//       category: req.body.category,
-//       subcategory: req.body.subcategory,
-//       size: req.body.size,
-//       stock: req.body.stock,
-//       price: req.body.price,
-//       image:imagepath
-//     });
-
-//     Productsave.save((err) => {
-//       if (err) {
-//         res.json({ message: err.message, type: "danger" });
-//       } else {
-//         req.session.message = {
-//           type: "success",
-//           message: "User added succesfilly",
-//         };
-//         res.redirect("/admin/products");
-//       }
-//     });
-
-//   } catch (err) {
-//     res.send(err+ "edit product").status(err);
-//   }
-// };
+        imgPath.push(img)
+        userfiles[i]?.mv(uploadpath,(err)=>{
+          if(err){
+            console.log(err+"error happened while moving image in add product")
+          }else{
+            console.log("image"+i+"added");
+          }})
+      }//end of for loop
+      
+      const productsave= await new Product({
+        product_name:req.body.productname,
+        desc:req.body.description ,
+        category: req.body.category,
+        size: req.body.size,
+        stock: req.body.stock,
+        price: req.body.price,
+        // offerprice:req.body.offerprice,
+        image:imgPath,
+        
+      })
+      if(productsave){
+         await productsave.save()
+         req.session.message = {
+          type: "success",
+           message: "Product added succesfilly",
+}
+         res.redirect('/admin/products')
+      }else{
+        res.console.log(err+"error in saving the new product in add product")
+      }
+//end of if statement 
+    }else{
+      console.log("error happend in moving images in add products");
+    }
+  }catch(err){
+    console.log(err+"error in add product")
+  }
+}
 
 /* ------------------------------ editproducts page ------------------------------ */
 
@@ -292,4 +299,30 @@ exports.productviewuser= async (req, res) => {
     console.error('error occured on product view user');
   }
 
+}
+
+exports.displayshop=async (req, res) => {
+  try {
+    const categories = await Category.find();
+    const allProduct = await Product.find();
+    if(req.session.userlogin){
+      let userid= req.session.user._id
+        let cartdetails= await Cart.findOne({user:userid})
+        let cartcount= cartdetails?.products.length
+        res.render("user/shop", {
+          products: allProduct,
+          isuser: req.session.userlogin,
+          categories,cartcount
+        });
+    }else{
+      res.render("user/shop", {
+        products: allProduct,
+        isuser: req.session.userlogin,
+        categories,cartcount:'0'
+      });
+
+    }
+  } catch (err) {
+    console.log(err + "shop");
+  }
 }

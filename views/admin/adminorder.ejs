@@ -56,7 +56,7 @@
              
                     <th scope="col">user details</th>
                     <th scope="col">Status</th>
-                    <th scope="col">change Status</th>
+                    <th scope="col">Order Status</th>
                   
               </tr>
                 </thead>
@@ -77,7 +77,10 @@
                       <td><%=orderinfo[i].status%></td>
                       <% if(orderinfo[i].status =='cancelled'){%>
                         <td><p class="text-danger">Order has been cancelled</p></td>
-                        <%}else{%>
+                        <%}else if(orderinfo[i].status =='delivered'){%>
+                          <td><p class="text-success">Order has been delivered</p></td>
+
+                          <%}else{%>
                        <td>
                         <form action="/admin/orderstatus/<%=orderinfo[i]._id%>" method="post">
                         <select class="" name="status" id="size">

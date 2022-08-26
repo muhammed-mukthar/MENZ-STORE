@@ -19,6 +19,7 @@ exports.sendOTP=async(req,res)=>{
     const isphoneregistered=await User.findOne({phone:req.body.phone})
     console.log(isphoneregistered);
   
+  
     if(!isphoneregistered){
       req.session.message = {
         type: "danger",
@@ -33,8 +34,10 @@ exports.sendOTP=async(req,res)=>{
           type:"danger",
           message:"you are restricted to login"
         }
+
         res.redirect('/admin/sendotp')
       }else{
+        req.session.number=isphoneregistered.phone
   
       client.verify
     .services(serviceId)
@@ -70,7 +73,10 @@ exports.sendOTP=async(req,res)=>{
 
 /* ------------------------------- verify otp ------------------------------- */
 
-exports.verifyOtp=(req,res)=>{
+exports.verifyOtp=async(req,res)=>{
+  console.log(req.session.number);
+  const verifyUser = await User.findOne({ phone: req.session.number });
+  req.session.user=verifyUser
   const{otp}=req.body
   
   client.verify
@@ -83,7 +89,7 @@ exports.verifyOtp=(req,res)=>{
 .then(resp =>{
 console.log(resp.status,resp.valid);
   if(resp.valid){
-   
+    
        req.session.userlogin=true
     res.redirect('/users')
   }else{

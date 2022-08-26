@@ -12,7 +12,7 @@ dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
 const CartController=require('../controller/cartController')
 
-const otpcontroller = require("../controller/otpcontroller");
+
 
 const userController = require("../controller/usercontroller");
 const user = require("../models/user");
@@ -28,6 +28,7 @@ const cart = require("../models/cart");
 
 exports.displaycart=async (req, res) => {
   let userId = req.session.user?._id;
+
 
   let cartItems = await Cart.aggregate([
     {
@@ -91,6 +92,11 @@ exports.displaycart=async (req, res) => {
     }
   }
   ])
+
+
+
+
+  
   console.log(total);
  let fulltotal= total[0]?.total
 
@@ -106,9 +112,13 @@ exports.displaycart=async (req, res) => {
     let  count = req.body.count
       console.log(count);
     let quantity = parseInt(req.body.quantity)
+    let singleproductprice=parseInt(req.body.singleproductprice)
     let cartid=req.body.cart;
     let productId=req.body.product
     let userId = req.session.user?._id;
+
+    let singleproamount=quantity*singleproductprice
+    
     
     if(count==-1 && quantity==1){
     
@@ -203,12 +213,13 @@ exports.displaycart=async (req, res) => {
                 ])
                 console.log(total);
                let totals= total[0].total
+
+        
+                console.log(singleproamount+"fkjdslkhjsjkgbjkjlklsjghlk");
     
-                
     
     
-    
-          res.json({status:true,totals})
+          res.json({status:true,totals,singleproamount})
                 
     
 
