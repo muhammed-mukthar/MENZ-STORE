@@ -1,4 +1,6 @@
-
+.form-control{
+  font-weight: bold !important;
+}
 
 :root {
   --blue: #007bff;

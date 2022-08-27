@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
+/* -------------------------------- models -------------------------------- */
 const User = require("../models/user");
 const Cart = require("../models/cart");
 const Product = require("../models/product");
 const Category = require("../models/category");
 const Order = require("../models/order");
+const Address=require('../models/savedDetails')
+/* ------------------------------------*  ----------------------------------- */
+
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
@@ -12,7 +16,6 @@ router.use(cookieParser());
 const dotenv = require("dotenv");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
-
 const cartController = require("../controller/cartController");
 const otpcontroller = require("../controller/otpcontroller");
 const productController = require("../controller/productcontroller");
@@ -291,8 +294,168 @@ router.get("/category/:id", categoryController.displaybycategory);
 
 /* ------------------------------ user profile ------------------------------ */
 
-router.get("/userprofile", (req, res) => {
-  res.render("user/userdetails");
+router.get("/userprofile", userauth, async (req, res) => {
+  let userId = req.session.user._id;
+  let userdetails = await User.findOne({ _id: userId })
+
+  let saveaddress=await Address.find({userId:ObjectId(userId)})
+  console.log(saveaddress);
+  
+  res.render("user/userdetails", {
+    userdetails,
+    isuser: req.session.userlogin,
+    saveaddress
+  });
 });
+
+/* ----------------------------- change password ---------------------------- */
+
+router.get("/changepassword", userauth, (req, res) => {
+  res.render("user/changePassword", { isuser: req.session.userlogin });
+});
+
+/* change user password check current password is correct
+
+ if it is correct update the password and bcrypt */
+router.post("/changepassword", userauth, async (req, res) => {
+  let userId = req.session.user._id;
+  let enteredPassword = req.body.currentPassword;
+  let newPassword = req.body.NewPassword;
+  let userdetails = await User.findOne({ _id: userId });
+  console.log(userdetails + "user details here");
+  let verifypassword = bcrypt.compareSync(
+    enteredPassword,
+    userdetails.password
+  ); //comparing changed password and new password is same
+
+  console.log(verifypassword + "user password checking");
+
+  if (verifypassword) {
+    if (enteredPassword == newPassword) {
+      req.session.message = {
+        type: "danger",
+        message: "cannot type old password",
+      };
+      res.redirect("/users/changePassword");
+    } else {
+      await User.updateOne(
+        { _id: ObjectId(userId) },
+        {
+          $set: {
+            password: bcrypt.hashSync(newPassword, 10),
+          },
+        }
+      );
+
+      req.session.message = {
+        type: "success",
+        message: "password changed",
+      };
+
+      res.redirect("/users/changePassword");
+    }
+  } else {
+    req.session.message = {
+      type: "danger",
+      message: "password is not correct",
+    };
+    res.redirect("/users/changePassword");
+  }
+
+  // res.render('user/changePassword')
+});
+
+
+
+
+
+
+
+
+/* ------------------------------ edit profile ------------------------------ */
+
+router.post("/editprofile", userauth, async (req, res) => {
+  try {
+    let userId = req.session.user._id;
+    let changed_email = req.body.email;
+    let changed_name = req.body.name;
+    let changed_phone = req.body.phone;
+    let password=req.body.password
+
+    let userdetails = await User.findOne({ _id: ObjectId(userId) });
+  
+    let verifypassword = bcrypt.compareSync(
+      password,
+      userdetails.password
+    );
+
+    console.log(changed_email+"changed email"+userId+"userid"+changed_name+"changed name"+"changed phone"+changed_phone);
+if(verifypassword){
+  
+  await User.updateOne(
+    { _id:ObjectId(userId)  },
+    {
+      $set: {
+        name: changed_name,
+        email: changed_email,
+        phone: changed_phone,
+      },
+    }
+  );
+  req.session.message = {
+    type: "success",
+    message: "userdetails updated",
+  };
+  res.redirect("/users/userprofile");
+}else{
+  req.session.message = {
+    type: "danger",
+    message: "invalid  password",
+  };
+  res.redirect("/users/userprofile");
+}
+
+
+  } catch (err) {
+    console.log(err + "error at editing profile details");
+  }
+});
+
+/* ------------------------------ save address ------------------------------ */
+
+
+router.post('/saveaddress',userauth,async(req,res)=>{
+  let address1=req.body.address1
+  let address2=req.body.address2
+  let town=req.body.town
+  let postcode=req.body.postcode
+  let userId = req.session.user._id
+console.log(address1+"address1"+address2+"address2"+town+"town "+postcode+"post code"+userId+"user id");
+  let savedaddress= new Address({
+    userId:ObjectId(userId),
+    address1:address1,
+    address2 :address2,
+    town:town,
+    postcode:postcode
+})
+await savedaddress.save()
+res.redirect("/users/userprofile");
+})
+
+/* ----------------------------- remove address ----------------------------- */
+
+
+router.post('/removeaddress',userauth,async(req,res)=>{
+  
+try{
+  let addressId=req.body.AddressId
+  await Address.deleteOne({_id:addressId})
+  res.json('removed')
+}catch(err){
+  console.log(err+"error happened remove address");
+}
+
+})
+
 
 module.exports = router;

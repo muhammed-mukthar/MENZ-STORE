@@ -324,7 +324,7 @@
 		 function changeQuantity(cartId, proId, userId,count) {
         const quantity = parseInt(document.getElementById(proId).innerHTML)
 		const singleprodprice=parseInt(document.getElementById('prosingleprice').innerHTML)
-        // count = parseInt(count)
+      
       
         $.ajax({
           url: '/users/change-product-quantity',
@@ -335,6 +335,7 @@
             count: count,
             quantity: quantity,
 			singleproductprice:singleprodprice,
+			totalprice:singleprodprice*quantity
 
           },
           method: 'post',
@@ -359,7 +360,7 @@
 					document.getElementById(proId).innerHTML=quantity+count;
           document.getElementById('totalvalue').innerHTML=res.totals;
 		  document.getElementById('fulltotal').innerHTML=res.totals;
-		  document.getElementById('productpriceincrease').innerHTML=res.singleproamount;
+		  document.getElementById('prosingleprice').innerHTML=totalprice;
 		//   console.log(res.singleproamount);
 
 				}

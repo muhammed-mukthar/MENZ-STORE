@@ -10,11 +10,7 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
-const CartController=require('../controller/cartController')
 
-
-
-const userController = require("../controller/usercontroller");
 const user = require("../models/user");
 const category = require("../models/category");
 const { pipeline } = require("stream");
@@ -112,12 +108,13 @@ exports.displaycart=async (req, res) => {
     let  count = req.body.count
       console.log(count);
     let quantity = parseInt(req.body.quantity)
+    let quantitchange=quantity
     let singleproductprice=parseInt(req.body.singleproductprice)
     let cartid=req.body.cart;
     let productId=req.body.product
     let userId = req.session.user?._id;
 
-    let singleproamount=quantity*singleproductprice
+   
     
     
     if(count==-1 && quantity==1){
@@ -172,6 +169,7 @@ exports.displaycart=async (req, res) => {
         res.json({removeproduct:true,totals})
      
     }else{
+      
     
       await Cart.updateOne({_id:ObjectId(req.body.cart),'products.item':ObjectId(req.body.product )},
                 {
@@ -215,11 +213,12 @@ exports.displaycart=async (req, res) => {
                let totals= total[0].total
 
         
-                console.log(singleproamount+"fkjdslkhjsjkgbjkjlklsjghlk");
+             
     
-    
-    
-          res.json({status:true,totals,singleproamount})
+               
+
+
+          res.json({status:true,totals})
                 
     
 

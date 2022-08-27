@@ -187,48 +187,6 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
     }
   </script>
 
-  <!-- <script>
-    function confirm_Delete(id) {
-      
-    
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this product!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((result) => {
-      
-
-      
-      // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
-      if (result.isConfirmed) {
-        $.ajax({
-		
-			data:{
-				'orderId': id,
-			},
-      url : '/users/ordercancel/'+orderId,
-			method: 'post',
-			success:(res)=>{
-    
-          location.reload()
-          Swal.fire("order has been deleted!", {
-          icon: "success",
-        });
-     
-      }
-        })
-      
-     
-      } else {
-        swal("canceled delete order!");
-      }
-    });
-    }
-    </script>  -->
-    
  
 
   <script src="/js/jquery.min.js"></script>

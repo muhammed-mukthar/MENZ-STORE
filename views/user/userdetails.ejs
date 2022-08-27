@@ -86,152 +86,140 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-8 ftco-animate">
-						<form action="" id="checkout-form" class="billing-form">
+						<form action="/users/editprofile"  method="post" class="billing-form">
 							<h3 class="mb-4 billing-heading">User  Profile</h3>
+
 	          	<div class="row align-items-end">
 	          		<div class="col-md-6">
 	                <div class="form-group">
+						<%if(message){%>
+							<h5 class="text-<%=message.type%>"><%=message.message%></h5> 
+							 <%}%>
 	                	<label for="name">Name</label>
-	                  <input type="text "name="name" class="form-control" placeholder="">
+	                  <input type="text "name="name" style="font-weight: bold;"  value="<%=userdetails.name%>" class="form-control" placeholder="name">
 	                </div>
 	              </div>
-                  <div class="col-md-6">
+				  <div class="col-md-6">
 	                <div class="form-group">
-	                	<label for="name">Name</label>
-	                  <input type="text "name="name" class="form-control" placeholder="">
+	                	<label for="phone">Phone</label>
+	                  <input type="number" name="phone" style="font-weight: bold;" value="<%=userdetails.phone%>"  class="form-control fw" placeholder="phone">
 	                </div>
 	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="emailaddress">Email Address</label>
+	                  <input type="text" name="email" style="font-weight: bold;" value="<%=userdetails.email%>"  class="form-control" placeholder="email">
+					 
+	                </div>
+                </div>
+				<div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="phone">password</label>
+	                  <input type="password" name="password" style="font-weight: bold;"  class="form-control fw" placeholder="enter password">
+	                </div>
+	              </div>
+			</div>
+			<button  type="submit"  class="btn btn-primary mt-5 py-3  px-4">save Address </button>
+			</form>
+		
+			<div class="col-xl-8 ftco-animate">
+			
+		
+			<div class="w-100"></div>
+			<div class="col-md-12 my-5">
+			 
+									 <div class="forgot_password" >
+									   <a href="/users/changepassword" class="mr-3"> Forgot Password</a>
+									   
+									  
+									 </div>
+							 
+			 </div> 
+		 </div>
+
+		 
+		 <%if(message){%>
+			<h5 class="text-<%=message.type%>my-5"><%=message.message%></h5> 
+			 <%}%>
+		 
+			<form action="/users/saveaddress" method="post" id="" class="billing-form">
+				<h3 class="mb-4 billing-heading">User  Profile</h3>
+			<div class="form-group">
+				
+				
                 <div class="w-100"></div>
 		           
-		            <div class="w-100"></div>
+		          	<div class="row align-items-end">
 		            <div class="col-md-6">
 		            	<div class="form-group">
 	                	<label for="streetaddress">Street Address</label>
-	                  <input type="text" class="form-control" name="address1"  placeholder="House number and street name">
+	                  <input type="text" class="form-control" name="address1" required placeholder="House number and building name">
 	                </div>
 		            </div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
-	                  <input type="text" class="form-control" name="address2" placeholder="Appartment, suite, unit etc: (optional)">
+	                  <input type="text" class="form-control" name="address2" required placeholder="Road name, Area, Colony etc" >
 	                </div>
 		            </div>
 		            <div class="w-100"></div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
 	                	<label for="towncity">Town / City</label>
-	                  <input type="text " name="town" class="form-control" placeholder="town">
+	                  <input type="text " name="town" required class="form-control" placeholder="town">
 	                </div>
 		            </div>
 		            <div class="col-md-6">
 		            	<div class="form-group">
 		            		<label for="postcodezip">Postcode / ZIP *</label>
-	                  <input type="text" name="postcode" class="form-control" placeholder="postcode">
+	                  <input type="number" name="postcode" required class="form-control" placeholder="postcode">
 	                </div>
 		            </div>
 		            <div class="w-100"></div>
-		            <div class="col-md-6">
-	                <div class="form-group">
-	                	<label for="phone">Phone</label>
-	                  <input type="text" name="phone" class="form-control" placeholder="phone">
-	                </div>
-	              </div>
-	              <div class="col-md-6">
-	                <div class="form-group">
-	                	<label for="emailaddress">Email Address</label>
-	                  <input type="text" name="email" class="form-control" placeholder="email">
-					 
-	                </div>
-                </div>
-                <!-- <div class="w-100"></div> -->
-                <!-- <div class="col-md-12">
-                	<div class="form-group mt-4">
-										<div class="radio">
-										  <label class="mr-3"><input type="radio" name="optradio"> Create an Account? </label>
-										  <label><input type="radio" name="optradio"> Ship to different address</label>
-										</div>
-									</div>
-                </div> -->
-	            <!-- </div> -->
+					<div class="col-xl-8 ftco-animate">
+						<button  type="submit"  class="btn btn-primary mt-5 py-3  px-4">save details </button>
+						
+					 </div>
+		          
+          
+			  
 	          <!-- END -->
 
 
 
-	          <!-- <div class="row mt-5 pt-3 d-flex">
-	          	<div class="col-md-6 d-flex">
-	          		<div class="cart-detail cart-total bg-light p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Cart Total</h3>
-	          			<p class="d-flex">
-		    						<span>Subtotal</span>
-		    						<span>$20.60</span>
-		    					</p>
-		    					<p class="d-flex">
-		    						<span>Delivery</span>
-		    						<span>$0.00</span>
-		    					</p>
-		    					<p class="d-flex">
-		    						<span>Discount</span>
-		    						<span>$3.00</span>
-		    					</p>
-		    					<hr>
-		    					<p class="d-flex total-price">
-		    						<span>Total</span>
-		    					
-								
-		    					</p>
-								</div>
-	          	</div>
-	          	<div class="col-md-6">
-	          		<div class="cart-detail bg-light p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Payment Method</h3>
-						  <div class="form-group">
-							<div class="col-md-12">
-								<div class="radio">
-								   <label><input type="radio" value="cod"  name="paymentmethod" class="mr-2"> Cash on delivery</label>
-								</div>
-							</div>
-						</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" value="bank" name="paymentmethod" class="mr-2"> Direct Bank Tranfer</label>
-											</div>
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" value="paypal"  name="paymentmethod" class="mr-2"> Paypal</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="checkbox">
-											   <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-											</div>
-										</div>
-									</div>
-									<button  type="submit"  class="btn btn-primary py-3 px-4">Place an order</button>
-								</div>
-							
-	          	</div>
-	          </div> -->
 			</form>
-          </div> 
+			<div class="w-100"></div>
+		
+				<div class="col-md-10 d-flex mt-5">
+					<div class="cart-detail bg-light p-3 p-md-4">
+						<h5 class=" mb-4" style="font-weight: bold;"> Saved Address </h5>
+						
+							  <hr>
+							  <% if(saveaddress.length){%>
+							  <%for (let i=0;i < saveaddress.length;i++){%>
+							  <p class="d-flex total-price">
+								  <span class="col-3">address <%=i+1%></span>
+								  <span class="col-7"><%=saveaddress[i].address1%></span>
+								  <a onclick="confirm_Delete('<%=saveaddress[i]._id%>')"   class="btn btn-danger text-white col-2">remove</a>
+							  </p>
+							  <%}%>
+							  <%}else{%>
+								<p class="d-flex total-price">
+									<span lass="col-12">saved address is empty</span>	
+								</p>
+								<%}%>
+							  </div>
+				</div>
+				
+			
+			
         </div>
       </div>
     </section> <!-- .section -->
+	
 
     <footer class="ftco-footer bg-light ftco-section">
       <div class="container">
-      	<div class="row">
-      		<div class="mouse">
-						<a href="#" class="mouse-icon">
-							<div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
-						</a>
-					</div>
-      	</div>
+      	
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
@@ -304,7 +292,38 @@
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
-
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function confirm_Delete(id){
+      Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        data:{
+				'AddressId': id,
+			},
+		
+      url : '/users/removeaddress',
+        method:'post',
+       
+        success:(response)=>{
+          location.reload()
+        }
+      })
+            
+  
+    }
+  
+  })
+    }
+  </script>
 
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
