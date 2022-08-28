@@ -11,6 +11,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
 
+const Address=require('../models/savedAddress')
 const user = require("../models/user");
 const category = require("../models/category");
 const { pipeline } = require("stream");
@@ -108,6 +109,7 @@ exports.displaycart=async (req, res) => {
     let  count = req.body.count
       console.log(count);
     let quantity = parseInt(req.body.quantity)
+
     let quantitchange=quantity
     let singleproductprice=parseInt(req.body.singleproductprice)
     let cartid=req.body.cart;
@@ -285,6 +287,8 @@ exports.displaycart=async (req, res) => {
       exports.ordercheckout=async(req,res)=>{
         try{
           let userId = req.session.user._id;
+          let userdetails=await User.findOne({_id:ObjectId(userId)})
+          let savedAddress=await Address.find({userId:ObjectId(userId)})
         let total=await Cart.aggregate([
           {
             $match:{user:ObjectId(userId)}
@@ -319,9 +323,9 @@ exports.displaycart=async (req, res) => {
           }
         }
         ])
-        console.log(total);
+        console.log(userdetails);
        let fulltotal= total[0].total
-        res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin })
+        res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails })
         }catch(err){
           console.log(err+"error happenedd in order checkout");
         }

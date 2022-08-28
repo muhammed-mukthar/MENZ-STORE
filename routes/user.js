@@ -6,8 +6,13 @@ const Cart = require("../models/cart");
 const Product = require("../models/product");
 const Category = require("../models/category");
 const Order = require("../models/order");
-const Address=require('../models/savedDetails')
+const Address=require('../models/savedAddress')
 /* ------------------------------------*  ----------------------------------- */
+/* ---------------------------- helpers/services ---------------------------- */
+let orderServices=require('../services/orderServices')
+
+
+/* ------------------------------------ * ----------------------------------- */
 
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
@@ -29,6 +34,8 @@ const userauth = (req, res, next) => {
   if (req.session.userlogin) {
     next();
   } else {
+
+
     res.redirect("/users/login");
   }
 };
@@ -116,7 +123,7 @@ router.get("/add-to-cart/:id", userauth, cartController.addtocart);
 /* ------------------------------ order checkout ------------------------------ */
 /* -------------------------------- checkout -------------------------------- */
 
-router.get("/checkout", userauth, cartController.ordercheckout);
+router.get("/checkout", userauth, cartController.ordercheckout); 
 
 /* ------------------------------------  ----------------------------------- */
 
@@ -132,8 +139,7 @@ router.post("/cart/remove", cartController.removeCart);
 router.post("/place-order", async (req, res) => {
   try {
     let userId = req.body.userId;
-    console.log(userId);
-    console.log(req.body);
+    
     let cart = await Cart.findOne({ user: ObjectId(userId) });
     let total = await Cart.aggregate([
       {
@@ -171,32 +177,54 @@ router.post("/place-order", async (req, res) => {
       },
     ]);
     let products = cart?.products;
-    console.log(products);
-    let order = req.body;
     let totalPrice = total[0]?.total;
     let status = req.body["paymentmethod"] === "cod" ? "placed" : "pending";
+let order = req.body;
+console.log("order",JSON.stringify(order))
 
-    let deliverydetails = {
+
+let deliverydetails={}
+
+if(order.savedAddress){
+  let savedAddress=JSON.parse(req.body.savedAddress) 
+  
+   deliverydetails = {
+    mobile: order.phone,
+    address1: savedAddress.address1,
+    address2: savedAddress.address2,
+    pincode: savedAddress.pincode,
+    city: savedAddress.city,
+  };
+ 
+}else{
+  deliverydetails = {
       mobile: order.phone,
       address1: order.address1,
       address2: order.address2,
       pincode: order.postcode,
       city: order.town,
     };
+}
+let ordersave = new Order({
+  deliveryDetails: deliverydetails,
+  userId: ObjectId(order.userId),
+  paymentMethod: order["paymentmethod"],
+  products: products,
+  totalAmount: totalPrice,
+  status: status,
+  date: new Date(),
+});
 
-    let ordersave = new Order({
-      deliveryDetails: deliverydetails,
-      userId: ObjectId(order.userId),
-      paymentMethod: order["paymentmethod"],
-      products: products,
-      totalAmount: totalPrice,
-      status: status,
-      date: new Date(),
-    });
-    res.json({ status: true });
-
-    await ordersave.save();
-
+let savedOrder=  await ordersave.save();
+console.log(savedOrder+"fdkjkhfjfds",savedOrder._id);
+if(  req.body["paymentmethod"] =='cod'){
+   res.json({ status: true });
+}else{
+  orderServices.generateRazorpay(savedOrder._id,totalPrice).then((response)=>{
+    res.json(response)
+  })
+}
+       
     await Cart.deleteOne({ user: ObjectId(order.userId) });
   } catch (err) {
     console.log(err + "error happened while placing order");
@@ -435,8 +463,8 @@ console.log(address1+"address1"+address2+"address2"+town+"town "+postcode+"post 
     userId:ObjectId(userId),
     address1:address1,
     address2 :address2,
-    town:town,
-    postcode:postcode
+    city:town,
+    pincode:postcode
 })
 await savedaddress.save()
 res.redirect("/users/userprofile");
