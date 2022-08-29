@@ -205,6 +205,8 @@ if(order.savedAddress){
       city: order.town,
     };
 }
+
+
 let ordersave = new Order({
   deliveryDetails: deliverydetails,
   userId: ObjectId(order.userId),
@@ -217,8 +219,8 @@ let ordersave = new Order({
 
 let savedOrder=  await ordersave.save();
 console.log(savedOrder+"fdkjkhfjfds",savedOrder._id);
-if(  req.body["paymentmethod"] =='cod'){
-   res.json({ status: true });
+if(  req.body["paymentmethod"] === "cod"){
+   res.json({ codSuccess: true });
 }else{
   orderServices.generateRazorpay(savedOrder._id,totalPrice).then((response)=>{
     res.json(response)
@@ -230,6 +232,29 @@ if(  req.body["paymentmethod"] =='cod'){
     console.log(err + "error happened while placing order");
   }
 });
+
+/* ------------------------------ verifypayment ----------------------------- */
+
+
+router.post('/verifypayment',(req,res)=>{
+  
+    console.log(req.body,"verify paymentfghjh");
+    orderServices.verifyPayment(req.body).then(()=>{
+
+      orderServices.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+        console.log('payment successfull');
+        res.json({status:true})
+      })
+    }).catch((err)=>{
+      console.log('verify payment post');
+      res.json({status: false,errMsg:''})
+    })
+
+ 
+})
+
+
+
 
 /* ----------------------------- get orderplacedpage ----------------------------- */
 
