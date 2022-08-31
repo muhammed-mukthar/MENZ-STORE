@@ -6,6 +6,7 @@ const userController=require('../controller/usercontroller')
 const productController=require('../controller/productcontroller')
 const categoryController=require('../controller/categoryController')
 const Order=require('../models/order')
+const User=require('../models/user')
 var ObjectId = require("mongoose").Types.ObjectId;
 
 const fs = require("fs");
@@ -103,6 +104,9 @@ router.post("/category",adminauth,categoryController.addCategory );
 router.get('/category/:id',adminauth,categoryController.deleteCategory)
 
 
+/* ------------------------------- order view ------------------------------- */
+
+
 router.get('/orders',adminauth,async(req,res)=>{
 
   let  orderinfo=await Order.find()
@@ -111,6 +115,8 @@ router.get('/orders',adminauth,async(req,res)=>{
   res.render('admin/adminorder',{orderinfo})
 })
 
+
+/* --------------------------- order products info -------------------------- */
 
 router.get('/orderedproducts/:id',async(req,res)=>{
   let orderId=req.params.id
@@ -147,6 +153,9 @@ res.render('admin/orderproducts',{orderdItems})
 
 })
 
+
+/* ----------------------------- order user info ---------------------------- */
+
 router.get('/userinfo/:id',async(req,res)=>{
   let orderId=req.params.id
 
@@ -169,6 +178,8 @@ router.get('/userinfo/:id',async(req,res)=>{
 res.render('admin/orderedusers',{userDetails})
 })
 
+
+/* ------------------------------ order status ------------------------------ */
 
 router.post('/orderstatus/:id',async(req,res)=>{
   try{

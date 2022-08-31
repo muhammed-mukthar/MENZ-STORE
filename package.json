@@ -24,6 +24,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^6.5.1",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.2.10",
     "path": "^0.12.7",
     "razorpay": "^2.8.3",
     "twilio": "^3.80.1"

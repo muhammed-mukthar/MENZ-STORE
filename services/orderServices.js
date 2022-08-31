@@ -14,8 +14,8 @@ dotenv.config();
 
 var ObjectId = require("mongoose").Types.ObjectId;
 var instance = new Razorpay({
-    key_id: process.env.PAYPAL_KEY_ID,
-    key_secret: process.env.PAYPAL_SECRET_ID,
+    key_id: process.env.RAZOR_KEY_ID,
+    key_secret: process.env.RAZOR_SECRET_ID,
   });
 
 
@@ -25,6 +25,34 @@ var instance = new Razorpay({
 
 
 module.exports = {
+
+
+  getAllOrders:()=>{
+
+    return new Promise(async(resolve,reject)=>{
+      let orderdetails=await Order.find().sort({'date':-1})
+      resolve(orderdetails)
+    })
+  },
+
+  getOrdersDateandAmount:()=>{
+    return new Promise(async(resolve,reject)=>{
+      let orderDate=await Order.aggregate([     
+            {       
+                  $project:{month:{$month:"$date"},_id:0,MonthTotal:"$totalAmount"}      
+             },{
+              $group:{
+                _id:"$month",
+                total:{$sum:"$MonthTotal"}
+
+              }
+             }     
+              ])
+      resolve(orderDate)
+
+    })
+  },
+  
 
 
 
@@ -54,7 +82,7 @@ module.exports = {
     console.log(details,'verify payment services');
     return new Promise((resolve,reject)=>{
         const crypto=require('crypto')
-        let hmac=crypto.createHmac('sha256',process.env.PAYPAL_SECRET_ID)
+        let hmac=crypto.createHmac('sha256',process.env.RAZOR_SECRET_ID)
         hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]'])
         hmac=hmac.digest('hex')
         console.log(hmac);

@@ -5,6 +5,10 @@ const Admin = require("../models/admin");
 const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category")
+const orderServices=require('../services/orderServices')
+
+const Order=require('../models/order');
+const userServices = require("../services/userServices");
 
 //admin_login, admin_logout admin_getall_users admin_blockuser admin_unblockuser admin_get_Allproducts admin_add_Product admin_edit_Product admin_delete_products admin_add_category admin_delete_category
 
@@ -19,9 +23,40 @@ exports.loginpage=(req, res) => {
   /* --------------------------- admindashboard page -------------------------- */
 
 
-exports.AdminAashboardpage=(req, res) => {
+exports.AdminAashboardpage=async(req, res) => {
+  try{
+    let total = 0
+  await orderServices.getAllOrders().then((orders)=>{
+    
 
-  res.render("admin/admin");
+     orders.forEach(data => {
+      
+      total=total+data.totalAmount
+     });
+    
+   })
+console.log(total);
+
+
+let OrdersDateandAmount= await orderServices.getOrdersDateandAmount()
+console.log(OrdersDateandAmount);
+
+  userServices.getAllUser().then((usersdetails)=>{
+ 
+    orderServices.getAllOrders().then((orderdetails)=>{
+      
+     
+     res.render("admin/admin",{total,usersdetails,orderdetails,OrdersDateandAmount});
+   
+   })
+})
+  }catch(err){
+    console.log(err+'error happened in admin dashbord');
+  }
+  
+
+
+
 
 }
 

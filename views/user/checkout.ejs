@@ -21,6 +21,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AW5XHGQa4tPDFs9-1iGsvoMrpYQNdfK-cfPrm49btpIiGPQTXgC1MzrD-GCi1AxB_TnZCzQwSskgefJ-&currency=USD"></script>    
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -184,18 +186,7 @@
                 >
                   <h3 class="mb-4 billing-heading">checkout-form</h3>
                   <div class="row align-items-end">
-                    <!-- <div class="col-md-6">
-					<div class="form-group">
-					  <label for="name">Name</label>
-					  <input
-						type="text "
-						name="name"
-						class="form-control"
-						placeholder="name"
-						value="<%=userdetails.name%>"
-					  />
-					</div>
-				  </div> -->
+              
 
                     <div class="w-100"></div>
                     <div class="col-md-6">
@@ -218,26 +209,7 @@
                         />
                       </div>
                     </div>
-                    <!-- <div class="col-md-6">
-					<div class="form-group">
-					  <label for="emailaddress">Email Address</label>
-					  <input
-						type="text"
-						name="email"
-						value="<%=userdetails.email%>"
-						class="form-control"
-						placeholder="email"
-					  />
-					  <input
-						type="text"
-						name="userId"
-						value="<%=userId%>"
-						hidden
-						class="form-control"
-						placeholder=""
-					  />
-					</div>
-				  </div> -->
+                   
                     <div class="w-100"></div>
                   </div>
 
@@ -324,25 +296,12 @@
                         <div class="form-group">
                           <div class="col-md-12">
                             <div class="radio">
-                              <label
-                                ><input
-                                  type="radio"
-                                  value="paypal"
-                                  name="paymentmethod"
-                                  class="mr-2"
-                                />
-                                Paypal</label
-                              >
+                       
+                              <div id="paypal-button-container" style="margin-top: 1rem;"></div>
                             </div>
                           </div>
                         </div>
-                        <!-- <div class="form-group">
-					  <div class="col-md-12">
-						  <div class="checkbox">
-							 <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-						  </div>
-					  </div>
-				  </div> -->
+                
                         <button type="submit" class="btn btn-primary py-3 px-4">
                           Place an order
                         </button>
@@ -360,17 +319,7 @@
                 <form action="" id="checkout-form" class=" ">
                   <h3 class="mb-4 billing-heading">checkout-form</h3>
                   <div class="row align-items-end">
-                    <!-- <div class="col-md-6">
-					<div class="form-group">
-					  <label for="name">Name</label>
-					  <input
-						type="text "
-						name="name"
-						class="form-control"
-						placeholder=""
-					  />
-					</div>
-				  </div> -->
+             
 
                     <div class="w-100"></div>
 
@@ -439,34 +388,9 @@
                         />
                       </div>
                     </div>
-                    <!-- <div class="col-md-6">
-					<div class="form-group">
-					  <label for="emailaddress">Email Address</label>
-					  <input
-						type="text"
-						name="email"
-						class="form-control"
-						placeholder="email"
-					  />
-					  <input
-						type="text"
-						name="userId"
-						value="<%=userId%>"
-						hidden
-						class="form-control"
-						placeholder=""
-					  />
-					</div>
-				  </div> -->
+          
                     <div class="w-100"></div>
-                    <!-- <div class="col-md-12">
-  <div class="form-group mt-4">
-					  <div class="radio">
-						<label class="mr-3"><input type="radio" name="optradio"> Create an Account? </label>
-						<label><input type="radio" name="optradio"> Ship to different address</label>
-					  </div>
-				  </div>
-</div> -->
+  
                   </div>
                   <!-- END -->
 
@@ -515,28 +439,15 @@
                           </div>
                         </div>
 
-                        <div class="form-group">
+                          <div class="form-group">
                           <div class="col-md-12">
                             <div class="radio">
-                              <label
-                                ><input
-                                  type="radio"
-                                  value="paypal"
-                                  name="paymentmethod"
-                                  class="mr-2"
-                                />
-                                Paypal</label
-                              >
+                       
+                              <div id="paypal-button-container" style="margin-top: 1rem;"></div>
                             </div>
                           </div>
                         </div>
-                        <!-- <div class="form-group">
-					  <div class="col-md-12">
-						  <div class="checkbox">
-							 <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-						  </div>
-					  </div>
-				  </div> -->
+                
                         <button type="submit" class="btn btn-primary py-3 px-4">
                           Place an order
                         </button>
@@ -671,7 +582,7 @@
           fill="none"
           stroke-width="4"
           stroke="#eeeeee"
-        />
+        />     
         <circle
           class="path"
           cx="24"
@@ -685,6 +596,8 @@
       </svg>
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="/js/paypal-pay.js"></script>
+    
 
     <script>
       $("#checkout-form").submit((e) => {

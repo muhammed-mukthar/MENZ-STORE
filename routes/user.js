@@ -14,6 +14,7 @@ let orderServices=require('../services/orderServices')
 
 /* ------------------------------------ * ----------------------------------- */
 
+const paypal = require('../paypal')
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
@@ -39,6 +40,22 @@ const userauth = (req, res, next) => {
     res.redirect("/users/login");
   }
 };
+
+
+
+
+
+
+router.post("/api/orders", async (req, res) => {
+  const order = await paypal.createOrder();
+  res.json(order);
+});
+
+router.post("/api/orders/:orderId/capture", async (req, res) => {
+  const { orderId } = req.params;
+  const captureData = await paypal.capturePayment(orderId);
+  res.json(captureData);
+});
 
 /* ------------------------------- //get login ------------------------------ */
 router.get("/login", userController.userloginpage);
@@ -233,7 +250,7 @@ if(  req.body["paymentmethod"] === "cod"){
   }
 });
 
-/* ------------------------------ verifypayment ----------------------------- */
+/* ------------------------------ verifypayment razorpay ----------------------------- */
 
 
 router.post('/verifypayment',(req,res)=>{
