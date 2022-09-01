@@ -38,44 +38,243 @@
       
       <div class="container" style="width: 100%; height: 100%;">
         <div class="row  " >
-          <div class="d-flex  justify-content-between">
-            <div class="col-sm-6 col-xl-4">
-              <div class="\ bg-light rounded d-flex align-items-center justify-content-between p-4">
-                  <i class="fa fa-chart-line fa-3x text-primary"></i>
-                  <div class="ms-3">
-                      <p class="mb-2">Today Sale</p>
-                      <h6 class="mb-0"><%=total%>Rs</h6>
-                  </div>
-              </div>
-          </div>
-              <div class="col-sm-6 col-xl-4">
-                <div class="\  bg-light rounded d-flex align-items-center justify-content-between p-4">
+          <div class="col-12 d-flex">
+            <div class="d-flex  justify-content-between col-4 col-md-4">
+              <div class="col-sm-11 col-md-6">
+                <div class="\ bg-light rounded d-flex align-items-center  p-4">
                     <i class="fa fa-chart-line fa-3x text-primary"></i>
                     <div class="ms-3">
-                        <p class="mb-2">Today Sale</p>
-                        <h6 class="mb-0">$1234</h6>
+                        <p class="mb-2">Total Sale</p>
+                        <h6 class="mb-0"><%=total%>Rs</h6>
                     </div>
                 </div>
             </div>
-          
+               
+            </div>
+            <div class="d-flex  justify-content-between col-md-4 col-4">
+              <div class="col-sm-11 col-md-6">
+                <div class="\ bg-light rounded d-flex align-items-center  p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">NO of Users</p>
+                        <h6 class="mb-0"><%=usersdetails.length%> Users</h6>
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+            <div class="d-flex  justify-content-between col-md-4 col-4">
+              <div class="col-sm-11 col-md-6">
+                <div class="\ bg-light rounded d-flex align-items-center  p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Total Orders</p>
+                        <h6 class="mb-0"><%=orderdetails.length%> Orders</h6>
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+
           </div>
+          
          
           <div class="d-lg-flex justify-content-between">
-          <div class=" rounded h-100  col-lg-5">
-            <h6 class="mb-1">Single Line Chart</h6>
+          <div class=" rounded h-auto  col-lg-5">
+            <h6 class="mb-1">Total Sales</h6>
             <canvas id="line-chart" width="400" height="400"></canvas>
         </div>
-        <div class=" rounded h-100 col-lg-5">
-          <h6 class="mb-1">Single Line Chart</h6>
+        <div  class=" rounded h-auto col-lg-5">
+          <h6 class="mb-1">Monthly Sales</h6>
           <canvas id="myChart" width="400" height="400"></canvas>
       </div>
       </div>
+      <div>
+        <h5>Recent Orders</h5>
+                  <table id="example" class="display responsive nowrap" style="width:100%">
+            <thead class="theadclass">
+            
+              <tr>
+                 
+                    <th scope="col"> Date</th>
+                    <th scope="col">address </th>
+                    <th scope="col">payment Method</th>
+
+                    <th scope="col">Amount</th>
+            
+                    <th scope="col">product details</th>
+              
+                    <th scope="col">user details</th>
+                    <th scope="col">Status</th> 
+                  
+                  
+              </tr>
+                </thead>
+                <tbody>
+                
+                  <% for ( let i=0; i < orderdetails.length; i++){ %>
+                
+                  <tr>
+                   
+                    <td><%=orderdetails[i].date.toLocaleDateString()%></td>
+                   
+                   
+                    <td><%=orderdetails[i].deliveryDetails.address1%></td> 
+                      <td><%=orderdetails[i].paymentMethod%></td>
+                      <td>Rs<%=orderdetails[i].totalAmount%></td>
+                      <td><a class="btn btn-primary" href="/admin/orderedproducts/<%=orderdetails[i]._id%>">products</a></td>
+                      <td><a class="btn btn-primary" href="/admin/userinfo/<%=orderdetails[i]._id%>">user Info</a></td>
+                      
+                      <td><%=orderdetails[i].status%></td>
+                    
+                        
+            </td> 
+            <%}%>
+        
+                  </tr>
+          
+                </tbody>
+                
+     
+        </table>
+        
+      </div>
+
+        </div>
+      
 
         </div>
       </div>
     </section>
 
-    <%console.log(OrdersDateandAmount[0]._id)%>
+
+    
+    <script>
+      $(document).ready(function() {
+      $('#example').DataTable();
+  } );
+  </script>
+  
+
+    <script>
+
+
+      $(window).on('load',function() {
+     let money = []
+      let date = []
+      let month = []
+      let monthMoney =[]
+    
+    $.ajax({
+          url:'/admin/order-details',
+          method:'get',
+          success:(response)=>{
+  
+              
+    
+            response.forEach(data => {
+          date.push((data.date).split('T')[0])
+          money.push(data.totalAmount)
+          });
+         date.reverse()
+         money.reverse()
+           
+          }    
+    });
+    $.ajax({
+          url:'/admin/orderstat',
+          method:'get',
+          success:(response)=>{
+  
+           response.forEach(data=>{
+             
+             switch(data._id)
+             {
+              case 1 : month.push("Jan")
+                       break;
+                      case 2 : month.push("Feb")
+                       break;
+                       case 3 : month.push("Mar")
+                       break;
+                       case 4 : month.push("Apr")
+                       break;
+                       case 5 : month.push("May")
+                       break;
+                       case 6 : month.push("Jun")
+                       break;
+                       case 7 : month.push("July")
+                       break;
+                       case 8 : month.push("Aug")
+                       break;
+                       case 9 : month.push("Sep")
+                       break;
+                       case 10 : month.push("Oct")
+                       break;
+                       case 11: month.push("Nov")
+                       break;
+                       case 12: month.push("Dec")
+                       break;
+             }
+              monthMoney.push(data.total)
+  
+           })
+           month.reverse()
+           monthMoney.reverse()
+          }
+    });
+
+        setTimeout(()=>{
+          var ctx3 = $("#line-chart").get(0).getContext("2d");
+    var myChart3 = new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: date,
+            datasets: [{
+                label: "Orders this month",
+                fill: false,
+                backgroundColor: "rgba(0, 156, 255, .3)",
+                data: money
+                
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    },300)
+
+
+    
+      setTimeout(()=>{
+      var ctx3 = $("#myChart").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "line",
+         data: {
+             labels: month,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "rgba(0, 156, 255, .3)",
+                 data: monthMoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+   
+      })  
+     
+   
+
+   
+     
+     
+         
+    
+  </script>
     
 <!-- 
     <section>
@@ -87,8 +286,8 @@
           </div>
       </div>
         <canvas id="myChart" width="400" height="400"></canvas> -->
-        <script>
-           '  <%for(let i=0;i < OrdersDateandAmount.length;i++){%>'
+        <!-- <script>
+           
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'bar',
@@ -130,12 +329,12 @@
     var myChart3 = new Chart(ctx3, {
         type: "line",
         data: {
-            labels: "<%=OrdersDateandAmount[i]._id%>",
+            labels: "",
             datasets: [{
                 label: "Orders this month",
                 fill: false,
                 backgroundColor: "rgba(0, 156, 255, .3)",
-                data: "<%=OrdersDateandAmount[i].total%>"
+                data: ""
                 
             }]
         },
@@ -143,8 +342,8 @@
             responsive: true
         }
     });
-   ' <%}%>'
 
-        </script>
+
+        </script> -->
 
 <%-include('../include/adminresfooter.ejs')-%>

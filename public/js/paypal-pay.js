@@ -33,7 +33,7 @@ paypal
               transaction.id +
               "\n\nSee console for all available details"
           );
-          actions.redirect('/users/orderplaced');
+          $( "#checkoutbtn" ).trigger( "click" );
 
           // When ready to go live, remove the alert and show a success message within this page. For example:
           // var element = document.getElementById('paypal-button-container');

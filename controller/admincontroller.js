@@ -27,38 +27,32 @@ exports.AdminAashboardpage=async(req, res) => {
   try{
     let total = 0
   await orderServices.getAllOrders().then((orders)=>{
-    
-
      orders.forEach(data => {
-      
       total=total+data.totalAmount
      });
-    
    })
-console.log(total);
+   
 
 
-let OrdersDateandAmount= await orderServices.getOrdersDateandAmount()
-console.log(OrdersDateandAmount);
 
   userServices.getAllUser().then((usersdetails)=>{
  
     orderServices.getAllOrders().then((orderdetails)=>{
       
      
-     res.render("admin/admin",{total,usersdetails,orderdetails,OrdersDateandAmount});
+     res.render("admin/admin",{total,usersdetails,orderdetails});
    
    })
 })
   }catch(err){
     console.log(err+'error happened in admin dashbord');
   }
-  
-
-
-
-
 }
+
+
+
+
+
 
 /* ------------------------------- adminlogin ------------------------------- */
 
@@ -97,3 +91,4 @@ exports.adminlogout=(req, res) => {
   req.session.adminlog = false;
   res.redirect("/admin/login");
 }
+

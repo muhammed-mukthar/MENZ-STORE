@@ -27,7 +27,173 @@
     <link rel="stylesheet" href="/css/style.css">
 	<script src="/javascripts/zoomsl.min.js"></script>
   </head>
+
   <body class="goto-here">
+	<style>
+		option {
+    color: black;
+  }
+
+  select {
+    width: 5rem;
+    background-color: transparent;
+  }
+
+.preview {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+  @media screen and (max-width: 996px) {
+    .preview {
+      margin-bottom: 20px; } }
+
+.preview-pic {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+
+.preview-thumbnail.nav-tabs {
+  border: none;
+  margin-top: 15px; }
+  .preview-thumbnail.nav-tabs li {
+    width: 18%;
+    margin-right: 2.5%; }
+    .preview-thumbnail.nav-tabs li img {
+      max-width: 100%;
+      display: block; }
+    .preview-thumbnail.nav-tabs li a {
+      padding: 0;
+      margin: 0; }
+    .preview-thumbnail.nav-tabs li:last-of-type {
+      margin-right: 0; }
+
+.tab-content {
+  overflow: hidden; }
+  .tab-content img {
+    width: 100%;
+    -webkit-animation-name: opacity;
+            animation-name: opacity;
+    -webkit-animation-duration: .3s;
+            animation-duration: .3s; }
+
+.card {
+  margin-top: 50px;
+  background: #eee;
+  padding: 3em;
+  line-height: 1.5em; }
+
+@media screen and (min-width: 997px) {
+  .wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; } }
+
+.details {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+
+.colors {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+
+.product-title, .price, .sizes, .colors {
+  text-transform: UPPERCASE;
+  font-weight: bold; }
+
+.checked, .price span {
+  color: #ff9f1a; }
+
+.product-title, .rating, .product-description, .price, .vote, .sizes {
+  margin-bottom: 15px; }
+
+.product-title {
+  margin-top: 0; }
+
+.size {
+  margin-right: 10px; }
+  .size:first-of-type {
+    margin-left: 40px; }
+
+.color {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  height: 2em;
+  width: 2em;
+  border-radius: 2px; }
+  .color:first-of-type {
+    margin-left: 20px; }
+
+.add-to-cart, .like {
+  background: #ff9f1a;
+  padding: 1.2em 1.5em;
+  border: none;
+  text-transform: UPPERCASE;
+  font-weight: bold;
+  color: #fff;
+  -webkit-transition: background .3s ease;
+          transition: background .3s ease; }
+  .add-to-cart:hover, .like:hover {
+    background: #b36800;
+    color: #fff; }
+
+.not-available {
+  text-align: center;
+  line-height: 2em; }
+  .not-available:before {
+    font-family: fontawesome;
+    content: "\f00d";
+    color: #fff; }
+
+.orange {
+  background: #ff9f1a; }
+
+.green {
+  background: #85ad00; }
+
+.blue {
+  background: #0076ad; }
+
+.tooltip-inner {
+  padding: 1.3em; }
+
+@-webkit-keyframes opacity {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(3);
+            transform: scale(3); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(3);
+            transform: scale(3); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+	</style>
 		<div class="py-1 bg-black">
     	<div class="container">
     		<div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
@@ -78,27 +244,36 @@
    
     <!-- END nav -->
 
-    <!-- <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-center justify-content-center">
-          <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="home.html">Home</a></span> <span class="mr-2"><a href="home.html">Product</a></span> <span>Product Single</span></p>
-            <h1 class="mb-0 bread">Product Single</h1>
-          </div>
-        </div>
-      </div>
-    </div> -->
+  
 
     <section class="ftco-section">
     	<div class="container">
     		<div class="row">
-    			<div class="col-lg-6 mb-5 ftco-animate owl-carousel ">
+				<div class=" col-md-6">
+					<div class="image-container">
+
+						<div class="main-image ps-4">
+							<img class="img-fluid rounded-4 main" id="image-zoom"
+							src="/<%=products.image[0]%>" 
+								style="height: 32rem; width: 27rem;">   
+						</div>
+
+						<div class="sub-images mt-2 ms-3 ">
+							<img class="m-2 sub" src="/<%=products.image[0]%>" style="height: 5rem; width: 5rem;" alt="product image">
+							<img class="m-2 sub" src="/<%=products.image[1]%>" style="height: 5rem; width: 5rem;" alt="product image">
+							<img class="m-2 sub" src="/<%=products.image[2]%>" style="height: 5rem; width: 5rem;" alt="product image">
+						</div>
+
+					</div>
+
+				</div>
+    			<!-- <div class="col-lg-6 mb-5 ftco-animate owl-carousel ">
 					<%for(i=0;i< imagelength;i++){%>
 					
     				<div  ><img id="image-zoom" src="/<%=products.image[i]%>" class="img-fluid" alt="product image"></div>
 				
 					<%}%>
-    			</div>
+    			</div> -->
     			<div class="mt-lg-5 col-lg-6 product-details pl-md-5 ftco-animate">
     				<h3><%=products.product_name%></h3>
     				<!-- <div class="rating d-flex"> -->
@@ -140,19 +315,7 @@
 		            </div>
 							</div>
 							<div class="w-100"></div>
-							<!-- <div class="input-group col-md-6 d-flex mb-3">
-	             	<span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
-	                   <i class="ion-ios-remove"></i>
-	                	</button>
-	            		</span>
-	             	<input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-	             	<span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-	                     <i class="ion-ios-add"></i>
-	                 </button>
-	             	</span>
-	          	</div> -->
+					
 	          	<div class="w-100"></div>
 	          	<div class="col-md-12">
 	          		<p style="color: #000;"><%=products.stock%> piece available</p>
@@ -167,133 +330,7 @@
     	</div>
     </section>
 
-    <!-- <section class="ftco-section bg-light">
-    	<div class="container">
-				<div class="row justify-content-center mb-3 pb-3">
-          <div class="col-md-12 heading-section text-center ftco-animate">
-            <h2 class="mb-4">Ralated Products</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-          </div>
-        </div>   		
-    	</div>
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="/images/product-1.jpg" alt="Colorlib Template">
-    						<span class="status">30%</span>
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 px-3">
-    						<h3><a href="#">Floral Jackquard Pullover</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-	    					<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="/images/product-2.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 px-3">
-    						<h3><a href="#">Floral Jackquard Pullover</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$120.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-    						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="/images/product-3.jpg" alt="Colorlib Template">
-	    					<div class="overlay"></div>
-	    				</a>
-    					<div class="text py-3 px-3">
-    						<h3><a href="#">Floral Jackquard Pullover</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$120.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-    						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="/images/product-4.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 px-3">
-    						<h3><a href="#">Floral Jackquard Pullover</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$120.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-    						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </section> -->
+ 
 
     <footer class="ftco-footer bg-light ftco-section">
       <div class="container">
@@ -368,16 +405,8 @@
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
-  <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
- <script>
-var options = {
-    width: 400,
-    zoomWidth: 500,
-    offset: {vertical: 0, horizontal: 10}
-};
-new ImageZoom(document.getElementById("img-container"), options);
  
-</script>
+ 
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
   <script src="/js/popper.min.js"></script>
@@ -394,9 +423,20 @@ new ImageZoom(document.getElementById("img-container"), options);
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/js/google-map.js"></script>
   <script src="/js/main.js"></script>
+  <script src="/js/zoomsl.min.js"></script>
+
+  <script>
+
+	$(document).ready(function() {
+		$(".sub").click(function(){
+let imagechange= $(this).attr("src");
+$(".main").attr("src",imagechange);
+});
+});
 
 
-<script>
+</script>
+<!-- <script>
 	$(document).ready(function(){
   $(".owl-carousel").owlCarousel({
 	items:1,
@@ -409,45 +449,8 @@ new ImageZoom(document.getElementById("img-container"), options);
   });
 });
 
-</script>
+</script> -->
 
-  <script>
-		$(document).ready(function(){
-
-		var quantitiy=0;
-		   $('.quantity-right-plus').click(function(e){
-		        
-		        // Stop acting like a button
-		        e.preventDefault();
-		        // Get the field name
-		        var quantity = parseInt($('#quantity').val());
-		        
-		        // If is not undefined
-		            
-		            $('#quantity').val(quantity + 1);
-
-		          
-		            // Increment
-		        
-		    });
-
-		     $('.quantity-left-minus').click(function(e){
-		        // Stop acting like a button
-		        e.preventDefault();
-		        // Get the field name
-		        var quantity = parseInt($('#quantity').val());
-		        
-		        // If is not undefined
-		      
-		            // Increment
-		            if(quantity>0){
-		            $('#quantity').val(quantity - 1);
-		            }
-		    });
-		    
-		});
-	</script>
-	
 <script>
 	$(function(){
 	$("#image-zoom").imagezoomsl({

@@ -1,10 +1,33 @@
-const Admin = require("../models/admin");
+
+
+
+
+
+const fs = require("fs");
+const express = require("express");
+const router = express.Router();
+/* -------------------------------- models -------------------------------- */
 const User = require("../models/user");
+const Cart = require("../models/cart");
 const Product = require("../models/product");
 const Category = require("../models/category");
+const Order = require("../models/order");
+const Admin = require("../models/admin");
+const Address=require('../models/savedAddress')
+/* ------------------------------------*  ----------------------------------- */
+/* ---------------------------- helpers/services ---------------------------- */
+let orderServices=require('../services/orderServices')
 
-const bcrypt=require('bcrypt')
-const fs = require("fs");
+
+/* ------------------------------------ * ----------------------------------- */
+
+const paypal = require('../paypal')
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+
+const dotenv = require("dotenv");
+dotenv.config();
+var ObjectId = require("mongoose").Types.ObjectId;
 
 /* ----------------------------- userlogin page ----------------------------- */
 
@@ -93,7 +116,7 @@ exports.signup=async (req, res) => {
 
 
 
-//get all users admin
+/* -------------------------- //get all users admin ------------------------- */
 
 exports.getallusers = async (req, res) => {
   try {
@@ -138,7 +161,192 @@ exports.unblokuserupdate = async (req, res) => {
 };
 
 
-/* ------------------------------ product name ------------------------------ */
+/* ------------------------------ User home ---page--------------------------- */
+
+exports.userhomepage= async (req, res) => {
+  try{
+
+    let newproducts = await Product.find().sort({ createdAt: -1 }).limit(3);
+  console.log(newproducts);
+  if (req.session.userlogin) {
+    let userid = req.session.user._id;
+    console.log(userid);
+    let cartdetails = await Cart.findOne({ user: userid });
+    let cartcount = cartdetails?.products.length;
+    res.render("user/home", {
+      isuser: req.session.userlogin,
+      cartcount,
+      newproducts,
+    });
+  } else {
+    res.render("user/home", {
+      isuser: req.session.userlogin,
+      cartcount: "0",
+      newproducts,
+    });
+  }
+
+  }catch(err){
+    console.log(err,'error happened in user homepage');
+  }
+}
 
 
+/* ------------------------------- user logout ------------------------------ */
 
+exports.userLogout=(req, res) => {
+  try{
+  req.session.userlogin = false;
+  req.session.user = false;
+  res.redirect("/users");
+  }catch(err){
+    console.log(err,'error happened while user Logout');
+  }
+}
+
+/* ------------------------------- user signup ------------------------------ */
+
+exports.userSignup=(req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,'error happened in user Signup');
+  }
+  res.render("user/signup");
+}
+
+
+/* ---------------------------- user profile page --------------------------- */
+
+exports.userProfilePage=async (req, res) => {
+  try{
+    let userId = req.session.user._id;
+  let userdetails = await User.findOne({ _id: userId })
+
+  let saveaddress=await Address.find({userId:ObjectId(userId)})
+  console.log(saveaddress);
+  
+  res.render("user/userdetails", {
+    userdetails,
+    isuser: req.session.userlogin,
+    saveaddress
+  });
+
+  }catch(err){
+    console.log(err,'error happened while loading userProfile');
+  }
+  
+}
+
+
+/* -------------------------- change Password Page -------------------------- */
+
+exports.changePasswordPage=(req, res) => {
+  try{
+  res.render("user/changePassword", { isuser: req.session.userlogin });
+  }catch(err){
+    console.log(err,'error happened while loading change password page ');
+  }
+
+}
+
+/* ----------------------------- change password ---------------------------- */
+
+exports.changePassword=async (req, res) => {
+  try{
+ let userId = req.session.user._id;
+  let enteredPassword = req.body.currentPassword;
+  let newPassword = req.body.NewPassword;
+  let userdetails = await User.findOne({ _id: userId });
+  console.log(userdetails + "user details here");
+  let verifypassword = bcrypt.compareSync(
+    enteredPassword,
+    userdetails.password
+  ); //comparing changed password and new password is same
+
+  console.log(verifypassword + "user password checking");
+
+  if (verifypassword) {
+    if (enteredPassword == newPassword) {
+      req.session.message = {
+        type: "danger",
+        message: "cannot type old password",
+      };
+      res.redirect("/users/changePassword");
+    } else {
+      await User.updateOne(
+        { _id: ObjectId(userId) },
+        {
+          $set: {
+            password: bcrypt.hashSync(newPassword, 10),
+          },
+        }
+      );
+
+      req.session.message = {
+        type: "success",
+        message: "password changed",
+      };
+
+      res.redirect("/users/changePassword");
+    }
+  } else {
+    req.session.message = {
+      type: "danger",
+      message: "password is not correct",
+    };
+    res.redirect("/users/changePassword");
+  }
+
+  }catch(err){
+    console.log(err,'error happened while changing password');
+  }
+}
+
+
+exports.editProfile=async (req, res) => {
+  try {
+    let userId = req.session.user._id;
+    let changed_email = req.body.email;
+    let changed_name = req.body.name;
+    let changed_phone = req.body.phone;
+    let password=req.body.password
+
+    let userdetails = await User.findOne({ _id: ObjectId(userId) });
+  
+    let verifypassword = bcrypt.compareSync(
+      password,
+      userdetails.password
+    );
+
+    console.log(changed_email+"changed email"+userId+"userid"+changed_name+"changed name"+"changed phone"+changed_phone);
+if(verifypassword){
+  
+  await User.updateOne(
+    { _id:ObjectId(userId)  },
+    {
+      $set: {
+        name: changed_name,
+        email: changed_email,
+        phone: changed_phone,
+      },
+    }
+  );
+  req.session.message = {
+    type: "success",
+    message: "userdetails updated",
+  };
+  res.redirect("/users/userprofile");
+}else{
+  req.session.message = {
+    type: "danger",
+    message: "invalid  password",
+  };
+  res.redirect("/users/userprofile");
+}
+
+
+  } catch (err) {
+    console.log(err + "error at editing profile details");
+  }
+}

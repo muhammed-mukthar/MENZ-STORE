@@ -51,6 +51,19 @@
     <link rel="stylesheet" href="/css/flaticon.css" />
     <link rel="stylesheet" href="/css/icomoon.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <style>
+
+      /* to display button according to radio */
+      .clr{
+        display:none ;
+      }
+    
+      .disbtn{
+
+        display: block;
+
+      }
+    </style>
   </head>
 
   <body class="goto-here">
@@ -270,7 +283,9 @@
                                   type="radio"
                                   value="cod"
                                   name="paymentmethod"
-                                  class="mr-2"
+                                  class="mr-2",
+                                  id="cod-radio"
+                                onclick="displaycheckout()"
                                 />
                                 Cash on delivery</label
                               >
@@ -283,11 +298,14 @@
                               <label
                                 ><input
                                   type="radio"
-                                  value="bank"
+                                  value="RazorPay"
                                   name="paymentmethod"
                                   class="mr-2"
+                                  id="razorpay-radio"
+                                  onclick="displaycheckout()"  
                                 />
-                                Direct Bank Tranfer</label
+                           
+                               RazorPay</label
                               >
                             </div>
                           </div>
@@ -296,15 +314,26 @@
                         <div class="form-group">
                           <div class="col-md-12">
                             <div class="radio">
-                       
-                              <div id="paypal-button-container" style="margin-top: 1rem;"></div>
+                              <label
+                              ><input
+                              id="paypal-radio"
+                                type="radio"
+                                value="paypal"
+                                name="paymentmethod"
+                                class="mr-2"
+                                onclick="displaypaypal()"
+                              />
+                             Paypal</label>
                             </div>
                           </div>
                         </div>
                 
-                        <button type="submit" class="btn btn-primary py-3 px-4">
+                        <div class="clr" id="checkout-button">
+                        <button type="submit" id="checkoutbtn"  class=" btn btn-primary py-3 px-4 ">
                           Place an order
                         </button>
+                      </div>
+                        <div id="paypal-button-container" class="clr"  style=" margin-top: 1rem;"></div>
                       </div>
                     </div>
                   </div>
@@ -316,145 +345,52 @@
                 role="tabpanel"
                 aria-labelledby="tab-register"
               >
-                <form action="" id="checkout-form" class=" ">
-                  <h3 class="mb-4 billing-heading">checkout-form</h3>
-                  <div class="row align-items-end">
-             
-
-                    <div class="w-100"></div>
-
-                    <div class="w-100"></div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="streetaddress">Street Address</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="address1"
-                          placeholder="House number and street name"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="address2"
-                          placeholder="Appartment, suite, unit etc: (optional)"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="towncity">Town / City</label>
-                        <input
-                          type="text "
-                          name="town"
-                          class="form-control"
-                          placeholder="town"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="postcodezip">Postcode / ZIP *</label>
-                        <input
-                          type="text"
-                          name="postcode"
-                          class="form-control"
-                          placeholder="postcode"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input
-                          type="number"
-                          name="phone"
-                          class="form-control"
-                          placeholder="phone"
-                        />
-                        <input
-                          type="text"
-                          name="userId"
-                          value="<%=userId%>"
-                          hidden
-                          class="form-control"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-          
-                    <div class="w-100"></div>
-  
-                  </div>
-                  <!-- END -->
-
-                  <div class="row mt-5 pt-3 d-flex">
-                    <div class="col-md-6 d-flex">
-                      <div class="cart-detail cart-total bg-light p-3 p-md-4">
-                        <h3 class="billing-heading mb-4">Cart Total</h3>
-                        <hr />
-                        <p class="d-flex total-price">
-                          <span>Total</span>
-                          <span>$<%=total%></span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="cart-detail bg-light p-3 p-md-4">
-                        <h3 class="billing-heading mb-4">Payment Method</h3>
-                        <div class="form-group">
-                          <div class="col-md-12">
-                            <div class="radio">
-                              <label
-                                ><input
-                                  type="radio"
-                                  value="cod"
-                                  name="paymentmethod"
-                                  class="mr-2"
-                                />
-                                Cash on delivery</label
-                              >
+                <form action="/users/checkoutsaveaddress" method="post" class=" ">
+                  
+                    <h3 class="mb-4 billing-heading">User  Profile</h3>
+                  <div class="form-group">
+                    
+                    
+                            <div class="w-100"></div>
+                           
+                            <div class="row align-items-end">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="streetaddress">Street Address</label>
+                                <input type="text" class="form-control" name="address1" required placeholder="House number and building name">
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-md-12">
-                            <div class="radio">
-                              <label
-                                ><input
-                                  type="radio"
-                                  value="bank"
-                                  name="paymentmethod"
-                                  class="mr-2"
-                                />
-                                Direct Bank Tranfer</label
-                              >
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <input type="text" class="form-control" name="address2" required placeholder="Road name, Area, Colony etc" >
+                              </div>
                             </div>
-                          </div>
-                        </div>
-
-                          <div class="form-group">
-                          <div class="col-md-12">
-                            <div class="radio">
-                       
-                              <div id="paypal-button-container" style="margin-top: 1rem;"></div>
+                            <div class="w-100"></div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="towncity">Town / City</label>
+                                <input type="text " name="town" required class="form-control" placeholder="town">
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                
-                        <button type="submit" class="btn btn-primary py-3 px-4">
-                          Place an order
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="postcodezip">Postcode / ZIP *</label>
+                                <input type="number" name="postcode" required class="form-control" placeholder="postcode">
+                              </div>
+                            </div>
+                            <div class="w-100"></div>
+                      <div class="col-xl-8 ftco-animate">
+                        <button  type="submit"  class="btn btn-primary mt-5 py-3  px-4">save details </button>
+                        
+                       </div>
+                          
+                      
+                    
+                        <!-- END -->
+            
+            
+            
+                  </form>
               </div>
             </div>
             <!-- Pills content -->
@@ -595,11 +531,39 @@
         />
       </svg>
     </div>
+    
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="/js/paypal-pay.js"></script>
     
 
     <script>
+
+      function  displaycheckout(){
+
+     let list1=   document.getElementById("checkout-button").classList
+     let list2 = document.getElementById("paypal-button-container").classList;
+     list1.add('disbtn')
+     list2.remove('disbtn')
+      }
+
+      function  displaypaypal(){
+let list1=   document.getElementById("checkout-button").classList
+let list2 = document.getElementById("paypal-button-container").classList;
+list1.remove('disbtn')
+list2.add('disbtn')
+
+ }
+
+
+
+
+
+
+
+
+
+
+
       $("#checkout-form").submit((e) => {
         e.preventDefault();
         $.ajax({
@@ -626,6 +590,9 @@
           success: (res) => {
             if (res.codSuccess) {
               console.log(res.codSuccess);
+              location.href = "/users/orderplaced";
+            }else if(res.paypalSuccess) {
+              console.log(res.paypalSuccess,'transaction completed successfully using paypal');
               location.href = "/users/orderplaced";
             } else {
               razorpayPayment(res);
@@ -687,9 +654,7 @@ rzp1.open();
 
     </script>
 
-    <script>
     
-    </script>
     <!-- MDB -->
     <script
       type="text/javascript"

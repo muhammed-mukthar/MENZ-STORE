@@ -27,13 +27,48 @@ var instance = new Razorpay({
 module.exports = {
 
 
+  // getorderproductUser:(orderId)=>{
+  //   let orderdItems = await Order.aggregate([
+  //     {
+  //       $match: { _id: ObjectId(orderId) },
+  //     },
+  //     {
+  //       $unwind:'$products'
+  //     },{
+  //       $project:{
+  //         item:'$products.item',
+  //         quantity:"$products.quantity"
+  //       }
+  //     },{
+  //       $lookup:{
+  //         from:'products',
+  //         localField:'item',
+  //         foreignField:'_id',
+  //         as:'product'
+  //     }
+  //     },
+  //     {
+  //       $project: {
+  //         item: 1,
+  //         quantity: 1,
+  //         product: { $arrayElemAt: ["$product", 0] },
+  //       },
+  //     }
+  //   ])
+  // },
+
+  /* ---------------------------- get orders sorted --------------------------- */
+
   getAllOrders:()=>{
 
     return new Promise(async(resolve,reject)=>{
       let orderdetails=await Order.find().sort({'date':-1})
+      console.log(orderdetails);
       resolve(orderdetails)
     })
   },
+
+  /* ------------------------ get order date and amount ----------------------- */
 
   getOrdersDateandAmount:()=>{
     return new Promise(async(resolve,reject)=>{
@@ -54,6 +89,7 @@ module.exports = {
   },
   
 
+  /* ---------------------------- generate razorpay --------------------------- */
 
 
 
@@ -78,6 +114,8 @@ module.exports = {
     });
   },
 
+/* ------------------------- razorpay verify payment ------------------------ */
+
   verifyPayment:(details)=>{
     console.log(details,'verify payment services');
     return new Promise((resolve,reject)=>{
@@ -97,6 +135,8 @@ module.exports = {
     })
   },
 
+
+/* ------------------------- razorpay change status ------------------------- */
 
   changePaymentStatus:(orderId)=>{
     console.log('change payment status',orderId);

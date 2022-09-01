@@ -5,10 +5,13 @@ const adminController=require('../controller/admincontroller')
 const userController=require('../controller/usercontroller')
 const productController=require('../controller/productcontroller')
 const categoryController=require('../controller/categoryController')
+const orderController=require('../controller/orderController')
 const Order=require('../models/order')
 const User=require('../models/user')
 var ObjectId = require("mongoose").Types.ObjectId;
 
+let orderServices=require('../services/orderServices')
+/* -------------------------------- services -------------------------------- */
 const fs = require("fs");
 
 
@@ -104,102 +107,34 @@ router.post("/category",adminauth,categoryController.addCategory );
 router.get('/category/:id',adminauth,categoryController.deleteCategory)
 
 
-/* ------------------------------- order view ------------------------------- */
+/* ------------------------------- order view page ------------------------------- */
 
 
-router.get('/orders',adminauth,async(req,res)=>{
-
-  let  orderinfo=await Order.find()
-
-
-  res.render('admin/adminorder',{orderinfo})
-})
+router.get('/orders',adminauth,orderController.ordersPageAdmin)
 
 
 /* --------------------------- order products info -------------------------- */
 
-router.get('/orderedproducts/:id',async(req,res)=>{
-  let orderId=req.params.id
-  let orderdItems = await Order.aggregate([
-    {
-      $match: { _id: ObjectId(orderId) },
-    },
-    {
-      $unwind:'$products'
-    },{
-      $project:{
-        item:'$products.item',
-        quantity:"$products.quantity"
-      }
-    },{
-      $lookup:{
-        from:'products',
-        localField:'item',
-        foreignField:'_id',
-        as:'product'
-    }
-    },
-    {
-      $project: {
-        item: 1,
-        quantity: 1,
-        product: { $arrayElemAt: ["$product", 0] },
-      },
-    }
-  ])
-
-res.render('admin/orderproducts',{orderdItems})
-
-
-})
+router.get('/orderedproducts/:id',adminauth,orderController.orderedProductsAdmin)
 
 
 /* ----------------------------- order user info ---------------------------- */
 
-router.get('/userinfo/:id',async(req,res)=>{
-  let orderId=req.params.id
-
-  const userDetails = await Order.aggregate([
-        
-    {
-     
-        $match: { _id: ObjectId(orderId) },
-      },{
-        $lookup:{
-            from:'users',
-            localField:'userId',
-            foreignField:'_id',
-            as:'userData'
-        }
-    },
-  ])
-  console.log(userDetails[0].userData[0].name);
-
-res.render('admin/orderedusers',{userDetails})
-})
+router.get('/userinfo/:id',adminauth,orderController.orderUserInfo)
 
 
 /* ------------------------------ order status ------------------------------ */
 
-router.post('/orderstatus/:id',async(req,res)=>{
-  try{
-    let orderId=req.params.id
-    let updatedstatus=req.body.status
-  
-    await Order.updateOne({_id:orderId},{
-      $set:{
-        status:updatedstatus
-      }
-    })
-    res.redirect('/admin/orders')
+router.post('/orderstatus/:id',adminauth,orderController.adminChangeOrderStatus)
 
-  }catch(err){
-    console.log('error happened in order status'+err);
-  }
+/* ------------------------- order details month sale ------------------------ */
 
- 
-})
+router.get('/order-details',adminauth,orderController.monthsale)
 
+/* ------------------------------- order stat ------------------------------- */
+
+
+router.get('/orderstat',adminauth,orderController.Showstat)
 
 
 module.exports = router;
