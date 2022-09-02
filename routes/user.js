@@ -7,9 +7,11 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 const Order = require("../models/order");
 const Address=require('../models/savedAddress')
+const WishList=require('../models/wishlist')
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
 let orderServices=require('../services/orderServices')
+let wishlistServices=require('../services/wishlistServices')
 
 
 /* ------------------------------------ * ----------------------------------- */
@@ -101,6 +103,92 @@ router.get("/signup", userController.userSignup);
 
 /* -------------------------------- //signup  post-------------------------------- */
 router.post("/signup", userController.signup);
+
+
+
+/* -------------------------------- wishlist -------------------------------- */
+
+router.get('/wishlist',userauth,(req,res)=>{
+  let userId = req.session.user?._id;
+
+  wishlistServices.getproducts(userId).then((wishlistItems)=>{
+    console.log(wishlistItems);
+    res.render('user/wishlist',{wishlistItems,userId,  isuser: req.session.userlogin,})
+  })
+
+
+ 
+  
+})
+
+/* ----------------------------- add to wishlist ---------------------------- */
+router.get('/add-to-wishlist/:id',userauth,async(req,res)=>{
+  try {
+    let userId = req.session.user._id;
+    let productId = req.params.id;
+
+    let isWishList = await WishList.findOne({ user: userId });
+
+    let productadd = {
+      item: ObjectId(productId),
+      quantity: 1,
+    };
+    if (isWishList == null) {
+    
+
+      let newWishList = new WishList({
+        user: userId,
+        products: [productadd],
+      });
+      newWishList.save();
+     
+    } else {
+
+     const alreadyExists = isWishList.products.findIndex(product => product.item == productId)
+      if (alreadyExists === -1) {
+        const addWishList = await WishList.updateOne(
+          { user: userId },
+          { $push: { products: { item: ObjectId(productId), quantity: 1 } } }
+        );
+    
+        console.log(addWishList);
+      } else {
+
+      }
+    }
+    res.redirect("/users/wishlist");
+  } catch (err) {
+    console.log(err + "error add to wishlist");
+  }
+}
+  
+)
+
+/* ----------------------------- delete wishlist ---------------------------- */
+
+router.post('/wishlist/remove',(req,res)=>{
+  
+  let wishlistId=req.body.wishlist;
+  let productId=req.body.product
+  let userId=req.body.user
+  console.log(wishlistId,productId,userId);
+  wishlistServices.deleteWishlistproduct(wishlistId,productId,userId).then(()=>{
+    res.json(removeproduct =true)
+  })
+
+})
+
+/* ------------------- remove wishlist when added to cart ------------------- */
+
+router.post('/wishlist/delete',async(req,res)=>{
+ 
+  let wishlistId=req.body.wishlist
+  wishlistServices.deleteWishlist(wishlistId).then(()=>{
+    res.json(removewishlist =true)
+  })
+
+})
+
 
 /* ------------------------------ cart display ------------------------------ */
 

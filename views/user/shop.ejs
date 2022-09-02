@@ -63,6 +63,7 @@
 			  <%if(locals.isuser){%>
 				<li class="nav-item"><a href="/users/userprofile" class="nav-link">Profile</a></li>
 				<li class="nav-item"><a href="/users/orders" class="nav-link">Orders</a></li>
+				<li class="nav-item"><a href="/users/wishlist" class="nav-link">wishlist</a></li>
 				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
 				<%}else{%>
 	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
@@ -121,7 +122,7 @@
 			    					</div>
 			    					<p class="bottom-area d-flex px-lg-3">
 		    							<a href="/users/add-to-cart/<%=products._id%>" class="add-to-cart text-center py-lg-2 mr-lg-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="#" class="buy-now text-center py-2">add to wishlist<span></span></a>
+		    							<a href="/users/add-to-wishlist/<%=products._id%>" class="buy-now text-center py-2">add to wishlist<span></span></a>
 		    						</p>
 		    					</div>
 		    				</div>
@@ -154,11 +155,7 @@
     <footer class="ftco-footer bg-light ftco-section">
       <div class="container">
       	<div class="row">
-      		<div class="mouse">
-						<a href="#" class="mouse-icon">
-							<div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
-						</a>
-					</div>
+    
       	</div>
         <div class="row mb-5">
           <div class="col-md">

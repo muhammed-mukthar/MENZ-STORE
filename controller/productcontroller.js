@@ -132,14 +132,14 @@ exports.editProduct = async(req, res) => {
  
 
 
-  //deletingfiles to be replaced
+//   deletingfiles to be replaced
 //   let existproduct= await Product.findById({_id:id})
 //   let existimages=[];
 //   existimages=existproduct.image
 // console.log("existing images"+existimages);
 //   // for(let j=0;j<existimages.length;j++){
 //     try {
-//       fs.unlinkSync("/C:/Users/mukth/OneDriveDocuments/menz store/public/productimage/public/productimage/mukt.jpeg")
+//       fs.unlinkSync("/public/productimage/public/productimage/mukt.jpeg")
   
 //       console.log(existimages[j]+"deleted");
 //   } catch (error) {

@@ -5,7 +5,7 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
 
-
+var ObjectId = require("mongoose").Types.ObjectId;
 const fs = require("fs");
 
 /* ------------------------------ category page ----------------------------- */
@@ -63,6 +63,10 @@ exports.addCategory=async (req, res) => {
   
 
   exports.deleteCategory=async(req,res)=>{
+    // let categorydetails=Category.findOnf({_id:ObjectId(req.params.id)})
+    // let productExist=await Product.findOne({category:categorydetails.categoryname})
+    // console.log(productExist,categorydetails,categorydetails.categoryname);
+   
     await Category.findByIdAndDelete(req.params.id)
     res.redirect('/admin/category')
   }

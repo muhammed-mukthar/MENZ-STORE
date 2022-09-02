@@ -1,0 +1,155 @@
+<%-include('../include/userheader.ejs')-%>
+
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="/">menz store </a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+	         
+	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+	          <%if(locals.isuser){%>
+				<li class="nav-item"><a href="/users/orders" class="nav-link">Orders</a></li>
+				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<%}else{%>
+	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+			  <%}%>
+	  
+
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <section class="h-100" style="background-color: rgb(255, 255, 255);">
+        <div class="container h-100 py-5">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10">
+      
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-normal mb-0 text-black">wishlist</h3>
+               
+              </div>
+              <!-- wishlistItems -->
+              <%for(let i=0;i< wishlistItems.length;i++){%>
+              <div class="card rounded-3 mb-4">
+                <div class="card-body p-4">
+                  <div class="row d-flex justify-content-between align-items-center">
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                      <img
+                        src="/<%=wishlistItems[i].product?.image[0]%>"
+                        class="img-fluid rounded-3" alt="Cotton T-shirt">
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3">
+                      <p class="lead fw-normal mb-2"><%=wishlistItems[i].product.product_name%></p>
+                      <p><span class="text-muted"><%=wishlistItems[i].product.desc%> </span>M <span class="text-muted">Color: </span>Grey</p>
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 d-flex">
+                      <span  min="0" name="quantity" value="2" type="number"
+                         >  <%=wishlistItems[i].quantity%></span>
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 ">
+                      <h5 class="mb-0"><%=wishlistItems[i].product.price%>Rs</h5>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2  d-flex flex-column text-center">
+                        <a href="/users/add-to-cart/<%=wishlistItems[i].product._id%>" onclick="deletewishlist('<%=wishlistItems[i]._id%>')" class="btn text-white btn-danger"> Cart+</a>
+                        <a  onclick="deleteproduct('<%=wishlistItems[i]._id%>','<%=wishlistItems[i].product._id%>','<%=userId%>')" class="btn pt-2 text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                      </div>
+                    </div>
+              
+                    
+                  </div>
+                </div>
+                <%}%>
+              </div>
+             
+			
+              </div>
+      
+             
+      
+              
+      
+            </div>
+          </div>
+      
+      </section>
+</div>
+
+<%-include('../include/userfooter.ejs')-%>
+<script>
+  function deletewishlist(wishlistId){
+    $.ajax({
+			url:'/users/wishlist/delete',
+			data:{
+            wishlist: wishlistId,
+			},
+			method: 'post',
+			success:(res)=>{
+          location.reload()	
+			}
+            
+        })
+
+
+
+          
+           
+
+  }
+
+
+
+
+
+     function  deleteproduct(wishlistId, proId, userId){
+	
+		
+
+
+				Swal.fire({
+            title: 'Are you want to Remove?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Remove'
+        }).then((result) => {
+          if(result.isConfirmed){
+            $.ajax({
+			url:'/users/wishlist/remove',
+			data:{
+				user: userId,
+            wishlist: wishlistId,
+            product: proId,
+         
+			},
+			method: 'post',
+			success:(res)=>{
+          location.reload()	
+			}
+            
+        })
+
+
+
+          }
+           
+		
+    
+				
+				
+
+			})
+		}
+
+		
+
+
+		
+</script>

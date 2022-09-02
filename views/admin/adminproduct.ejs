@@ -103,12 +103,15 @@ swal({
 })
 .then((result) => {
   // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
-  if (result.isConfirmed) {
-    location.href = `/admin/deleteproduct/${id}`;
+  if (result) {
+   
 
     swal("file has been deleted!", {
       icon: "success",
-    });
+    }).then(()=>{
+       location.href = `/admin/deleteproduct/${id}`;
+    })
+   
   } else {
     swal("Your  file is safe!");
   }
