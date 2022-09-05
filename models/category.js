@@ -2,10 +2,8 @@ const mongoose=require('mongoose')
 
 const CategorySchema=new mongoose.Schema({
     categoryname:{required:true,
-    type:String },
-    // subcategory:[{
-    //     type:String
-    // }]
+    type:String ,unique: true },
+    
 })
 
 

@@ -13,9 +13,6 @@ exports.categorypage=async(req, res) => {
    
     let categories= await Category.find()
     let categorylength=categories.length
-    // let subcategorys=categories[categorylength].subcategory
-    // console.log(categories,categorylength);
-    // console.log(categories[0].subcategory[0]);
     res.render("admin/admincategory",{categories,categorylength});
   }
 

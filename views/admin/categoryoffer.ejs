@@ -1,0 +1,129 @@
+<%-include('../include/adminheader.ejs')-%>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link "  href="/admin">dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="/admin/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+            <li class="nav-item dropdown-content">
+              
+               
+              <a href="/admin/categoryoffer" class="nav-link">Category Offers</a>
+              <a href="#">coupon offer</a>
+              
+                <a href="#">referal offer</a>
+                <a href="#">product offer</a>
+         
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+      <section class="col-md-9 col-lg-10 ml-auto mb-2">
+        <div class="container mt-4">
+            <div class="row">
+
+                <div class="col-md-4">
+                  <h2 class="text-center">Category offer</h2>
+                    <p class="" style="display: none;"  id="error">offer is required</p>
+
+
+                    <form action="/admin/categoryoffer" id="form1" method="post">
+                      <label for="category" class="mr-2">Category</label>
+                    <div>
+                      <select class="custom-select col-12 " name="category" id="category">
+                            <%categories.forEach(function(categories){%>
+                              
+                          <option value="<%=categories.categoryname%>"><%=categories.categoryname%></option>
+                          <%})%>
+                      </select>
+                     
+                      </div>
+                        <label for="">New Offer</label>
+                        <div>
+                        <input type="number" min="0" max="30" name="categoryoffer" placeholder="New offer" class="form-control mb-3 ">
+                       </div>
+                        <button type="submit" class="btn btn-success mt-3 ">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+   <%if(message){%>
+              <p> <%=message.message%></p> 
+                <%}%>
+      <div class="container mt-3">
+          <table id="example" class="display responsive nowrap" style="width:100%">
+            <thead class="theadclass">
+           
+              <tr>
+                 
+                
+                    <th scope="col">category</th>
+                  
+                    <th scope="col">action</th>
+      
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  <%categories.forEach(function(categories){%>
+                        
+                       
+              
+                  <tr>
+                 
+               
+                    <td><%=categories.categoryname%></td>
+
+                
+                    
+             
+                    <td>
+                      <a  id="confirm" onclick="confirmation('<%=categories._id%>')" class="btn btn-danger">delete</a></td>
+                    
+                    </tr>
+                  
+                  
+                 <%})%>
+          
+                </tbody>
+          </table>
+        
+      </div>
+
+
+
+
+     
+ 
+</body>
+
+  
+<%-include('../include/adminresfooter.ejs')-%>

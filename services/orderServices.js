@@ -62,7 +62,7 @@ module.exports = {
   getAllOrders:()=>{
 
     return new Promise(async(resolve,reject)=>{
-      let orderdetails=await Order.find().sort({'date':-1})
+      let orderdetails=await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },{$sort:{date:-1}}])
       console.log(orderdetails);
       resolve(orderdetails)
     })
@@ -72,7 +72,7 @@ module.exports = {
 
   getOrdersDateandAmount:()=>{
     return new Promise(async(resolve,reject)=>{
-      let orderDate=await Order.aggregate([     
+      let orderDate=await Order.aggregate([ { $match: { 'status': { $nin: ['cancelled'] } } },    
             {       
                   $project:{month:{$month:"$date"},_id:0,MonthTotal:"$totalAmount"}      
              },{

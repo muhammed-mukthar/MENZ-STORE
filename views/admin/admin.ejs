@@ -28,6 +28,21 @@
             <li class="nav-item">
               <a href="/admin/logout" class="nav-link ">Sign out</a>
             </li>
+            <li class="nav-item dropdown-content">
+              
+               
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link">Category Offers</a></li>
+                  <li><button class="dropdown-item" type="button">Another action</button></li>
+                  <li><button class="dropdown-item" type="button">Something else here</button></li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -77,6 +92,7 @@
             </div>
 
           </div>
+
           
          
           <div class="d-lg-flex justify-content-between">
@@ -89,57 +105,49 @@
           <canvas id="myChart" width="400" height="400"></canvas>
       </div>
       </div>
-      <div>
-        <h5>Recent Orders</h5>
-                  <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
-            
-              <tr>
-                 
-                    <th scope="col"> Date</th>
-                    <th scope="col">address </th>
-                    <th scope="col">payment Method</th>
-
-                    <th scope="col">Amount</th>
-            
-                    <th scope="col">product details</th>
-              
-                    <th scope="col">user details</th>
-                    <th scope="col">Status</th> 
-                  
-                  
-              </tr>
-                </thead>
-                <tbody>
-                
-                  <% for ( let i=0; i < orderdetails.length; i++){ %>
-                
-                  <tr>
-                   
-                    <td><%=orderdetails[i].date.toLocaleDateString()%></td>
-                   
-                   
-                    <td><%=orderdetails[i].deliveryDetails.address1%></td> 
-                      <td><%=orderdetails[i].paymentMethod%></td>
-                      <td>Rs<%=orderdetails[i].totalAmount%></td>
-                      <td><a class="btn btn-primary" href="/admin/orderedproducts/<%=orderdetails[i]._id%>">products</a></td>
-                      <td><a class="btn btn-primary" href="/admin/userinfo/<%=orderdetails[i]._id%>">user Info</a></td>
-                      
-                      <td><%=orderdetails[i].status%></td>
-                    
-                        
-            </td> 
-            <%}%>
-        
-                  </tr>
-          
-                </tbody>
-                
-     
-        </table>
-        
+      <h3 class="py-2">Get Order Stat</h3>
+      <div class="my-3">
+        <form action="/admin/datestat" method="post">
+       <input type="date" name="Datestat"  >
+       <button type="submit" class="btn btn-primary" >submit</button>
+        </form>
       </div>
-
+      <div class="my-3">
+        <form action="/admin/monthstat"  method="post">
+          <select name="m_month" id="">
+            <option value="01">Jan</option>
+            <option value="02">Feb</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">august</option>
+            <option value="09">september</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>'
+          </select>
+          <select name="m_year" id="">
+            <option value="2022">2022</option>
+            <option value="2022">2021</option>
+            <option value="2022">2020</option>
+            <option value="2022">2019</option>
+          </select>
+       <button type="submit" class="btn btn-primary" >submit</button>
+        </form>
+      </div>
+      <div class="my-3">
+        <form action="/admin/yearstat"  method="post">
+          <select name="yearstat" id="">
+          <option value="2022">2022</option>
+            <option value="2022">2021</option>
+            <option value="2022">2020</option>
+            <option value="2022">2019</option>
+          </select>
+       <button type="submit" class="btn btn-primary" >submit</button>
+        </form>
+      </div>
         </div>
       
 
@@ -162,6 +170,7 @@
       $(window).on('load',function() {
      let money = []
       let date = []
+      let week=[]
       let month = []
       let monthMoney =[]
     
@@ -182,7 +191,7 @@
           }    
     });
     $.ajax({
-          url:'/admin/orderstat',
+          url:'/admin/orderstatmonth',
           method:'get',
           success:(response)=>{
   
@@ -276,74 +285,6 @@
     
   </script>
     
-<!-- 
-    <section>
-      <div class="container-fluid  mt-3"  style="width: 400px; height: 400px;">
-        <div class="col-sm-12 col-xl-6">
-          <div class="bg-light rounded h-100 p-4">
-              <h6 class="mb-4">Single Line Chart</h6>
-              <canvas id="line-chart" width="400" height="400"></canvas>
-          </div>
-      </div>
-        <canvas id="myChart" width="400" height="400"></canvas> -->
-        <!-- <script>
-           
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [100],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
 
-           // Single Line Chart
-    var ctx3 = $("#line-chart").get(0).getContext("2d");
-    var myChart3 = new Chart(ctx3, {
-        type: "line",
-        data: {
-            labels: "",
-            datasets: [{
-                label: "Orders this month",
-                fill: false,
-                backgroundColor: "rgba(0, 156, 255, .3)",
-                data: ""
-                
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-        </script> -->
 
 <%-include('../include/adminresfooter.ejs')-%>

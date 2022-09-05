@@ -11,6 +11,7 @@ const User=require('../models/user')
 var ObjectId = require("mongoose").Types.ObjectId;
 
 let orderServices=require('../services/orderServices')
+let offerServices=require('../services/offerServices')
 /* -------------------------------- services -------------------------------- */
 const fs = require("fs");
 
@@ -92,6 +93,28 @@ router.post("/editproduct/:id",adminauth, productController.editProduct);
 
 router.get("/deleteproduct/:id", adminauth,productController.deleteproduct );
 
+
+/* --------------------------- get category offer --------------------------- */
+router.get('/categoryoffer',async(req,res)=>{
+  let categories= await Category.find()
+  let categorylength=categories.length
+  res.render("admin/categoryoffer",{categories,categorylength});
+})
+
+/* ---------------------------------- post category offer ---------------------------------- */
+
+
+router.post('/categoryoffer',async(req,res)=>{
+  let offer=req.body.categoryoffer
+  let category=req.body.category
+  let categoryId=req.body.categoryid
+  console.log(categoryId,'category id');
+  offerServices.categoryoffer(offer,category,categoryId).then((result)=>{
+    console.log(result);
+  })
+  res.redirect('back')
+})
+
 /* ----------------------------- // get category ---------------------------- */
 
 
@@ -127,14 +150,86 @@ router.get('/userinfo/:id',adminauth,orderController.orderUserInfo)
 
 router.post('/orderstatus/:id',adminauth,orderController.adminChangeOrderStatus)
 
-/* ------------------------- order details month sale ------------------------ */
+/* ------------------------- order details sale ------------------------ */
 
 router.get('/order-details',adminauth,orderController.monthsale)
 
-/* ------------------------------- order stat ------------------------------- */
+/* ------------------------------- order stat monthly------------------------------- */
 
 
-router.get('/orderstat',adminauth,orderController.Showstat)
+router.get('/orderstatmonth',adminauth,orderController.Showstat)
+
+/* -------------------------- admin orders details -------------------------- */
 
 
+/* ---------------------------- according to date --------------------------- */
+
+router.post('/datestat',adminauth,async(req,res)=>{
+  let date=req.body.Datestat
+  const daysales = await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },
+  { $project: { order: '$userId', date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } }, paymentmode: '$paymentMethod', total: '$totalAmount' } },
+  {
+    $match: { date: req.body.Datestat }
+  }
+  ])
+  console.log(daysales);
+  res.render('admin/orderstat', {'sales': daysales })
+})
+
+
+/* --------------------------- according to month --------------------------- */
+
+router.post('/monthstat',async(req,res)=>{
+    let matchkey = req.body.m_year + "-" + req.body.m_month
+    console.log(matchkey);
+    const monthsales = await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+      
+        yearmonth: { $first: { $dateToString: { format: "%Y-%m", date: "$date" } } },
+        total: { $sum: '$totalAmount' },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: { _id: 1 },
+    },
+    {
+      $match: { yearmonth: matchkey }
+    }
+    ])
+  
+    console.log(monthsales);
+  
+    res.render('admin/orderstat', { 'sales':monthsales })
+  })
+
+  /* ----------------------------- yearly reports ----------------------------- */
+
+  router.post('/yearstat',async(req,res)=>{
+    let year=req.body.yearstat
+    const yearsales = await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+        month:{ $first: { $dateToString: { format: "%Y-%m", date: "$date" } } },
+      
+        yearmonth: { $first: { $dateToString: { format: "%Y", date: "$date" } } },
+        total: { $sum: '$totalAmount' },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: { _id: 1 },
+    },
+    {
+      $match: { yearmonth: year }
+    }
+    ])
+  
+    console.log(yearsales);
+  
+    res.render('admin/orderstat', { 'sales':yearsales })
+  })
 module.exports = router;
