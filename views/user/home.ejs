@@ -22,8 +22,11 @@
 			  
 			
 			  <%}%>
+			  <%if(cartcount){%>
 	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[<%=cartcount%>]</a></li>
-
+				<%}else{%>	
+					<li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+					<%}%>
 	        </ul>
 	      </div>
 	    </div>
@@ -33,19 +36,22 @@
 
     <section id="home-section" class="hero">
 		  <div class="home-slider js-fullheight owl-carousel">
+			<%if(bannerimage.length>0){%>
+				<%for(let i=0;i< bannerimage.length;i++){%>
 	      <div class="slider-item js-fullheight">
 	      	<div class="overlay"></div>
 	        <div class="container-fluid p-0">
 	          <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-	          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(/images/banner2.jpg);">
+	          	<div class=" order-md-last img js-fullheight" style="background-image:url(/<%=bannerimage[i]?.image%>);">
 	          	</div>
+				
 		          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
 		          	<div class="text">
-		          		<span class="subheading">Menz store eCommerce Shop</span>
+		 
 		          		<div class="horizontal">
-		          			<h3 class="vr" style="background-image: url(/images/divider.jpg);">Stablished Since 2000</h3>
-				            <h1 class="mb-4 mt-3">Catch Your Own <br><span>Stylish &amp; Look</span></h1>
-				            <p>showing you our new tshirt's for the summer.</p>
+		          			<h3 class="vr" style="background-image: url(/<%=bannerimage[i]?.image%>);"></h3>
+				            <h1 class="mb-4 mt-3 fw-bold"><%=bannerimage[i]?.heading%></h1>
+				            <p class="fw-300"><%=bannerimage[i]?.desc%></p>
 				            
 				            <p><a href="/users/shop" class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
 				          </div>
@@ -54,33 +60,32 @@
 	        	</div>
 	        </div>
 	      </div>
-
-	      <div class="slider-item js-fullheight">
-	      	<div class="overlay"></div>
-	        <div class="container-fluid p-0">
-	          <div class="row d-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-	          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(/images/bannerts2.jpg);">
-	          	</div>
-		          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-		          	<div class="text">
-		          		<span class="subheading">Menz store eCommerce Shop</span>
-		          		<div class="horizontal">
-		          			<h3 class="vr" style="background-image: url(/images/divider.jpg);">Best eCommerce Online Shop</h3>
-				            <h1 class="mb-4 mt-3">A Thouroughly <span>Modern</span> Men</h1>
-				            <p>Summer shirt Collection starts now</p>
-				            
-				            <p><a href="/users/shop" class="btn btn-primary px-5 py-3 mt-3">Shop Now</a></p>
-				          </div>
-		            </div>
-		          </div>
-	        	</div>
-	        </div>
-	      </div>
+		  <%}%>
+		  <%}%>
+		  <!-- <div class="slider-item js-fullheight">
+			<div class="overlay"></div>
+		  <div class="container-fluid p-0">
+			<div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
+				<div class=" order-md-last img js-fullheight" style="background-image:url(/<%=bannerimage[0]?.image%>);">
+				</div>
+				<div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+					<div class="text">
+						
+						<div class="horizontal">
+							<h3 class="vr" style="background-image: url(/images/thissample.jpg);"></h3>
+						  <h1 class="mb-4 mt-3 fw-bold"><%=bannerimage[0]?.heading%></h1>
+						  <p><%=bannerimage[0]?.desc%></p>
+						  
+						  <p><a href="/users/shop" class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
+						</div>
+				  </div>
+				</div>
+			  </div>
+		  </div>
+		</div> -->
+	    
 	    </div>
     </section>
-
-    
-
     <section class="ftco-section bg-light">
     	<div class="container">
 				<div class="row justify-content-center mb-3 pb-3">
@@ -105,7 +110,6 @@
     							<div class="pricing">
 		    						<p class="price"><span class="price-sale">Rs<%=newproducts[i].price%></span></p>
 		    					</div>
-		    					
 	    					</div>
 	    					<p class="bottom-area d-flex px-3">
     							<a href="/users/add-to-cart/<%=newproducts[i]._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>

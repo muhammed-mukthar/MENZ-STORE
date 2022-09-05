@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Product = require("../models/product");
 const Category = require("../models/category");
+const Banner=require('../models/banner')
 const adminController=require('../controller/admincontroller')
 const userController=require('../controller/usercontroller')
 const productController=require('../controller/productcontroller')
@@ -9,7 +10,7 @@ const orderController=require('../controller/orderController')
 const Order=require('../models/order')
 const User=require('../models/user')
 var ObjectId = require("mongoose").Types.ObjectId;
-
+let bannerServices=require('../services/bannerServices')
 let orderServices=require('../services/orderServices')
 let offerServices=require('../services/offerServices')
 /* -------------------------------- services -------------------------------- */
@@ -232,4 +233,36 @@ router.post('/monthstat',async(req,res)=>{
   
     res.render('admin/orderstat', { 'sales':yearsales })
   })
+
+router.get('/bannermanage',adminauth,(req,res)=>{
+  bannerServices.getbannerpage().then((result)=>{
+      res.render('admin/banner',{'bannerdetails':result})
+  })
+
+})
+
+
+router.post('/banner',adminauth,(req,res)=>{
+  try{
+  let bannerimage=req.files?.bannerimage
+  let heading=req.body.heading
+  let desc=req.body.desc
+  console.log(bannerimage);
+  bannerServices.add(heading,desc).then((result)=>{
+    bannerServices.bannerimage(bannerimage,result._id).then(()=>{
+          console.log(result._id);
+    res.redirect('/admin/bannermanage')
+    })
+  })
+  }catch(err){
+    console.log(err,'error happened in banner');
+  }
+})
+
+router.get('/deletebanner/:id',(req,res)=>{
+  let bannerId=req.params.id
+  bannerServices.deletebanner(bannerId).then(()=>{
+    res.redirect('back')
+  })
+})
 module.exports = router;

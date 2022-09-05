@@ -82,7 +82,7 @@ exports.addproduct=async(req,res)=>{
         size: req.body.size,
         stock: req.body.stock,
         price: req.body.price,
-        
+        // offerprice:req.body.offerprice,
         image:imgPath,
         
       })
@@ -215,8 +215,6 @@ else{
 let img=existproduct[0].image[2];
 imagepath.push(img)
 }
-     
-
     // }
 
   

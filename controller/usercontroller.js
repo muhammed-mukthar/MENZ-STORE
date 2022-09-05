@@ -14,6 +14,7 @@ const Category = require("../models/category");
 const Order = require("../models/order");
 const Admin = require("../models/admin");
 const Address=require('../models/savedAddress')
+const Banner=require('../models/banner')
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
 let orderServices=require('../services/orderServices')
@@ -165,7 +166,7 @@ exports.unblokuserupdate = async (req, res) => {
 
 exports.userhomepage= async (req, res) => {
   try{
-
+let bannerimage=await Banner.find()
     let newproducts = await Product.find().sort({ createdAt: -1 }).limit(3);
   console.log(newproducts);
   if (req.session.userlogin) {
@@ -176,13 +177,13 @@ exports.userhomepage= async (req, res) => {
     res.render("user/home", {
       isuser: req.session.userlogin,
       cartcount,
-      newproducts,
+      newproducts,bannerimage
     });
   } else {
     res.render("user/home", {
       isuser: req.session.userlogin,
       cartcount: "0",
-      newproducts,
+      newproducts,bannerimage
     });
   }
 
