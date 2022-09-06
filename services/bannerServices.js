@@ -1,4 +1,5 @@
 const Banner=require('../models/banner')
+const fs=require('fs')
 module.exports={
 
 
@@ -32,8 +33,6 @@ module.exports={
                  resolve()
         }
     })
-  
-             
     },
 
 
@@ -50,8 +49,8 @@ module.exports={
     deletebanner:(bannerId)=>{
         return new Promise(async(resolve,reject)=>{
         await Banner.deleteOne({_id:bannerId})
+         fs.unlinkSync(`./public/bannerimage/${bannerId}.jpeg`)
         resolve()
     })
     }
-
 }

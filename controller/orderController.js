@@ -312,7 +312,6 @@ exports.monthsale=async(req,res)=>{
       let orders=await orderServices.getAllOrders()
       console.log(orders,'orders monthsale');
       res.json(orders);
-  
     }catch(err){
       console.log(err,'error happened in order-details admin');
     }

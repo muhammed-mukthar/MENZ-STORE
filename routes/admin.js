@@ -15,6 +15,7 @@ let orderServices=require('../services/orderServices')
 let offerServices=require('../services/offerServices')
 /* -------------------------------- services -------------------------------- */
 const fs = require("fs");
+const { route } = require("./user");
 
 
 /* ----------------------------- checking admin ----------------------------- */
@@ -234,14 +235,14 @@ router.post('/monthstat',async(req,res)=>{
     res.render('admin/orderstat', { 'sales':yearsales })
   })
 
+  /* --------------------------------- banner --------------------------------- */
+
 router.get('/bannermanage',adminauth,(req,res)=>{
   bannerServices.getbannerpage().then((result)=>{
       res.render('admin/banner',{'bannerdetails':result})
   })
 
 })
-
-
 router.post('/banner',adminauth,(req,res)=>{
   try{
   let bannerimage=req.files?.bannerimage
@@ -258,7 +259,6 @@ router.post('/banner',adminauth,(req,res)=>{
     console.log(err,'error happened in banner');
   }
 })
-
 router.get('/deletebanner/:id',(req,res)=>{
   let bannerId=req.params.id
   bannerServices.deletebanner(bannerId).then(()=>{

@@ -14,7 +14,6 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     size: {
       type: String,
       required: true,
@@ -25,12 +24,9 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },  
-  
     image: Array
-    
   },
   { timestamps: true },
-  
 );
 
 module.exports = mongoose.model("Product", ProductSchema);

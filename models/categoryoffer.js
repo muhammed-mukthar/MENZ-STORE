@@ -5,7 +5,7 @@ const CategoryofferSchema=new mongoose.Schema({
     type:String },
     offer:{
         required:true,
-        type:Number,unique: true 
+        type:Number,
     }
 })
 module.exports=mongoose.model("Categoryoffer",CategoryofferSchema)

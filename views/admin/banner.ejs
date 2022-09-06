@@ -49,9 +49,14 @@
             <div class="row d-flex justify-content-center  ">
                 <div class="col-md-4 -">
                   <h2 class="text-center">Add banner </h2> 
-                  <form action="/admin/banner" class="  ml-auto" id="form1" enctype="multipart/form-data" method="post">
-                        <label class="form-label" for="customFile">image</label>
-                        <input type="file" class="form-control " name="bannerimage" id="customFile" />
+                  <form action="/admin/banner" class=" pt-2 ml-auto" id="form1" enctype="multipart/form-data" method="post">
+                    <label class="form-label" for="customFile">image</label>
+                    <input type="file" required id="id_image1" name="bannerimage" accept="image/*" class="form-control" onchange="viewImage1(event)"
+                      style="width:100%;"><br>
+                       <img src="" id="imgView1" alt="" style="height:100px ;display:none">
+                               
+                        <!-- 
+                        <input type="file" class="form-control " name="bannerimage" id="customFile" /> -->
                         <label class="form-label" for="heading">heading for banner</label>
                         <input type="text" name="heading" max="30" id="heading" >
                         <label class="form-label " for="desc">description for banner</label>
@@ -89,6 +94,19 @@
       </div>
 </body>
 <script>
+  function viewImage1(event) {
+var fileInput1 = document.getElementById('id_image1');
+var filePath1 = fileInput1.value;
+var allowedExtensions = /(\.jpg)$/i;
+if (!allowedExtensions.exec(filePath1)) {
+  fileInput1.value = '';
+  swal("There is a problem!", "Please choose image file.");
+  return false;
+} else {
+  document.getElementById("imgView1").style.display = "block";
+  document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+}
+}
   function confirmation(id){
     swal({
   title: "Are you sure?",
