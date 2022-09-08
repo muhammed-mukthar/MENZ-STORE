@@ -37,7 +37,7 @@ exports.addCategory=async (req, res) => {
 
 
       }else{
-          var categorysave = await new Category({
+          var categorysave =  new Category({
       categoryname: req.body.category,
  
 

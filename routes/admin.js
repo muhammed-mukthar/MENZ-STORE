@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Product = require("../models/product");
 const Category = require("../models/category");
 const Banner=require('../models/banner')
+const Coupon=require('../models/couponoffer')
 const adminController=require('../controller/admincontroller')
 const userController=require('../controller/usercontroller')
 const productController=require('../controller/productcontroller')
@@ -13,6 +14,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 let bannerServices=require('../services/bannerServices')
 let orderServices=require('../services/orderServices')
 let offerServices=require('../services/offerServices')
+let couponServices=require('../services/CouponServices')
 /* -------------------------------- services -------------------------------- */
 const fs = require("fs");
 const { route } = require("./user");
@@ -265,4 +267,46 @@ router.get('/deletebanner/:id',(req,res)=>{
     res.redirect('back')
   })
 })
+
+/* --------------------------------- coupon --------------------------------- */
+router.get('/couponoffer',async(req,res)=>{
+   couponServices.allCoupon().then((allcoupon)=>{
+    console.log(allcoupon);
+      res.render('admin/couponoffer',{allcoupon})
+  })
+})
+
+/* ------------------------------- create coupon ------------------------------ */
+
+
+router.post('/coupon',async(req,res)=>{
+  try{
+ let coupon=req.body.coupon
+  let validdate=req.body.validdate
+  let expiredate=req.body.expiredate
+  let offer=req.body.offer
+  let minpurchase=req.body.min
+
+ couponServices.addcoupon(coupon,validdate,expiredate,offer,minpurchase).then((newcoupon)=>{
+     console.log(newcoupon);
+  
+res.redirect('/admin/couponoffer')
+ })
+
+}catch(err){
+    console.log(err,'error happened in coupon');
+  }
+})
+
+/* ------------------------------ delete coupon ----------------------------- */
+
+router.get('/deletecoupon/:id',(req,res)=>{
+  let couponId=req.params.id
+  couponServices.deletCoupon(couponId).then((delet)=>{
+  
+    res.redirect('back')
+  })
+})
+
+
 module.exports = router;

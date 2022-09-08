@@ -8,10 +8,12 @@ const Category = require("../models/category");
 const Order = require("../models/order");
 const Address=require('../models/savedAddress')
 const WishList=require('../models/wishlist')
+const Coupon=require('../models/couponoffer')
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
 let orderServices=require('../services/orderServices')
 let wishlistServices=require('../services/wishlistServices')
+let couponServices=require('../services/CouponServices')
 
 
 /* ------------------------------------ * ----------------------------------- */
@@ -30,7 +32,8 @@ const productController = require("../controller/productcontroller");
 const userController = require("../controller/usercontroller");
 const categoryController = require("../controller/categoryController");
 const orderController=require('../controller/orderController')
-const addressController=require('../controller/addressController')
+const addressController=require('../controller/addressController');
+const CouponServices = require("../services/CouponServices");
 const userauth = (req, res, next) => {
   if (req.session.userlogin) {
     next();
@@ -287,5 +290,42 @@ router.post('/checkoutsaveaddress',userauth,addressController.saveaddressCheckou
 
 router.post('/removeaddress',userauth,addressController.removeAddress)
 
+/* ------------------------------ apply coupon ------------------------------ */
+
+router.post('/applycoupon',userauth,async(req,res)=>{
+  let coupon=req.body.coupon
+  let total=req.session.fulltotal
+  let couponexist= await Coupon.findOne({coupon:coupon,isDelete:{$ne : true}})
+        if(couponexist){
+            const nowDate = new Date();
+            if (nowDate.getTime() > couponexist.expires.getTime()) {
+                req.session.message = {
+                    type: "danger",
+                     message: "Coupon is expired",
+          }    
+            }
+            else if (couponexist.min < total) {
+
+                discountPrice = total-couponexist.offer
+                req.session.fulltotal=discountPrice
+                
+            }else{
+                req.session.message = {
+                    type: "danger",
+                     message: "Coupon valid on order above  "+couponexist.min, 
+                  }
+                 
+                
+            }
+    }else{
+        req.session.message = {
+            type: "danger",
+             message: "Invalid coupon",
+          }
+       
+    }
+    res.redirect('/users/checkout')
+    })
+ 
 
 module.exports = router;

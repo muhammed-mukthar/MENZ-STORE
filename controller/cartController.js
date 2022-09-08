@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
-
+const Coupon=require('../models/couponoffer')
 const Address=require('../models/savedAddress')
 const user = require("../models/user");
 const category = require("../models/category");
@@ -96,9 +96,9 @@ exports.displaycart=async (req, res) => {
   
   console.log(total);
  let fulltotal= total[0]?.total
-
-  // console.log(JSON.stringify(cartItems) + "gjhgkg");
-
+  
+ req.session.fulltotal=fulltotal
+ 
   res.render("user/cart", { cartItems,user ,isuser: req.session.userlogin,fulltotal});
 }
 
@@ -166,7 +166,7 @@ exports.displaycart=async (req, res) => {
       ])
    
      let totals= total[0]?.total
-    
+     req.session.fulltotal=totals
       
         res.json({removeproduct:true,totals})
      
@@ -215,7 +215,7 @@ exports.displaycart=async (req, res) => {
                let totals= total[0].total
 
         
-             
+               req.session.fulltotal=totals
     
                
 
@@ -238,6 +238,7 @@ exports.displaycart=async (req, res) => {
 
     exports.addtocart= async (req, res) => {
       try {
+        
         let userId = req.session.user._id;
         let productId = req.params.id;
     
@@ -289,43 +290,13 @@ exports.displaycart=async (req, res) => {
           let userId = req.session.user._id;
           let userdetails=await User.findOne({_id:ObjectId(userId)})
           let savedAddress=await Address.find({userId:ObjectId(userId)})
-        let total=await Cart.aggregate([
-          {
-            $match:{user:ObjectId(userId)}
-          },
-          {
-            $unwind:'$products'
-          },{
-            $project:{
-              item:'$products.item',
-              quantity:'$products.quantity'
-            }
-          },
-          {
-            $lookup:{
-              from:'products',
-              localField:'item',
-              foreignField:'_id',
-              as:'product'
-          }
-        },
-        {
-            $project: {
-              item: 1,
-              quantity: 1,
-              product: { $arrayElemAt: ["$product", 0] },
-            }, 
-        },
-        {
-          $group:{
-            _id:null,
-            total:{$sum:{$multiply:['$quantity','$product.price']}}
-          }
-        }
-        ])
+          let availableCoupons=await Coupon.find({ isDelete:{$ne : true}} ).sort({  expires:-1}).limit(3)
+       
         console.log(userdetails);
-       let fulltotal= total[0].total
-        res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails })
+      //  let fulltotal= total[0].total
+      let fulltotal= req.session.fulltotal
+       
+        res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails,availableCoupons })
         }catch(err){
           console.log(err+"error happenedd in order checkout");
         }

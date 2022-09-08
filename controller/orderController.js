@@ -43,43 +43,10 @@ exports.placeOrder=async (req, res) => {
     let userId = req.body.userId;
     
     let cart = await Cart.findOne({ user: ObjectId(userId) });
-    let total = await Cart.aggregate([
-      {
-        $match: { user: ObjectId(userId) },
-      },
-      {
-        $unwind: "$products",
-      },
-      {
-        $project: {
-          item: "$products.item",
-          quantity: "$products.quantity",
-        },
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "item",
-          foreignField: "_id",
-          as: "product",
-        },
-      },
-      {
-        $project: {
-          item: 1,
-          quantity: 1,
-          product: { $arrayElemAt: ["$product", 0] },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: { $multiply: ["$quantity", "$product.price"] } },
-        },
-      },
-    ]);
+ 
     let products = cart?.products;
-    let totalPrice = total[0]?.total;
+    
+    let totalPrice = req.session.fulltotal
     let status = req.body["paymentmethod"] === "cod" ? "placed" : "pending";
 let order = req.body;
 console.log("order",JSON.stringify(order))

@@ -111,11 +111,6 @@ exports.edit_productsPage = async (req, res) => {
   try {
     let categorys = await Category.find();
     let productdetails = await Product.findById(req.params.id);
-  //   let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(req.params.id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
-  // console.log(existproduct[0].image[0]);
- 
-   
-   
     res.render("admin/admineditproduct", {
       productdetails: productdetails,
       categorys: categorys,
@@ -130,24 +125,6 @@ exports.edit_productsPage = async (req, res) => {
 
 exports.editProduct = async(req, res) => {
  
-
-
-//   deletingfiles to be replaced
-//   let existproduct= await Product.findById({_id:id})
-//   let existimages=[];
-//   existimages=existproduct.image
-// console.log("existing images"+existimages);
-//   // for(let j=0;j<existimages.length;j++){
-//     try {
-//       fs.unlinkSync("/public/productimage/public/productimage/mukt.jpeg")
-  
-//       console.log(existimages[j]+"deleted");
-//   } catch (error) {
-//       console.log(error+"error occured while deleting existing images");
-//   }
-  
-//   }
-
   
   const id=req.params.id
   let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
