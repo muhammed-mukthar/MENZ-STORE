@@ -291,41 +291,20 @@ router.post('/checkoutsaveaddress',userauth,addressController.saveaddressCheckou
 router.post('/removeaddress',userauth,addressController.removeAddress)
 
 /* ------------------------------ apply coupon ------------------------------ */
-
-router.post('/applycoupon',userauth,async(req,res)=>{
+router.post('/applycoupon',(req,res)=>{
+    
   let coupon=req.body.coupon
-  let total=req.session.fulltotal
-  let couponexist= await Coupon.findOne({coupon:coupon,isDelete:{$ne : true}})
-        if(couponexist){
-            const nowDate = new Date();
-            if (nowDate.getTime() > couponexist.expires.getTime()) {
-                req.session.message = {
-                    type: "danger",
-                     message: "Coupon is expired",
-          }    
-            }
-            else if (couponexist.min < total) {
-
-                discountPrice = total-couponexist.offer
-                req.session.fulltotal=discountPrice
-                
-            }else{
-                req.session.message = {
-                    type: "danger",
-                     message: "Coupon valid on order above  "+couponexist.min, 
-                  }
-                 
-                
-            }
-    }else{
-        req.session.message = {
-            type: "danger",
-             message: "Invalid coupon",
-          }
-       
-    }
-    res.redirect('/users/checkout')
-    })
- 
+  let userId = req.session.user?._id;
+  CouponServices.applyCoupon(coupon,userId).then((couponexist)=>{
+    req.session.discountprice=couponexist
+    res.redirect('back')
+  }).catch((err)=>{
+    req.session.message = {
+      message: err,
+    };
+    req.session.discountprice=false
+    res.redirect('back')
+  })
+})
 
 module.exports = router;

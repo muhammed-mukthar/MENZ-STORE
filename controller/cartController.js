@@ -6,7 +6,6 @@ const Category = require("../models/category");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
-
 const dotenv = require("dotenv");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
@@ -18,15 +17,11 @@ const { pipeline } = require("stream");
 const { $where } = require("../models/category");
 const product = require("../models/product");
 const cart = require("../models/cart");
-
-
-
 /* ------------------------------ display cart ------------------------------ */
 
 exports.displaycart=async (req, res) => {
   let userId = req.session.user?._id;
-
-
+  req.session.discountprice=false
   let cartItems = await Cart.aggregate([
     {
       $match: { user: ObjectId(userId) },
@@ -166,7 +161,7 @@ exports.displaycart=async (req, res) => {
       ])
    
      let totals= total[0]?.total
-     req.session.fulltotal=totals
+    //  req.session.fulltotal=totals
       
         res.json({removeproduct:true,totals})
      
@@ -215,7 +210,7 @@ exports.displaycart=async (req, res) => {
                let totals= total[0].total
 
         
-               req.session.fulltotal=totals
+              //  req.session.fulltotal=totals
     
                
 
@@ -290,12 +285,58 @@ exports.displaycart=async (req, res) => {
           let userId = req.session.user._id;
           let userdetails=await User.findOne({_id:ObjectId(userId)})
           let savedAddress=await Address.find({userId:ObjectId(userId)})
-          let availableCoupons=await Coupon.find({ isDelete:{$ne : true}} ).sort({  expires:-1}).limit(3)
-       
+          let availableCoupons=await Coupon.find({ isDelete:{$ne : true},status:false} ).sort({  expires:-1}).limit(3)
         console.log(userdetails);
-      //  let fulltotal= total[0].total
-      let fulltotal= req.session.fulltotal
+     
+      let total=await Cart.aggregate([
+        {
+          $match:{user:ObjectId(userId)}
+        },
+        {
+          $unwind:'$products'
+        },{
+          $project:{
+            item:'$products.item',
+            quantity:'$products.quantity'
+          }
+        },
+        {
+          $lookup:{
+            from:'products',
+            localField:'item',
+            foreignField:'_id',
+            as:'product'
+        }
+      },
+      {
+          $project: {
+            item: 1,
+            quantity: 1,
+            product: { $arrayElemAt: ["$product", 0] },
+          }, 
+      },
+      {
+        $group:{
+          _id:null,
+          total:{$sum:{$multiply:['$quantity','$product.price']}}
+        }
+      }
+      ])
+   
+     let fulltotal= total[0]?.total
        
+     if(req.session.discountprice){
+      if(fulltotal>req.session.discountprice.min){
+        fulltotal=fulltotal-req.session.discountprice.offer
+      }else{
+        req.session.message = {
+          type: "danger",
+           message: "Coupon valid on order above"+req.session.discountprice.offer.min,
+        }
+
+      }
+      
+     }
         res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails,availableCoupons })
         }catch(err){
           console.log(err+"error happenedd in order checkout");
@@ -303,14 +344,11 @@ exports.displaycart=async (req, res) => {
       }
 
       /* ------------------------------- remove cart ------------------------------ */
-
-
     exports.removeCart=async(req,res)=>{
       try{
         let quantity = parseInt(req.body.quantity)
     let cartid=req.body.cart;
     let productId=req.body.product
-    
         await Cart.updateOne({_id:ObjectId(cartid)},{
           $pull:{
             products:{
@@ -321,8 +359,6 @@ exports.displaycart=async (req, res) => {
     res.json(removeproduct =true)
       }catch(err){
         console.log(err+"error occured in deleting cart");
-        
-    
       }
     }
       

@@ -82,6 +82,7 @@
                  <th scope="col">min purchase</th>
                 <th scope="col">valid from</th>
                 <th scope="col">expire date</th>
+                <th scope="col">Block</th>
                 <th scope="col">delete</th>
                   </tr>
                 </thead>
@@ -94,6 +95,13 @@
                     <td><%=allcoupon[i].min%> Rs</td>
                     <td><%=allcoupon[i].from.toISOString().slice(0,10)%></td>
                     <td><%=allcoupon[i].expires.toISOString().slice(0,10)%></td>
+                    <% if(allcoupon[i].status==false){%>
+                      <td><a href="/admin/invalidcoupon/<%=allcoupon[i]._id%>" class="btn btn-danger" >Block</a></td>
+                     <% }else{ %>
+                        <td><a href="/admin/validcoupon/<%=allcoupon[i]._id%>"  class="btn btn-danger" >UnBlock</a></td>
+                    
+                      <%} %>
+                    
                   <td><a onclick="confirmation('<%=allcoupon[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a></td>
                     </tr>
                     <%}%>

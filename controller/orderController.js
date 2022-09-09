@@ -6,6 +6,7 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 const Order = require("../models/order");
 const Address=require('../models/savedAddress')
+const Couponused=require('../models/usedcoupon')
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
 let orderServices=require('../services/orderServices')
@@ -45,8 +46,48 @@ exports.placeOrder=async (req, res) => {
     let cart = await Cart.findOne({ user: ObjectId(userId) });
  
     let products = cart?.products;
+    let total=await Cart.aggregate([
+      {
+        $match:{user:ObjectId(userId)}
+      },
+      {
+        $unwind:'$products'
+      },{
+        $project:{
+          item:'$products.item',
+          quantity:'$products.quantity'
+        }
+      },
+      {
+        $lookup:{
+          from:'products',
+          localField:'item',
+          foreignField:'_id',
+          as:'product'
+      }
+    },
+    {
+        $project: {
+          item: 1,
+          quantity: 1,
+          product: { $arrayElemAt: ["$product", 0] },
+        }, 
+    },
+    {
+      $group:{
+        _id:null,
+        total:{$sum:{$multiply:['$quantity','$product.price']}}
+      }
+    }
+    ])
     
-    let totalPrice = req.session.fulltotal
+ 
+   let totalPrice= total[0]?.total
+   if(req.session.discountprice){
+    totalPrice=totalPrice-req.session.discountprice.offer
+   await Couponused.updateOne({userId:userId},{$set:{totalspend:totalPrice}})
+   }
+   
     let status = req.body["paymentmethod"] === "cod" ? "placed" : "pending";
 let order = req.body;
 console.log("order",JSON.stringify(order))
@@ -254,7 +295,7 @@ exports.cancelOrder=async (req, res) => {
   
     let date = orders[0].date.toLocaleDateString();
     console.log(date);
-  
+    req.session.discountprice=false
     res.render("user/orderdetails", { orders, isuser: req.session.userlogin });
     }catch(err){
         console.log(err,'error happened  showing orders page user side');
@@ -265,7 +306,11 @@ exports.cancelOrder=async (req, res) => {
 /* ---------------------------- admin orders page --------------------------- */
   exports.ordersPageAdmin=async(req,res)=>{
     try{
-    let  orderinfo=await Order.find()
+    let  orderinfo=await Order.find().sort({
+      date: -1,
+    })
+   
+    console.log(orderinfo);
     res.render('admin/adminorder',{orderinfo})
     }catch(err){
         console.log(err,'error happened while loading orders page in admin side');

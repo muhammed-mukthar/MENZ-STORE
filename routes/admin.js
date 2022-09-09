@@ -109,7 +109,14 @@ router.get('/categoryoffer',async(req,res)=>{
 
 
 router.post('/categoryoffer',async(req,res)=>{
-  let offer=req.body.categoryoffer
+ 
+  // let newObj={
+  //     percentage:req.body.categoryoffer,
+  //     valid_from:req.body.validdate,
+  //     valid_till:req.body.expiredate,
+  //     status:false,
+  //     expired:false     
+  // }
   let category=req.body.category
   let categoryId=req.body.categoryid
   console.log(categoryId,'category id');
@@ -306,6 +313,23 @@ router.get('/deletecoupon/:id',(req,res)=>{
   
     res.redirect('back')
   })
+})
+
+/* ------------------------------- validcoupon ------------------------------ */
+router.get('/validcoupon/:id',(req,res)=>{
+  let couponId=req.params.id
+    couponServices.validcoupon(couponId).then(()=>{
+      res.redirect('back')
+    })
+})
+
+/* ------------------------------ invalidcoupon ----------------------------- */
+
+router.get('/invalidcoupon/:id',(req,res)=>{ 
+    let couponId=req.params.id
+      couponServices.Invalidcoupon(couponId).then(()=>{
+        res.redirect('back')
+      })
 })
 
 

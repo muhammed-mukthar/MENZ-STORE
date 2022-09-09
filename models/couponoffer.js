@@ -26,8 +26,14 @@ const couponSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     },
-    
-   
+    status:{
+        type: Boolean,
+        default:false
+    },
+    expired:{       
+        type: Boolean,
+        default:false
+    }
 });
 
 module.exports= mongoose.model('coupon',couponSchema);

@@ -1,6 +1,8 @@
+const { truncate } = require('fs')
 const { resolve } = require('path')
 const Coupon=require('../models/couponoffer')
-
+const usedCoupon=require('../models/usedcoupon')
+var ObjectId = require("mongoose").Types.ObjectId;
 module.exports={
     addcoupon:(coupon,validdate,expiredate,offer,minpurchase)=>{
         return new Promise(async(resolve,reject)=>{
@@ -30,43 +32,62 @@ deletCoupon:(id)=>{
             }
         })
         resolve(deletecoupon)
-
     })
 },
-applyCoupon:(coupon,total)=>{
+applyCoupon:(coupon,currentuserId)=>{
     return new Promise(async(resolve,reject)=>{
-        let couponexist= await Coupon.findOne({coupon:coupon,isDelete:{$ne : true}})
+        let ifcouponused=await usedCoupon.findOne({userId:ObjectId(currentuserId),couponCode:coupon})
+        let couponexist= await Coupon.findOne({coupon:coupon,isDelete:{$ne : true},status:false})
         if(couponexist){
             const nowDate = new Date();
             if (nowDate.getTime() > couponexist.expires.getTime()) {
-                req.session.message = {
-                    type: "danger",
-                     message: "Coupon is expired",
-          }
-                resolve()
-                // res.json({ error: 'Coupon is expired' })
-            }
-            else if (couponexist.min < total) {
-                
-                discountPrice = total-couponexist.min
-                req.session.fulltotal=discountPrice
-                resolve()
-            }else{
-                req.session.message = {
-                    type: "danger",
-                     message: "Coupon valid on order above <%=%>",
-                  }
-                  resolve()
-                
+                let err="coupon is expired"
+              reject(err)
+          }else if(ifcouponused){
+            let err="coupon cannot be reused"
+            reject(err)
+          } else{
+     let couponused=   new usedCoupon({
+            userId:currentuserId,
+            couponCode:couponexist.coupon,
+            couponId:couponexist.id,
+            min:couponexist.min
+
+        })
+        await couponused.save()    
+        resolve(couponexist)          
             }
     }else{
-        req.session.message = {
-            type: "danger",
-             message: "Invalid coupon",
-          }
-          resolve()
+        let err="Invalid Coupon"
+          reject(err)
     }
     })
+},
+
+validcoupon:(couponid)=>{
+    return new Promise(async(resolve,reject)=>{
+        await Coupon.updateOne({
+            _id:ObjectId(couponid)
+        },{
+            $set:{
+                status:false
+            }
+        })
+        resolve()
+    })
+},
+
+Invalidcoupon:(couponid)=>{
+    return new Promise(async(resolve,reject)=>{
+        await Coupon.updateOne({
+            _id:couponid},{$set:{
+                status:true
+            }
+        })
+        resolve()
+    })
 }
+
+
 
 }

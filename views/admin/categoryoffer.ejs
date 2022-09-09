@@ -62,12 +62,17 @@
                           <option value="<%=categories.categoryname%>"><%=categories.categoryname%></option>
                           <%})%>
                       </select>
-                     
                       </div>
                         <label for="">New Offer</label>
                         <div>
                         <input type="number" min="0" max="30" name="categoryoffer" placeholder="New offer" class="form-control mb-3 ">
                        </div>
+                       <div class="my-3"> <label class="form-label" for="validdate">Valid from</label>
+                        <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="validdate" id="validdate" >
+                    </div>
+                    <div> <label class="form-label" for="expiredate">expire at</label>
+                     <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="expiredate" id="validdate" >
+                 </div>
                         <button type="submit" class="btn btn-success mt-3 ">Submit</button>
                     </form>
                 </div>

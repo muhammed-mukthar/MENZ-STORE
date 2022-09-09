@@ -22,20 +22,12 @@ exports.categorypage=async(req, res) => {
 exports.addCategory=async (req, res) => {
   const categoryvalidate=await Category.findOne({categoryname:req.body.category})
  
-  
-    
-
       if(categoryvalidate){
-
           req.session.message = {
             type: "danger",
             message: "category already exist",
           };
           res.status(500).redirect('/admin/category')
-      
-      
-
-
       }else{
           var categorysave =  new Category({
       categoryname: req.body.category,
@@ -57,14 +49,18 @@ exports.addCategory=async (req, res) => {
     });
       }
   }
-  
-
   exports.deleteCategory=async(req,res)=>{
-    // let categorydetails=Category.findOnf({_id:ObjectId(req.params.id)})
-    // let productExist=await Product.findOne({category:categorydetails.categoryname})
-    // console.log(productExist,categorydetails,categorydetails.categoryname);
-   
-    await Category.findByIdAndDelete(req.params.id)
+    let existingcategory=await Category.findOne({_id:req.params.id})
+    let productExist=Product.find({category:existingcategory.categoryname})    
+    if(productExist){
+      req.session.message = {
+        type: "danger",
+        message: "There is products in this category please change before deleting",
+      };
+    }else{
+        await Category.findByIdAndDelete(req.params.id)
+    }
+  
     res.redirect('/admin/category')
   }
 
