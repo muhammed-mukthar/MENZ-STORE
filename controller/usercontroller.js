@@ -168,7 +168,16 @@ exports.userhomepage= async (req, res) => {
   try{
 let bannerimage=await Banner.find()
     let newproducts = await Product.find().sort({ createdAt: -1 }).limit(3);
-  console.log(newproducts);
+    let categories=await Category.find()
+    let offercategories=[]
+    for(let j=0;j<categories.length;j++){
+      if(categories[j].offer){
+        offercategories.push(categories[j])
+      }
+    }
+    
+
+  console.log(offercategories);
   if (req.session.userlogin) {
     let userid = req.session.user._id;
     console.log(userid);
@@ -177,13 +186,13 @@ let bannerimage=await Banner.find()
     res.render("user/home", {
       isuser: req.session.userlogin,
       cartcount,
-      newproducts,bannerimage
+      newproducts,bannerimage,offercategories
     });
   } else {
     res.render("user/home", {
       isuser: req.session.userlogin,
       cartcount: "0",
-      newproducts,bannerimage
+      newproducts,bannerimage,offercategories
     });
   }
 

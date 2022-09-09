@@ -74,11 +74,15 @@ exports.addproduct=async(req,res)=>{
             console.log("image"+i+"added");
           }})
       }//end of for loop
-      
-      const productsave= await new Product({
+          
+      let productcategory=await Category.findOne({_id: ObjectId(req.body.categoryid)})
+    let categoryname= productcategory.categoryname
+      console.log(categoryname);
+      const productsave=  new Product({
         product_name:req.body.productname,
         desc:req.body.description ,
-        category: req.body.category,
+        category:categoryname,
+        categoryId: req.body.categoryid,
         size: req.body.size,
         stock: req.body.stock,
         price: req.body.price,
@@ -129,7 +133,9 @@ exports.editProduct = async(req, res) => {
   const id=req.params.id
   let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
   // console.log(existproduct[0].image[0]);
-  
+  let productcategory=await Category.findOne({_id: ObjectId(req.body.categoryid)})
+  let categoryname= productcategory.categoryname
+
 
 
 
@@ -201,7 +207,8 @@ imagepath.push(img)
             $set: {
                product_name: req.body.productname,
                desc: req.body.description,
-               category: req.body.category,
+               category:categoryname,
+               categoryId: req.body.categoryid,
                size: req.body.size,
                stock: req.body.stock,
                price: req.body.price,
@@ -228,7 +235,8 @@ imagepath.push(img)
         $set:{
           product_name: req.body.productname,
           desc: req.body.description,
-          category: req.body.category,
+          category:categoryname,
+        categoryId: req.body.categoryid,
           size: req.body.size,
           stock: req.body.stock,
           price: req.body.price,
@@ -263,13 +271,22 @@ exports.deleteproduct = async (req, res) => {
 
 exports.productviewuser= async (req, res) => {
   try{
+    const categories = await Category.find();
+    
+    
+    let offercategories=[]
+    for(let j=0;j<categories.length;j++){
+      if(categories[j].offer){
+        offercategories.push(categories[j])
+      }
+    }
   const products = await Product.findById({ _id: req.params.id });
 
   let images = products.image;
 
   let imagelength = images.length;
 
-  res.render("user/product-single", { products, imagelength,  isuser: req.session.userlogin, });
+  res.render("user/product-single", { products, imagelength,offercategories,  isuser: req.session.userlogin, });
   }catch(err){
     console.error('error occured on product view user');
   }
@@ -278,8 +295,17 @@ exports.productviewuser= async (req, res) => {
 
 exports.displayshop=async (req, res) => {
   try {
-    const categories = await Category.find();
     const allProduct = await Product.find();
+    const categories = await Category.find();
+    
+    
+    let offercategories=[]
+    for(let j=0;j<categories.length;j++){
+      if(categories[j].offer){
+        offercategories.push(categories[j])
+      }
+    }
+    
     if(req.session.userlogin){
       let userid= req.session.user._id
         let cartdetails= await Cart.findOne({user:userid})
@@ -287,12 +313,12 @@ exports.displayshop=async (req, res) => {
         res.render("user/shop", {
           products: allProduct,
           isuser: req.session.userlogin,
-          categories,cartcount
+          categories,cartcount,offercategories
         });
     }else{
       res.render("user/shop", {
         products: allProduct,
-        isuser: req.session.userlogin,
+        isuser: req.session.userlogin,offercategories,
         categories,cartcount:'0'
       });
 

@@ -54,23 +54,15 @@
               </div>
               <div class=" mt-5 col-md-4">
                 <label for="category" class="mr-2">Category</label>
-                <select class="" name="category" id="category">
+                <select class="" name="categoryid" id="category">
                     <option value="" selected>Select one</option>
                     <% category.forEach(function(category){%>
-                    <option value=<%=category.categoryname%>><%=category.categoryname%></option>
+                    <option value=<%=category._id%>><%=category.categoryname%></option>
                    
                     <%})%>
                 </select>
                 </div>
-                <!-- <div class="mt-5 col-md-4">
-                    <label for="subcategory" class="mr-2">Sub Category</label>
-                    <select class="" name="subcategory" id="subcategory">
-                        <option selected>Select one</option>
-                        <option value="Levis">Levis</option>
-                        <option value="allen solley">allen solley</option>
-                        
-                    </select>
-                    </div> -->
+
                     <div class="mt-5 col-md-4">
                         <label for="size" class="">size</label>
                         <select class="" name="size" id="size">

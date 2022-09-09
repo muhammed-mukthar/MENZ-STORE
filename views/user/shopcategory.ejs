@@ -75,24 +75,15 @@
   
     <!-- END nav -->
 
-    <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-center justify-content-center">
-          <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="/users">Home</a></span> <span>Products</span></p>
-            <h1 class="mb-0 bread">Collection Products</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-
+   
     <section class="ftco-section bg-light">
     	<div class="container">
     		<div class="row">
+				
     			<div class="col-md-8 col-lg-10 order-md-last">
     				<div class="row">
 						<%Products.forEach(function(Products){%>
-						
+					
 		    			<div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
 		    				<div class="product">
 		    					<a href="/users/productview/<%=Products._id%>" class="img-prod"><img class="img-fluid" src="/<%=Products.image[0]%>" alt="Colorlib Template">
@@ -101,25 +92,28 @@
 		    					<div class="text py-3 px-3">
 		    						<h3><a href="/users/productview/<%Products._id%>"><%=Products.product_name%></a></h3>
 		    						<div class="d-flex">
-		    							<div class="pricing">
-				    						<p class="price"><span class="price-sale"><%=Products.price%> Rs</span></p>
-				    					</div>
-										<!-- <div class="pricing">
-				    						<p class="price"><span class="price-sale"><%=Products.offerprice%> Rs</span></p>
-				    					</div> -->
-				    					<div class="rating">
-			    							<p class="text-right">
-			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-			    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-			    							</p>
-			    						</div>
+										<div class="pricing">
+											<!-- ------------- checking if  there is category offer or not ------------- -->
+											<%for(let j=0;j< offercategories.length ;j++){%>
+												
+											<%if(Products.category == offercategories[j].categoryname){%>
+												<%console.log(Products.price * (1-offercategories[0].offer.percentage/100))%>
+												<div class="d-flex">
+												<p class="price span px-2"><span class="price-sale"><del>Rs <%=Products.price  %></del> </span></p>
+											<p class="price span"><span class="price-sale">Rs<%=Math.trunc(Products.price * (1-offercategories[j].offer.percentage/100)) %></span></p>
+										</div>
+											<%}else{%>
+										<p class="price"><span class="price-sale">Rs<%=Products.price  %></span></p>
+											<%}%>
+											<%}%>
+		
+										</div>
+		    							
+										
 			    					</div>
 			    					<p class="bottom-area d-flex px-3">
 		    							<a href="/users/add-to-cart/<%=Products._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="#" class="buy-now text-center py-2">add to wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
+		    							<a href="/users/add-to-wishlist/<%=Products._id%>" class="buy-now text-center py-2">wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
 		    						</p>
 		    					</div>
 		    				</div>

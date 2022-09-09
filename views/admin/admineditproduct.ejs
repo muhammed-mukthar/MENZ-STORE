@@ -54,11 +54,11 @@
             <div class=" mt-5 col-md-4">
               <label for="category" class="mr-2">Category</label>
               
-                <select class="custom-select " name="category"   id="category">
-                    <option value="<%=productdetails.category%>"  selected><%=productdetails.category%> </option>
+                <select class="custom-select " name="categoryid"   id="category">
+                    <option value="<%=productdetails.categoryId%>"  selected><%=productdetails.category%> </option>
                 
                       <%categorys.forEach(function(categorys){%>
-                    <option value="<%=categorys.categoryname%>"><%=categorys.categoryname%></option>
+                    <option value="<%=categorys._id%>"><%=categorys.categoryname%></option>
                  
                     <%})%>
                 </select>

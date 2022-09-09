@@ -44,8 +44,23 @@
 		    					<div class="text py-3 px-3">
 		    						<h3><a href="/users/productview/<%products._id%>"><%=products.product_name%></a></h3>
 		    						<div class="d-flex">
+										
 		    							<div class="pricing">
-				    						<p class="price"><span class="price-sale"><%=products.price%> Rs</span></p>
+											<!-- ------------- checking if  there is category offer or not ------------- -->
+									<%for(let j=0;j< offercategories.length ;j++){%>
+										
+										<%if(products.category == offercategories[j].categoryname){%>
+											
+											<div class="d-flex">
+											<p class="price span px-2"><span class="price-sale"><del>Rs <%=products.price %></del> </span></p>
+										<p class="price span"><span class="price-sale">Rs<%=Math.trunc( products.price * (1-offercategories[j].offer.percentage/100)) %></span></p>
+									</div>
+										<%}else{%>
+									<p class="price"><span class="price-sale">Rs<%=products.price  %></span></p>
+										<%}%>
+										<%}%>
+	
+				    					
 				    					</div>
 			    					</div>
 			    					<p class="bottom-area d-flex px-lg-3">

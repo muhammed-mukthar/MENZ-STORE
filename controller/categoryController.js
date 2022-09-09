@@ -69,6 +69,14 @@ exports.addCategory=async (req, res) => {
       let allcategories = await Category.find();
       let category = await Category.findOne({ _id: req.params.id });
       let categoryname = category.categoryname;
+    
+    
+    let offercategories=[]
+    for(let j=0;j<allcategories.length;j++){
+      if(allcategories[j].offer){
+        offercategories.push(allcategories[j])
+      }
+    }
   
       let Prducts = await Product.find({
         category: categoryname,
@@ -76,7 +84,7 @@ exports.addCategory=async (req, res) => {
       if (Prducts) {
         res.render("user/shopCategory", {
           Products: Prducts,
-          categories: allcategories,
+          categories: allcategories,offercategories
         });
       } else {
         res.redirect("/users/shop");

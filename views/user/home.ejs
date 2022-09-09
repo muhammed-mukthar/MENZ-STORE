@@ -75,6 +75,7 @@
     	</div>
     	<div class="container">
     		<div class="row">
+				
 				<%for(let i=0;i< newproducts.length;i++){%>
     			<div class="col-sm-6 col-12 col-md-6 col-lg ftco-animate">
     				<div class="product">
@@ -86,7 +87,20 @@
     						<h3><a href="/users/productview/<%=newproducts[i]._id%>"><%=newproducts[i].product_name%></a></h3>
     						<div class="d-flex">
     							<div class="pricing">
-		    						<p class="price"><span class="price-sale">Rs<%=newproducts[i].price%></span></p>
+									<!-- ------------- checking if  there is category offer or not ------------- -->
+									<%for(let j=0;j< offercategories.length ;j++){%>
+										
+									<%if(newproducts[i].category == offercategories[j].categoryname){%>
+										<%console.log(newproducts[0].price * (1-offercategories[0].offer.percentage/100))%>
+										<div class="d-flex">
+										<p class="price span px-2"><span class="price-sale"><del>Rs <%=newproducts[i].price  %></del> </span></p>
+		    						<p class="price span"><span class="price-sale">Rs<%=Math.trunc( newproducts[i].price * (1-offercategories[j].offer.percentage/100)) %></span></p>
+								</div>
+									<%}else{%>
+								<p class="price"><span class="price-sale">Rs<%=newproducts[i].price  %></span></p>
+									<%}%>
+									<%}%>
+
 		    					</div>
 	    					</div>
 	    					<p class="bottom-area d-flex px-3">
