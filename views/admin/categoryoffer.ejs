@@ -59,7 +59,7 @@
                       <select class="custom-select col-12 " name="category" id="category">
                             <%categories.forEach(function(categories){%>
                               
-                          <option value="<%=categories.categoryname%>"><%=categories.categoryname%></option>
+                          <option value="<%=categories._id%>"><%=categories.categoryname%></option>
                           <%})%>
                       </select>
                       </div>
@@ -79,7 +79,6 @@
             </div>
         </div>
     </section>
-  
    <%if(message){%>
               <p> <%=message.message%></p> 
                 <%}%>

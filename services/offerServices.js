@@ -7,18 +7,17 @@ var ObjectId = require("mongoose").Types.ObjectId;
 const category = require("../models/category");
 const categoryoffer = require("../models/categoryoffer");
 module.exports={
-    categoryoffer:(offer,categoryname,categoryId)=>{
-        console.log(offer,categoryname,categoryId);
+    categoryoffer:(offerObj,categoryId)=>{
+        console.log(offerObj);
     return new Promise(async(resolve,reject)=>{
 
-        let offercategory=new categoryoffer({
-            categoryname:categoryname,
-            categoryId:ObjectId(categoryId),
-            offer:offer
-        })
-      let saved=  await offercategory.save()
+        let cateforyOffer=category.updateOne({_id:ObjectId(categoryId)},{$set:{
+            offer:offerObj
+        
+        }})
+      
        
-        resolve(saved)
+        resolve(cateforyOffer)
     })
        
     }

@@ -109,21 +109,26 @@ router.get('/categoryoffer',async(req,res)=>{
 
 
 router.post('/categoryoffer',async(req,res)=>{
+  try{
  
-  // let newObj={
-  //     percentage:req.body.categoryoffer,
-  //     valid_from:req.body.validdate,
-  //     valid_till:req.body.expiredate,
-  //     status:false,
-  //     expired:false     
-  // }
-  let category=req.body.category
-  let categoryId=req.body.categoryid
-  console.log(categoryId,'category id');
-  offerServices.categoryoffer(offer,category,categoryId).then((result)=>{
-    console.log(result);
+ let newObj={
+      percentage:Number(req.body.categoryoffer),
+      valid_from:new Date(req.body.validdate),
+      valid_till:new Date(req.body.expiredate),
+      status:false,
+      expired:false     
+  }
+  console.log(newObj);
+  
+   let categoryId=req.body.category
+  offerServices.categoryoffer(newObj,categoryId).then((result)=>{
+ res.redirect('back')
   })
-  res.redirect('back')
+  }catch(err){
+    console.log(err,'error occured on categoryoffer');
+}
+ 
+  
 })
 
 /* ----------------------------- // get category ---------------------------- */
