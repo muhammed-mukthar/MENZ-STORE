@@ -76,7 +76,7 @@ exports.placeOrder=async (req, res) => {
     {
       $group:{
         _id:null,
-        total:{$sum:{$multiply:['$quantity','$product.price']}}
+        total:{$sum:{$multiply:['$quantity','$product.offerprice']}}
       }
     }
     ])

@@ -86,16 +86,30 @@ exports.addproduct=async(req,res)=>{
         size: req.body.size,
         stock: req.body.stock,
         price: req.body.price,
-        // offerprice:req.body.offerprice,
+        offerprice:req.body.price,
         image:imgPath,
         
       })
-      if(productsave){
-         await productsave.save()
+      if(productsave){ 
+           
+    let   newproduct=  await productsave.save()
+         console.log(newproduct._id,'new Product');
          req.session.message = {
           type: "success",
-           message: "Product added succesfilly",
-}
+           message: "Product added succesfilly",      
+          }
+          //checking if category offer exist
+          if(productcategory.offer){
+            let newofferprice= parseInt(req.body.price * (1 - productcategory.offer.percentage / 100));
+
+            await Product.updateOne({_id:ObjectId(newproduct._id)},{
+              $set:{
+                offerprice:newofferprice
+              }
+            })
+            
+          }
+        
          res.redirect('/admin/products')
       }else{
         res.console.log(err+"error in saving the new product in add product")
@@ -212,7 +226,7 @@ imagepath.push(img)
                size: req.body.size,
                stock: req.body.stock,
                price: req.body.price,
-              //  offerprice:req.body.editedofferprice,
+               offerprice:req.body.price,
                image: imagepath,
              },
            }
@@ -222,6 +236,26 @@ imagepath.push(img)
                   type: "success",
                    message: "Product updated succesfilly",
         }
+
+          //checking if category offer exist
+          if(productcategory.offer){
+            let newofferprice= parseInt(  req.body.price * (1 - productcategory.offer.percentage / 100));
+
+            await Product.updateOne({_id:ObjectId(id)},{
+              $set:{
+                offerprice:newofferprice
+              }
+            })
+            
+          }else{
+            await Product.updateOne({_id:ObjectId(id)},{
+              $set:{
+                offerprice:req.body.price
+              }
+            })
+
+          }
+
         res.redirect('/admin/products')
       }else{
         console.log('error in updating products');
@@ -240,7 +274,7 @@ imagepath.push(img)
           size: req.body.size,
           stock: req.body.stock,
           price: req.body.price,
-          // offerprice:req.body.editedofferprice,
+          offerprice:req.body.price,
 
         }
       })
@@ -250,6 +284,26 @@ imagepath.push(img)
           type: "success",
            message: "Product updated succesfilly",
            }
+
+
+           //checking if category offer exist
+           if(productcategory.offer){
+            let newofferprice= parseInt(req.body.price * (1 - productcategory.offer.percentage / 100));
+
+            await Product.updateOne({_id:ObjectId(id)},{
+              $set:{
+                offerprice:newofferprice
+              }
+            })
+          }else{
+            await Product.updateOne({_id:ObjectId(id)},{
+              $set:{
+                offerprice:req.body.price
+              }
+            })
+
+          }
+
           res.redirect('/admin/products')
 
       }

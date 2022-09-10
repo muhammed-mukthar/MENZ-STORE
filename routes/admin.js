@@ -101,7 +101,7 @@ router.get("/deleteproduct/:id", adminauth,productController.deleteproduct );
 /* --------------------------- get category offer --------------------------- */
 router.get('/categoryoffer',async(req,res)=>{
   let categories= await Category.find()
-  let categorylength=categories.length
+  let categorylength=categories
   res.render("admin/categoryoffer",{categories,categorylength});
 })
 
@@ -123,6 +123,8 @@ router.post('/categoryoffer',async(req,res)=>{
    let categoryId=req.body.category
   offerServices.categoryoffer(newObj,categoryId).then((result)=>{
  res.redirect('back')
+  }).catch(()=>{
+    res.redirect('back')
   })
   }catch(err){
     console.log(err,'error occured on categoryoffer');
@@ -130,6 +132,22 @@ router.post('/categoryoffer',async(req,res)=>{
  
   
 })
+
+
+/* -------------------------- delet category offer -------------------------- */
+
+router.get('/deletecategoryoffer/:id',(req,res)=>{
+  try{
+let cateogryid=req.params.id
+  offerServices.deleteCategoryoffer(cateogryid).then(()=>{
+    res.redirect('back')
+  })
+  }catch(err){
+    console.log('error happened in delete category offer');
+  }
+  
+})
+
 
 /* ----------------------------- // get category ---------------------------- */
 

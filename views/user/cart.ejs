@@ -124,7 +124,22 @@
 						        	<p><%=cartItems[i].product.desc%></p>
 						        </td>
 						        
-						        <td class="price" id="prosingleprice" ><%=cartItems[i].product.price%>Rs</td>
+						        <td class="price" id="prosingleprice" ><div class="pricing">
+									<!-- ------------- checking if  there is category offer or not ------------- -->
+									<%for(let j=0;j< offercategories.length ;j++){%>
+										
+									<%if(cartItems[i].product.category == offercategories[j].categoryname){%>
+										<%console.log(cartItems[i].product.price * (1-offercategories[0].offer.percentage/100))%>
+										<div class="d-flex">
+										<!-- <p class="price span px-2"><span class="price-sale"><del>Rs <%=cartItems[i].product.price  %></del> </span></p> -->
+		    						<p class="price span"><span class="price-sale"><%=Math.trunc( cartItems[i].product.price * (1-offercategories[j].offer.percentage/100)) %></span></p>
+								</div>
+									<%}else{%>
+								<p class="price"><span class="price-sale"><%=cartItems[i].product.price  %></span></p>
+									<%}%>
+									<%}%>
+
+		    					</div></td>
 								
 						       
 						       
@@ -139,8 +154,23 @@
                                         <button style="height:3rem ; width:3rem; "
                                             onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' , 1)">+</button>
                                     </div>
-						        
-						        <td class="total" id="productpriceincrease" ><%= cartItems[i].quantity * cartItems[i].product.price%></td>
+									<td class="total" id="productpriceincrease" >
+										<!-- ------------- checking if  there is category offer or not ------------- -->
+										<%for(let j=0;j< offercategories.length ;j++){%>
+											
+										<%if(cartItems[i].product.category == offercategories[j].categoryname){%>
+											<%console.log(cartItems[i].product.price * (1-offercategories[0].offer.percentage/100))%>
+											
+											<!-- <p class="price span px-2"><span class="price-sale"><del>Rs <%=cartItems[i].product.price  %></del> </span></p> -->
+										Rs<%=Math.trunc( cartItems[i].quantity *(cartItems[i].product.price * (1-offercategories[j].offer.percentage/100))) %>
+								
+										<%}else{%>
+									Rs<%=cartItems[i].quantity *cartItems[i].product.price  %>
+										<%}%>
+										<%}%>
+	
+									</td>
+						        <!-- <td class="total" id="productpriceincrease" ><%= cartItems[i].quantity * cartItems[i].product.price%></td> -->
 						      </tr><!-- END TR-->
 
 						     
@@ -325,8 +355,8 @@
   
 	<script type="text/javascript">
 		 function changeQuantity(cartId, proId, userId,count) {
-        const quantity = parseInt(document.getElementById(proId).innerHTML)
-		const singleprodprice=parseInt(document.getElementById('prosingleprice').innerHTML)
+        const quantity = parseInt(document.getElementById(proId).innerText)
+		const singleprodprice=parseInt(document.getElementById('prosingleprice').innerText)
       
       
         $.ajax({
@@ -338,9 +368,12 @@
             count: count,
             quantity: quantity,
 			singleproductprice:singleprodprice,
+			
+			subtotal:((quantity + count) * singleprodprice),
 			totalprice:singleprodprice*quantity
 
           },
+
           method: 'post',
           success: (res) => {
 		
@@ -373,10 +406,6 @@
 
 	  function  deleteproduct(cartId, proId, userId){
 		const quantity = parseInt(document.getElementById(proId).innerHTML)
-
-		
-
-
 				Swal.fire({
             title: 'Are you want to Remove?',
             icon: 'warning',
@@ -392,28 +421,14 @@
 				user: userId,
             cart: cartId,
             product: proId,
-         
             quantity: quantity
 			},
 			method: 'post',
 			success:(res)=>{
-    
           location.reload()
-     
-			
-			}
-            
+			}  
         })
-
-
-
           }
-           
-		
-    
-				
-				
-
 			})
 		}
 

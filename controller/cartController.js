@@ -17,11 +17,30 @@ const { pipeline } = require("stream");
 const { $where } = require("../models/category");
 const product = require("../models/product");
 const cart = require("../models/cart");
+
+const cartServices=require('../services/cartServices')
 /* ------------------------------ display cart ------------------------------ */
 
 exports.displaycart=async (req, res) => {
+
   let userId = req.session.user?._id;
+  let cart=await Cart.find({user:userId})
+  let categories=await Category.find()
+  
   req.session.discountprice=false
+
+/* ---------------------- //checking for category offer --------------------- */
+
+let offercategories=[]
+for(let j=0;j<categories.length;j++){
+  if(categories[j].offer){
+    offercategories.push(categories[j])
+  }
+}
+/* ----------------------------------- // ----------------------------------- */
+
+
+
   let cartItems = await Cart.aggregate([
     {
       $match: { user: ObjectId(userId) },
@@ -50,51 +69,17 @@ exports.displaycart=async (req, res) => {
     }
   ])
 
-  let total=await Cart.aggregate([
-    {
-      $match:{user:ObjectId(userId)}
-    },
-    {
-      $unwind:'$products'
-    },{
-      $project:{
-        item:'$products.item',
-        quantity:'$products.quantity'
-      }
-    },
-    {
-      $lookup:{
-        from:'products',
-        localField:'item',
-        foreignField:'_id',
-        as:'product'
-    }
-  },
-  {
-      $project: {
-        item: 1,
-        quantity: 1,
-        product: { $arrayElemAt: ["$product", 0] },
-      }, 
-  },
-  {
-    $group:{
-      _id:null,
-      total:{$sum:{$multiply:['$quantity','$product.price']}}
-    }
-  }
-  ])
+  // console.log(cartItems);
 
 
-
-
+  let fulltotal= await cartServices.calculate_total(userId)
   
-  console.log(total);
- let fulltotal= total[0]?.total
+  // console.log(total);
+//  let fulltotal= total[0]?.total
   
  req.session.fulltotal=fulltotal
  
-  res.render("user/cart", { cartItems,user ,isuser: req.session.userlogin,fulltotal});
+  res.render("user/cart", {offercategories, cartItems,user ,isuser: req.session.userlogin,fulltotal});
 }
 
 /* ----------------------------- CHANGE QUANTITY ---------------------------- */
@@ -110,8 +95,18 @@ exports.displaycart=async (req, res) => {
     let cartid=req.body.cart;
     let productId=req.body.product
     let userId = req.session.user?._id;
+   let subtotal=Number(req.body.subtotal) 
 
    
+/* ---------------------- //checking for category offer --------------------- */
+    let categories=await Category.find()
+    let offercategories=[]
+    for(let j=0;j<categories.length;j++){
+      if(categories[j].offer){
+        offercategories.push(categories[j])
+      }
+    }
+   /* ----------------------------------- // ----------------------------------- */
     
     
     if(count==-1 && quantity==1){
@@ -125,44 +120,10 @@ exports.displaycart=async (req, res) => {
         }
       })
     
-      let total=await Cart.aggregate([
-        {
-          $match:{user:ObjectId(userId)}
-        },
-        {
-          $unwind:'$products'
-        },{
-          $project:{
-            item:'$products.item',
-            quantity:'$products.quantity'
-          }
-        },
-        {
-          $lookup:{
-            from:'products',
-            localField:'item',
-            foreignField:'_id',
-            as:'product'
-        }
-      },
-      {
-          $project: {
-            item: 1,
-            quantity: 1,
-            product: { $arrayElemAt: ["$product", 0] },
-          }, 
-      },
-      {
-        $group:{
-          _id:null,
-          total:{$sum:{$multiply:['$quantity','$product.price']}}
-        }
-      }
-      ])
    
-     let totals= total[0]?.total
+     let totals=  await cartServices.calculate_total(userId)
     //  req.session.fulltotal=totals
-      
+  
         res.json({removeproduct:true,totals})
      
     }else{
@@ -172,44 +133,15 @@ exports.displaycart=async (req, res) => {
                 {
                     $inc:{'products.$.quantity':Number(count)}
                 })
-                let total=await Cart.aggregate([
-                  {
-                    $match:{user:ObjectId(userId)}
-                  },
-                  {
-                    $unwind:'$products'
-                  },{
-                    $project:{
-                      item:'$products.item',
-                      quantity:'$products.quantity'
-                    }
-                  },
-                  {
-                    $lookup:{
-                      from:'products',
-                      localField:'item',
-                      foreignField:'_id',
-                      as:'product'
-                  }
-                },
-                {
-                    $project: {
-                      item: 1,
-                      quantity: 1,
-                      product: { $arrayElemAt: ["$product", 0] },
-                    }, 
-                },
-                {
-                  $group:{
-                    _id:null,
-                    total:{$sum:{$multiply:['$quantity','$product.price']}}
-                  }
-                }
-                ])
-                console.log(total);
-               let totals= total[0].total
 
-        
+              
+
+
+
+               let totals= await cartServices.calculate_total(userId)
+
+
+               console.log(totals,'totals in cart fsdfds');
               //  req.session.fulltotal=totals
     
                
@@ -236,29 +168,31 @@ exports.displaycart=async (req, res) => {
         
         let userId = req.session.user._id;
         let productId = req.params.id;
-    
+        let productdetails=await Product.findOne({_id:productId})
         let iscart = await Cart.findOne({ user: userId });
-    
         let productadd = {
           item: ObjectId(productId),
           quantity: 1,
+          categoryId:ObjectId(productdetails.categoryId),
+          category:productdetails.category,
+          productprice:productdetails.price
         };
         if (iscart == null) {
           console.log(iscart + "is caty");
-    
-          let newcart = new Cart({
-            user: userId,
+          let newcarts = new Cart({
+            user: ObjectId(userId),
             products: [productadd],
           });
-          newcart.save();
+    let savedcart=  await  newcarts.save()
+        console.log(savedcart,'new cart');
           req.session.isproductincart = false;
         } else {
-    
+         
          const alreadyExists = iscart.products.findIndex(product => product.item == productId)
           if (alreadyExists === -1) {
             const adding = await Cart.updateOne(
               { user: userId },
-              { $push: { products: { item: ObjectId(productId), quantity: 1 } } }
+              { $push: { products: productadd } }
             );
             req.session.isproductincart = false;
             console.log(adding);
@@ -288,42 +222,42 @@ exports.displaycart=async (req, res) => {
           let availableCoupons=await Coupon.find({ isDelete:{$ne : true},status:false} ).sort({  expires:-1}).limit(3)
         console.log(userdetails);
      
-      let total=await Cart.aggregate([
-        {
-          $match:{user:ObjectId(userId)}
-        },
-        {
-          $unwind:'$products'
-        },{
-          $project:{
-            item:'$products.item',
-            quantity:'$products.quantity'
-          }
-        },
-        {
-          $lookup:{
-            from:'products',
-            localField:'item',
-            foreignField:'_id',
-            as:'product'
-        }
-      },
-      {
-          $project: {
-            item: 1,
-            quantity: 1,
-            product: { $arrayElemAt: ["$product", 0] },
-          }, 
-      },
-      {
-        $group:{
-          _id:null,
-          total:{$sum:{$multiply:['$quantity','$product.price']}}
-        }
-      }
-      ])
+      // let total=await Cart.aggregate([
+      //   {
+      //     $match:{user:ObjectId(userId)}
+      //   },
+      //   {
+      //     $unwind:'$products'
+      //   },{
+      //     $project:{
+      //       item:'$products.item',
+      //       quantity:'$products.quantity'
+      //     }
+      //   },
+      //   {
+      //     $lookup:{
+      //       from:'products',
+      //       localField:'item',
+      //       foreignField:'_id',
+      //       as:'product'
+      //   }
+      // },
+      // {
+      //     $project: {
+      //       item: 1,
+      //       quantity: 1,
+      //       product: { $arrayElemAt: ["$product", 0] },
+      //     }, 
+      // },
+      // {
+      //   $group:{
+      //     _id:null,
+      //     total:{$sum:{$multiply:['$quantity','$product.price']}}
+      //   }
+      // }
+      // ])
    
-     let fulltotal= total[0]?.total
+     let fulltotal= await cartServices.calculate_total(userId)
        
      if(req.session.discountprice){
       if(fulltotal>req.session.discountprice.min){

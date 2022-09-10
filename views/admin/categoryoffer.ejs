@@ -57,6 +57,7 @@
                       <label for="category" class="mr-2">Category</label>
                     <div>
                       <select class="custom-select col-12 " name="category" id="category">
+                      
                             <%categories.forEach(function(categories){%>
                               
                           <option value="<%=categories._id%>"><%=categories.categoryname%></option>
@@ -90,7 +91,9 @@
                  
                 
                     <th scope="col">category</th>
-                  
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Valid from</th>
+                    <th scope="col">expires on</th>
                     <th scope="col">action</th>
       
                   
@@ -98,13 +101,16 @@
                 </thead>
                 <tbody>
                   <%categories.forEach(function(categories){%>
-                        
+                    <%if(categories.offer){%>
                        
               
                   <tr>
                  
                
                     <td><%=categories.categoryname%></td>
+                    <td><%=categories.offer.percentage%></td>
+                    <td><%=categories.offer.valid_from.toISOString().slice(0,10)%></td>
+                    <td><%=categories.offer.valid_till.toISOString().slice(0,10)%></td>
 
                 
                     
@@ -113,7 +119,7 @@
                       <a  id="confirm" onclick="confirmation('<%=categories._id%>')" class="btn btn-danger">delete</a></td>
                     
                     </tr>
-                  
+                    <%}%>
                   
                  <%})%>
           
@@ -128,6 +134,31 @@
      
  
 </body>
-
+<script>
+  function confirmation(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((result) => {
+        // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
+        if (result) {
+         
+      
+          swal("file has been deleted!", {
+            icon: "success",
+          }).then(()=>{
+             location.href = `/admin/deletecategoryoffer/${id}`;
+          })
+         
+        } else {
+          swal("Your  file is safe!");
+        }
+      });
+      }
+      </script>
   
 <%-include('../include/adminresfooter.ejs')-%>
