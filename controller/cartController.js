@@ -11,6 +11,7 @@ dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
 const Coupon=require('../models/couponoffer')
 const Address=require('../models/savedAddress')
+const Wallet=require('../models/wallet')
 const user = require("../models/user");
 const category = require("../models/category");
 const { pipeline } = require("stream");
@@ -219,44 +220,9 @@ for(let j=0;j<categories.length;j++){
           let userId = req.session.user._id;
           let userdetails=await User.findOne({_id:ObjectId(userId)})
           let savedAddress=await Address.find({userId:ObjectId(userId)})
+          let walletdetails=await Wallet.findOne({userId:ObjectId(userId)})
           let availableCoupons=await Coupon.find({ isDelete:{$ne : true},status:false} ).sort({  expires:-1}).limit(3)
         console.log(userdetails);
-     
-      // let total=await Cart.aggregate([
-      //   {
-      //     $match:{user:ObjectId(userId)}
-      //   },
-      //   {
-      //     $unwind:'$products'
-      //   },{
-      //     $project:{
-      //       item:'$products.item',
-      //       quantity:'$products.quantity'
-      //     }
-      //   },
-      //   {
-      //     $lookup:{
-      //       from:'products',
-      //       localField:'item',
-      //       foreignField:'_id',
-      //       as:'product'
-      //   }
-      // },
-      // {
-      //     $project: {
-      //       item: 1,
-      //       quantity: 1,
-      //       product: { $arrayElemAt: ["$product", 0] },
-      //     }, 
-      // },
-      // {
-      //   $group:{
-      //     _id:null,
-      //     total:{$sum:{$multiply:['$quantity','$product.price']}}
-      //   }
-      // }
-      // ])
-   
      let fulltotal= await cartServices.calculate_total(userId)
        
      if(req.session.discountprice){
@@ -271,7 +237,7 @@ for(let j=0;j<categories.length;j++){
       }
       
      }
-        res.render('user/checkout',{total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails,availableCoupons })
+        res.render('user/checkout',{walletdetails,total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails,availableCoupons })
         }catch(err){
           console.log(err+"error happenedd in order checkout");
         }

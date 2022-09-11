@@ -7,10 +7,12 @@ const Category = require("../models/category");
 const Order = require("../models/order");
 const Address=require('../models/savedAddress')
 const Couponused=require('../models/usedcoupon')
+
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
 let orderServices=require('../services/orderServices')
-
+let cartServices=require('../services/cartServices')
+let walletServices=require('../services/walletServices')
 
 /* ------------------------------------ * ----------------------------------- */
 
@@ -46,43 +48,9 @@ exports.placeOrder=async (req, res) => {
     let cart = await Cart.findOne({ user: ObjectId(userId) });
  
     let products = cart?.products;
-    let total=await Cart.aggregate([
-      {
-        $match:{user:ObjectId(userId)}
-      },
-      {
-        $unwind:'$products'
-      },{
-        $project:{
-          item:'$products.item',
-          quantity:'$products.quantity'
-        }
-      },
-      {
-        $lookup:{
-          from:'products',
-          localField:'item',
-          foreignField:'_id',
-          as:'product'
-      }
-    },
-    {
-        $project: {
-          item: 1,
-          quantity: 1,
-          product: { $arrayElemAt: ["$product", 0] },
-        }, 
-    },
-    {
-      $group:{
-        _id:null,
-        total:{$sum:{$multiply:['$quantity','$product.offerprice']}}
-      }
-    }
-    ])
-    
  
-   let totalPrice= total[0]?.total
+   let totalPrice=await cartServices.calculate_total(userId)
+   console.log(totalPrice,typeof(totalPrice),'totalPrice in placeorder');
    if(req.session.discountprice){
     totalPrice=totalPrice-req.session.discountprice.offer
    await Couponused.updateOne({userId:userId},{$set:{totalspend:totalPrice}})
@@ -141,7 +109,14 @@ if(  req.body["paymentmethod"] === "cod"){
       res.json({ paypalSuccess: true });
 
   })
-}    
+}else if( req.body["paymentmethod"] === "wallet"){
+  orderServices.changePaymentStatus(savedOrder._id).then(()=>{
+      walletServices.wallet_payment(userId,totalPrice).then(()=>{
+        res.json({ codSuccess: true });
+  })
+  })
+
+}        
     await Cart.deleteOne({ user: ObjectId(order.userId) });
   } catch (err) {
     console.log(err + "error happened while placing order");
@@ -184,8 +159,9 @@ exports.cancelOrder=async (req, res) => {
       }
     );
     console.log(updated);
-    // res.redirect('/users/orders')
-    res.json("res");
+    walletServices.refund_order_status(id).then(()=>{
+       res.json("res");
+    })
     }catch(err){
         console.log(err,'error happened while cancel order');
     }
@@ -309,8 +285,6 @@ exports.cancelOrder=async (req, res) => {
     let  orderinfo=await Order.find().sort({
       date: -1,
     })
-   
-    console.log(orderinfo);
     res.render('admin/adminorder',{orderinfo})
     }catch(err){
         console.log(err,'error happened while loading orders page in admin side');
@@ -374,14 +348,14 @@ exports.orderUserInfo=async(req,res)=>{
     try{
       let orderId=req.params.id
       let updatedstatus=req.body.status
-    
-      await Order.updateOne({_id:orderId},{
+    await Order.updateOne({_id:orderId},{
         $set:{
           status:updatedstatus
         }
       })
-      res.redirect('/admin/orders')
-  
+      walletServices.refund_order_status(orderId).then(()=>{
+         res.redirect('/admin/orders')
+      })
     }catch(err){
       console.log('error happened in order status'+err);
     }

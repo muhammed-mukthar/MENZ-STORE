@@ -15,11 +15,12 @@ const Order = require("../models/order");
 const Admin = require("../models/admin");
 const Address=require('../models/savedAddress')
 const Banner=require('../models/banner')
+
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
 let orderServices=require('../services/orderServices')
-
-
+let walletServices=require('../services/walletServices')
+let ReferalServices=require('../services/referalService')
 /* ------------------------------------ * ----------------------------------- */
 
 const paypal = require('../paypal')
@@ -27,6 +28,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
 const dotenv = require("dotenv");
+const Wallet = require("../models/wallet");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -107,8 +109,19 @@ exports.signup=async (req, res) => {
         phone: req.body.phone,
         password: await bcrypt.hash(req.body.password, 10),
       });
-      await userdetails.save();
+    let saveduser=  await userdetails.save();
+  
+      
+  
+      //creating wallet and referalcode
+      ReferalServices.createReferal(saveduser._id).then(()=>{
+      walletServices.createWallet(saveduser._id,saveduser.email).then(()=>{
+        ReferalServices.referralAppy(req.body.referral,saveduser._id).then(()=>{
       res.status(200).redirect("/users/login")
+    })
+      })
+      })
+   
     }
   } catch (err) {
     res.status(200).send(err)
@@ -175,7 +188,6 @@ let bannerimage=await Banner.find()
         offercategories.push(categories[j])
       }
     }
-    
 
   console.log(offercategories);
   if (req.session.userlogin) {
@@ -231,17 +243,16 @@ exports.userSignup=(req, res) => {
 exports.userProfilePage=async (req, res) => {
   try{
     let userId = req.session.user._id;
+    let walletdetails=await walletServices.wallet_balance(userId)
   let userdetails = await User.findOne({ _id: userId })
-
   let saveaddress=await Address.find({userId:ObjectId(userId)})
-  console.log(saveaddress);
-  
+  let referalcode=await ReferalServices.findreferal(userId)
+  console.log(walletdetails);
   res.render("user/userdetails", {
-    userdetails,
+    userdetails,walletdetails,
     isuser: req.session.userlogin,
-    saveaddress
+    saveaddress,referalcode
   });
-
   }catch(err){
     console.log(err,'error happened while loading userProfile');
   }
@@ -313,6 +324,8 @@ exports.changePassword=async (req, res) => {
   }
 }
 
+/* -------------------------- edit profile details -------------------------- */
+
 
 exports.editProfile=async (req, res) => {
   try {
@@ -328,7 +341,6 @@ exports.editProfile=async (req, res) => {
       password,
       userdetails.password
     );
-
     console.log(changed_email+"changed email"+userId+"userid"+changed_name+"changed name"+"changed phone"+changed_phone);
 if(verifypassword){
   

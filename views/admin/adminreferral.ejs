@@ -1,0 +1,151 @@
+<%-include('../include/adminheader.ejs')-%>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link "  href="/admin">dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="/admin/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+            <li class="nav-item dropdown-content">
+              
+               
+              <a href="/admin/categoryoffer" class="nav-link">Category Offers</a>
+              <a href="#">coupon offer</a>
+              
+                <a href="#">referal offer</a>
+                <a href="#">product offer</a>
+         
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+      <section class="col-md-9 col-lg-10 ml-auto mb-2">
+        <div class="container mt-4">
+            <div class="row">
+
+                <div class="col-md-4">
+                  <h2 class="text-center">Referral offer</h2>
+                  
+
+
+                    <form action="/admin/referraloffer" id="form1" method="post">
+                      
+                   
+                        <label for="">Referral  Amount</label>
+                        <div>
+                        <input type="number" name="referral" value="<%= referalamountdetails?.referralAmount%>" placeholder="Referal Amount" class="form-control mb-3">
+                       </div>
+                       <label for="">Reffered User Amount</label>
+                        <div>
+                        <input type="number" name="referreduserAmount" value="<%= referalamountdetails?.refereduserAmount%>" placeholder="Referal Amount" class="form-control mb-3">
+                       </div>
+                       
+                        <button type="submit" class="btn btn-success mt-3 ">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+   <%if(message){%>
+              <p> <%=message.message%></p> 
+                <%}%>
+      <div class="container mt-3">
+          <table id="example" class="display responsive nowrap" style="width:100%">
+            <thead class="theadclass">
+           
+              <tr>
+                 
+                
+                    <th scope="col">Referal Amount</th>
+                    <th scope="col">Referred user Amount</th>
+
+                    <th scope="col">Action</th>
+                   
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                       
+              
+                  <tr>
+                 <%if(referalamountdetails){%>
+               
+                   <td><%=referalamountdetails.referralAmount%> Rs</td>
+                   <td><%=referalamountdetails.refereduserAmount%> Rs</td> 
+                   <td>
+                      <a  id="confirm" onclick="confirmation('<%=referalamountdetails._id%>')" class="btn btn-danger">delete</a></td>
+                    
+                    </tr>
+                <%}%>
+
+                
+                    
+             
+                   
+                    
+          
+                </tbody>
+          </table>
+        
+      </div>
+
+
+
+
+     
+ 
+</body>
+<script>
+  function confirmation(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((result) => {
+        // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
+        if (result) {
+         
+      
+          swal("file has been deleted!", {
+            icon: "success",
+          }).then(()=>{
+             location.href = `/admin/deletereferaloffer/${id}`;
+          })
+         
+        } else {
+          swal("Your  file is safe!");
+        }
+      });
+      }
+      </script>
+  
+<%-include('../include/adminresfooter.ejs')-%>

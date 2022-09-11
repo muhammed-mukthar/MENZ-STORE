@@ -45,23 +45,24 @@
 		    						<h3><a href="/users/productview/<%products._id%>"><%=products.product_name%></a></h3>
 		    						<div class="d-flex">
 										
-		    							<div class="pricing">
-											<!-- ------------- checking if  there is category offer or not ------------- -->
-									<%for(let j=0;j< offercategories.length ;j++){%>
+		    					
+								<div class="pricing">
+									
+									
 										
-										<%if(products.category == offercategories[j].categoryname){%>
-											
-											<div class="d-flex">
-											<p class="price span px-2"><span class="price-sale"><del>Rs <%=products.price %></del> </span></p>
-										<p class="price span"><span class="price-sale">Rs<%=Math.trunc( products.price * (1-offercategories[j].offer.percentage/100)) %></span></p>
-									</div>
-										<%}else{%>
-									<p class="price"><span class="price-sale">Rs<%=products.price  %></span></p>
-										<%}%>
-										<%}%>
-	
-				    					
-				    					</div>
+									<%if(products.price == products.offerprice ){%>
+										<p class="price"><span class="price-sale">Rs<%=products.price  %></span></p>
+									<%}else{%>
+										
+										<div class="d-flex">
+										<p class="price span px-2"><span class="price-sale"><del>Rs <%=products.price  %></del> </span></p>
+		    						<p class="price span"><span class="price-sale">Rs<%=products.offerprice  %></span></p>
+								</div>
+								
+									<%}%>
+								
+
+		    					</div>
 			    					</div>
 			    					<p class="bottom-area d-flex px-lg-3">
 		    							<a href="/users/add-to-cart/<%=products._id%>" class="add-to-cart text-center py-lg-2 mr-lg-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>

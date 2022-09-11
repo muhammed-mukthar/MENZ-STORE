@@ -30,7 +30,18 @@
 
     <section class="ftco-section">
       <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ">
+			<div class="col-md-10 d-flex mt-5 mb-4">
+				<div class="cart-detail shadow-sm  text-center p-3 p-md-4">
+					<h5 class=" mb-4 " style="font-weight: 300;"> Wallet balance: <span>  <%=walletdetails.amount%> Rs</span></h5>	
+					 <!-- The text field -->
+<input type="text" value="<%=referalcode%>" disabled id="myInput">
+<!-- The button used to copy the text -->
+<button class="btn btn-info" onclick="myFunction()">Copy text</button> 		
+						  <hr>		 
+						  </div>
+			</div>
+			
           <div class="col-xl-8 ftco-animate">
 						<form action="/users/editprofile"  method="post" class="billing-form">
 							<h3 class="mb-4 billing-heading">User  Profile</h3>
@@ -82,7 +93,7 @@
 							 
 			 </div> 
 		 </div>
-
+		
 		 
 		 <%if(message){%>
 			<h5 class="text-<%=message.type%>my-5"><%=message.message%></h5> 

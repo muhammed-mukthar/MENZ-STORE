@@ -190,55 +190,38 @@
 	      </div>
 	    </div>
 	  </nav>
-   
- 
-  
-
     <section class="ftco-section">
     	<div class="container">
     		<div class="row">
 				<div class=" col-md-6">
 					<div class="image-container">
-
 						<div class="main-image ps-4">
 							<img class="img-fluid rounded-4 main" id="image-zoom"
 							src="/<%=products.image[0]%>" 
 								style="height: 32rem; width: 27rem;">   
 						</div>
-
 						<div class="sub-images mt-2 ms-3 ">
 							<img class="m-2 sub" src="/<%=products.image[0]%>" style="height: 5rem; width: 5rem;" alt="product image">
 							<img class="m-2 sub" src="/<%=products.image[1]%>" style="height: 5rem; width: 5rem;" alt="product image">
 							<img class="m-2 sub" src="/<%=products.image[2]%>" style="height: 5rem; width: 5rem;" alt="product image">
 						</div>
-
 					</div>
-
 				</div>
-  
     			<div class="mt-lg-5 col-lg-6 product-details pl-md-5 ftco-animate">
     				<h3><%=products.product_name%></h3>
-            <div class="d-flex">
-										
-              <div class="pricing">
-              <!-- ------------- checking if  there is category offer or not ------------- -->
-          <%for(let j=0;j< offercategories.length ;j++){%>
-            
-            <%if(products.category == offercategories[j].categoryname){%>
-              
-              <div class="d-flex">
-              <p class="price span px-2"><span class="price-sale"><del>Rs <%=products.price %></del> </span></p>
-            <p class="price span"><span class="price-sale">Rs<%=Math.trunc( products.price * (1-offercategories[j].offer.percentage/100)) %></span></p>
-          </div>
-            <%}else{%>
-          <p class="price"><span class="price-sale">Rs<%=products.price  %></span></p>
-            <%}%>
-            <%}%>
 
-              
+            <div class="d-flex">
+              <div class="pricing">		
+                <%if(products.price == products.offerprice ){%>
+                  <p class="price"><span class="price-sale" style="font-weight: 300;">Rs<%=products.price  %></span></p>
+                <%}else{%>  
+                  <div class="d-flex">
+                  <p class="price span px-2"><span class="price-sale" style="font-weight: 300;"><del>Rs <%=products.price  %></del> </span></p>
+                  <p class="price span"><span class="price-sale" style="font-weight: 300;">Rs<%=products.offerprice  %></span></p>
               </div>
+                <%}%>
+                </div>
             </div>
-    		
     				<!-- <p class="price"><span>Rs <%=products.price%></span></p> -->
     				<p><%=products.desc%></p>
 				

@@ -86,20 +86,23 @@
     					<div class="text py-3 px-3">
     						<h3><a href="/users/productview/<%=newproducts[i]._id%>"><%=newproducts[i].product_name%></a></h3>
     						<div class="d-flex">
-    							<div class="pricing">
-									<!-- ------------- checking if  there is category offer or not ------------- -->
-									<%for(let j=0;j< offercategories.length ;j++){%>
+								<!-- ------------- checking if  there is category offer or not ------------- -->
+    						
+								<div class="pricing">
+									
+									
 										
-									<%if(newproducts[i].category == offercategories[j].categoryname){%>
-										<%console.log(newproducts[0].price * (1-offercategories[0].offer.percentage/100))%>
+									<%if(newproducts[i].price == newproducts[i].offerprice ){%>
+										<p class="price"><span class="price-sale">Rs<%=newproducts[i].price  %></span></p>
+									<%}else{%>
+										
 										<div class="d-flex">
 										<p class="price span px-2"><span class="price-sale"><del>Rs <%=newproducts[i].price  %></del> </span></p>
-		    						<p class="price span"><span class="price-sale">Rs<%=Math.trunc( newproducts[i].price * (1-offercategories[j].offer.percentage/100)) %></span></p>
+		    						<p class="price span"><span class="price-sale">Rs<%=newproducts[i].offerprice  %></span></p>
 								</div>
-									<%}else{%>
-								<p class="price"><span class="price-sale">Rs<%=newproducts[i].price  %></span></p>
+								
 									<%}%>
-									<%}%>
+								
 
 		    					</div>
 	    					</div>

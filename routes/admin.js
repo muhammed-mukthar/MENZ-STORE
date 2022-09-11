@@ -15,6 +15,7 @@ let bannerServices=require('../services/bannerServices')
 let orderServices=require('../services/orderServices')
 let offerServices=require('../services/offerServices')
 let couponServices=require('../services/CouponServices')
+let referalService=require('../services/referalService')
 /* -------------------------------- services -------------------------------- */
 const fs = require("fs");
 const { route } = require("./user");
@@ -355,5 +356,45 @@ router.get('/invalidcoupon/:id',(req,res)=>{
       })
 })
 
+
+/* --------------------------- referal offer page --------------------------- */
+
+router.get('/referraloffer',(req,res)=>{
+  try{
+    referalService.referramountdetails().then((referalamountdetails)=>{
+      console.log(referalamountdetails);
+          res.render('admin/adminreferral',{referalamountdetails})
+    })
+
+
+
+
+  }catch(err){
+    console.log(err,'error happened in referal offer page');
+  }
+})
+/* --------------------------- referal offer form submit post --------------------------- */
+
+router.post('/referraloffer',(req,res)=>{
+  try{
+    let referralAmount=req.body.referral
+    let referedUser=req.body.referreduserAmount
+    referalService.referramount(referralAmount,referedUser).then(()=>{
+      res.redirect('/admin/referraloffer')
+    })
+  }catch(err){
+    console.log(err,'error happened in referal offer form submit');
+  }
+})
+
+/* -------------------------- delete referral offer ------------------------- */
+
+router.get('/deletereferaloffer/:id',(req,res)=>{
+  let refferralOfferId=req.params.id
+  referalService.delete_referralOffer(refferralOfferId).then(()=>{
+    res.redirect('back')
+  })
+
+})
 
 module.exports = router;
