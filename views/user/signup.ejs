@@ -117,11 +117,11 @@
                   class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
                 >Sign in</button>
                 <%if(message){%>
-                  <h5><%=message.message%></h5> 
+                  <h5 class="text-<%=message.type%>"><%=message.message%></h5> 
                    <%}%>
                 <div class="text-center d-flex justify-content-between mt-4"><p
                   >Already a member?<a
-                      href="/login"
+                      href="/users/login"
                       class="font-italic text-muted"
                     >
                       <u>Login here.</u></a></p></div>

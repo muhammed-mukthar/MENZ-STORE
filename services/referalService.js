@@ -1,6 +1,7 @@
 const Referal=require('../models/referal')
 const ReferalAmount=require('../models/referalOffer')
 const crypto = require('crypto');
+const User=require('../models/user')
 const Wallet = require('../models/wallet');
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -90,7 +91,7 @@ delete_referralOffer:(refferralOfferId)=>{
 
 /* ----------------------------- apply referral ----------------------------- */
 
-referralAppy:(referalcode,newuser_id)=>{
+referralApply:(referalcode,newuser_id)=>{
     return new Promise(async(resolve,reject)=>{
       let refferalcodematch=  await Referal.findOne({referralcode:referalcode})
       if(refferalcodematch){
@@ -101,6 +102,11 @@ referralAppy:(referalcode,newuser_id)=>{
         amount:refferaldetails.refereduserAmount
       }})
       await Wallet.updateOne({userId:ObjectId(newuser_id)},{$inc:{amount:refferaldetails.referralAmount}})
+      }else{
+        await User.deleteOne({_id:ObjectId(newuser_id)})
+        await Wallet.deleteOne({userId:ObjectId(newuser_id)})
+        let err='incorrect referral code'
+        reject(err)
       }
       resolve()
     })

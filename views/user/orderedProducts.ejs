@@ -24,70 +24,86 @@
 	    </div>
 	  </nav>
    
-<style>
-    .gradient-custom {
-/* fallback for old browsers */
-background: #cd9cf2;
-
-/* Chrome 10-25, Safari 5.1-6
-background: -webkit-linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1)); */
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1))
-}
-
-</style>
-
-
-    <div style="min-height: 665px; width:100%;" class="gradient-custom" >
-
-        <section  class="h-100 ">
-            <div class="container py-5 h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-lg-10 col-xl-8">
-                  <div class="card" style="border-radius: 10px;">
-                    <div class="card-header px-4 py-5">
-                      <h5 class="text-muted mb-0">Thanks for your Order, </h5>
-                    </div>
-                    <div class="card-body p-4">
-                     
-                    
-                      <div class="card shadow-0 border mb-4">
-                        <div class="card-body">
-                          <%for(let i=0;i < orderdItems.length;i++){%>
-                            <div class="row">
-                            <div class="col-md-2">
-                                <img src="/<%=orderdItems[i].product.image[0]%>"
-                                  class="img-fluid" alt="<%=orderdItems[i].product.product_name%>">
-                              </div>
-                         
-                            <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0"><%=orderdItems[i].product.product_name%></p>
-                            </div>
-                            <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0 small"><%=orderdItems[i].product.desc%></p>
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-muted mb-0 small"><%=orderdItems[i].product.price%></p>
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                <p class="text-muted mb-0 small"><%=orderdItems[i].quantity%></p>
-                              </div>
-                            
-                          </div>
-                          <%}%>
-                          
-                          </div>
+<!-- 
+    <section  class="h-100 ">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-lg-10 col-xl-8">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-header px-4 py-5">
+                <h5 class="text-muted mb-0">Thanks for your Order, </h5>
+              </div>
+              <div class="card-body p-4">
+               
+              
+                <div class="card shadow-0 border mb-4">
+                  <div class="card-body">
+                    <%for(let i=0;i < orderdItems.length;i++){%>
+                      <div class="row">
+                      <div class="col-md-2">
+                          <img src="/<%=orderdItems[i].product.image[0]%>"
+                            class="img-fluid" alt="<%=orderdItems[i].product.product_name%>">
                         </div>
+                   
+                      <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0"><%=orderdItems[i].product.product_name%></p>
                       </div>
-          
-                     
+                      <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0 small"><%=orderdItems[i].product.desc%></p>
+                      </div>
+                      <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0 small"><%=orderdItems[i].product.price%></p>
+                      </div>
+                      <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <p class="text-muted mb-0 small"><%=orderdItems[i].quantity%></p>
+                        </div>
+                      
+                    </div>
+                    <%}%>
+                    
+                    </div>
                   </div>
                 </div>
-              </div>
+    
+               
             </div>
-          </section>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">Ordered Products</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table shadow  ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Product Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col"> Product description</th>
+              <th scope="col">Product Price</th>
+              <th scope="col"> Product quantity</th>
+
+            </tr>
+          </thead>
+          <tbody class="searchable">
+            <%for(let i=0;i < orderdItems.length;i++){%>
+            <tr>
+              <td><img src="/<%=orderdItems[i].product.image[0]%>" width="100px"  height="100px" class="img-fluid" alt="<%=orderdItems[i].product.product_name%>"></td>
+              <td><%=orderdItems[i].product.product_name%>"</td>
+              <td><%=orderdItems[i].product.desc%></td>
+              <td><%=orderdItems[i].product.price%></td>
+              <td><%=orderdItems[i].quantity%></td>
+          
+            </tr>
+            <%}%>
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
     
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

@@ -66,6 +66,12 @@ module.exports={
         })
 
       })
+    },
+
+    wishlistItems:()=>{
+      return new Promise(async(resolve,reject)=>{
+        await WishList.find()
+      })
     }
 
 

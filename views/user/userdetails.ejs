@@ -33,7 +33,8 @@
         <div class="row justify-content-center ">
 			<div class="col-md-10 d-flex mt-5 mb-4">
 				<div class="cart-detail shadow-sm  text-center p-3 p-md-4">
-					<h5 class=" mb-4 " style="font-weight: 300;"> Wallet balance: <span>  <%=walletdetails.amount%> Rs</span></h5>	
+					<h5 class=" mb-4 " style="font-weight: 400;"> Wallet balance: <span>  <%=walletdetails.amount%> Rs</span></h5>	
+					<h5 class=" mb-4 " style="font-weight: 400;"> Referralcode</h5>	
 					 <!-- The text field -->
 <input type="text" value="<%=referalcode%>" disabled id="myInput">
 <!-- The button used to copy the text -->
@@ -94,11 +95,11 @@
 			 </div> 
 		 </div>
 		
-		 
+<!-- 		 
 		 <%if(message){%>
 			<h5 class="text-<%=message.type%>my-5"><%=message.message%></h5> 
 			 <%}%>
-		 
+		  -->
 			<form action="/users/saveaddress" method="post" id="" class="billing-form">
 				<h3 class="mb-4 billing-heading">Add Address</h3>
 			<div class="form-group">
@@ -146,7 +147,7 @@
 			</form>
 			<div class="w-100"></div>
 		
-				<div class="col-md-10 d-flex mt-5">
+				<div class="col-md-12 d-flex mt-5">
 					<div class="cart-detail bg-light p-3 p-md-4">
 						<h5 class=" mb-4" style="font-weight: bold;"> Saved Address </h5>
 						

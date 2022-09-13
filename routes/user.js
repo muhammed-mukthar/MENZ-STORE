@@ -118,10 +118,6 @@ router.get('/wishlist',userauth,(req,res)=>{
     console.log(wishlistItems);
     res.render('user/wishlist',{wishlistItems,userId,  isuser: req.session.userlogin,})
   })
-
-
- 
-  
 })
 
 /* ----------------------------- add to wishlist ---------------------------- */
