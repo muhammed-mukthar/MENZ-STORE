@@ -36,18 +36,18 @@
             </li>
 
             <li class="nav-item">
-              <a href="/users/shop" class="nav-link">shop</a>
+              <a href="/shop" class="nav-link">shop</a>
             </li>
             <%if(locals.isuser){%>
             <li class="nav-item">
-              <a href="/users/logout" class="nav-link">Log out</a>
+              <a href="/logout" class="nav-link">Log out</a>
             </li>
             <%}else{%>
             <li class="nav-item">
-              <a href="/users/signup" class="nav-link">sign up</a>
+              <a href="/signup" class="nav-link">sign up</a>
             </li>
             <li class="nav-item">
-              <a href="/users/login" class="nav-link">Login</a>
+              <a href="/login" class="nav-link">Login</a>
             </li>
             <%}%>
           </ul>
@@ -56,8 +56,9 @@
     </nav>
     <!-- END nav -->
 
-    <section class="ftco-section">
-      <div class="container">
+    <section class="ftco-section ">
+      <h3 class="mb-4 billing-heading text-center">checkout-form</h3>
+      <div class="container shadow-sm py-4 px-2 ">
         <div class="row justify-content-center">
           <div class="col-xl-8 ftco-animate">
             <!-- Pills navs -->
@@ -106,17 +107,18 @@
                   id="checkout-saveaddress-form"
                   class="checkout-form"
                 >
-                  <h3 class="mb-4 billing-heading">checkout-form</h3>
+                
                   <div class="row align-items-end">
               
 
-                    <div class="w-100"></div>
+                    <div class="d-md-flex">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="phone">Phone</label>
                         <input
                           type="text"
                           name="phone"
+                          id="phone"
                           class="form-control"
                           value="<%=userdetails.phone%>"
                           placeholder="phone"
@@ -131,15 +133,13 @@
                         />
                       </div>
                     </div>
-                   
-                    <div class="w-100"></div>
-                  </div>
-
-                  <div class="col-md-10 d-flex mt-5">
-                    <div>
-                      <h5 class="mb-4" style="font-weight: bold">
-                        Saved Address
-                      </h5>
+                    
+                  <div class="col-md-10  d-flex">
+                    <div class="form-group">
+                      <label for=""> Saved Address</label>
+                      <!-- <h5 class="mb-4" style="font-weight: bold">
+                       
+                      </h5> -->
 
                       <% if(savedAddress.length){%>
                          <%for (let i=0;i < savedAddress.length;i++){%>
@@ -169,31 +169,26 @@
                       <%}%>
                     </div>
                   </div>
+                   
+                   </div>
+                  </div>
+
 
                   <div class="row mt-5 pt-3 d-flex">
-                    <div class="col-md-6 d-flex">
-                      <div class="cart-detail cart-total bg-light p-3 p-md-4">
-                    
-                    
-                       
+                
+                    <div class="col-md-6">
+                      <div class="cart-detail bg-light p-3 p-md-4">
                         <h3 class="billing-heading mb-4">Cart Total</h3>
                         <hr />
                        
-                        <p class="d-flex total-price">
-                          <span>Total</span>
-                          <span>Rs <%=total%></span>
-                        </p>
-                        <h5>Available Coupon</h5>
-                        <%for(let i=0;i< availableCoupons.length;i++){%>
-                          <p><%=availableCoupons[i].coupon%></p>
-                          <%}%>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="cart-detail bg-light p-3 p-md-4">
+                        <div class= "text-dark d-flex fw-bold total-price ">
+                          <p  class="me-3 fs-5">Total</p>
+                          <p class=" fs-5">Rs <%=total%></p>
+                        </div>
                         <h3 class="billing-heading mb-4">Payment Method</h3>
                         <div class="form-group">
                           <div class="col-md-12">
+
                             <div class="radio">
                               <label
                                 ><input
@@ -271,21 +266,40 @@
                         <div id="paypal-button-container" class="clr"  style=" margin-top: 1rem;"></div>
                       </div>
                     </div>
+                    </form>
+                    <div class="col-md-6 d-flex">
+                      <div class="cart-detail cart-total bg-light p-3 p-md-4">
+                            <%if(message){%>
+                             <p class="text-danger"><%=message.message%></p> 
+                              <%}%>  
+                            <h3 class="billing-heading mb-4">Coupon</h3>
+                            <hr />   
+                            <%if(couponused){%>
+                              <input type="text" disabled name="coupon" value="<%=usedcoupon.coupon%>" id="coupon">
+                              <button type="submit" disabled  class="btn btn-success">applied</button>
+                              <p class="text-success "><%=usedcoupon.offer%>/-Rs  off</p>
+                      <%}else{%>
+                        <%console.log(usedcoupon,'used coupon')%>
+                        <form action="/applycoupon"  method="post">
+                          <p>Coupon</p>     
+                    <input type="text" name="coupon" id="coupon">
+                    <button type="submit"  class="btn btn-success">apply</button>
+                  </form>
+                       
+                        <%}%>
+                      <button type="button"  id="displaycoupons"  class="btn btn-outline-info my-3">available Coupons</button>
+                     
+                     
+                      <div id="showcoupons" style="display: none;">
+                      <%for(let i=0; i< availableCoupons.length;i++){%>
+                     <p><%=availableCoupons[i].coupon%></p> 
+                        <%}%>
+                      </div>
+                      </div>
+                    </div>
                   </div>
-                </form>
                 <div class="col-md-6 d-flex">
-                  <div class="cart-detail cart-total bg-light p-3 p-md-4">
-                    <%if(message){%>
-                     <p class="text-<%=message.type%>"><%=message.message%></p> 
-                      <%}%>  
-                    <h3 class="billing-heading mb-4">Coupon</h3>
-                    <hr />   
-                    <form action="/users/applycoupon"  method="post">
-                      <p>Coupon</p>     
-                <input type="text" name="coupon" id="coupon">
-                <button type="submit" class="btn btn-success">apply</button>
-              </form>
-                  </div>
+                
                 </div>         
               </div>
               <div
@@ -294,7 +308,7 @@
                 role="tabpanel"
                 aria-labelledby="tab-register"
               >
-                <form action="/users/checkoutsaveaddress" method="post" class=" ">
+                <form action="/checkoutsaveaddress" id="checkout-address" method="post" class=" ">
                   
                     <h3 class="mb-4 billing-heading">User  Profile</h3>
                   <div class="form-group">
@@ -306,25 +320,25 @@
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label for="streetaddress">Street Address</label>
-                                <input type="text" class="form-control" name="address1" required placeholder="House number and building name">
+                                <input type="text" class="form-control"id='address1' name="address1" required placeholder="House number and building name">
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                <input type="text" class="form-control" name="address2" required placeholder="Road name, Area, Colony etc" >
+                                <input type="text" class="form-control" id="address2" name="address2" required placeholder="Road name, Area, Colony etc" >
                               </div>
                             </div>
                             <div class="w-100"></div>
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label for="towncity">Town / City</label>
-                                <input type="text " name="town" required class="form-control" placeholder="town">
+                                <input type="text " id="town" name="town" required class="form-control" placeholder="town">
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label for="postcodezip">Postcode / ZIP *</label>
-                                <input type="number" name="postcode" required class="form-control" placeholder="postcode">
+                                <input type="number" id="postcode" name="postcode" required class="form-control" placeholder="postcode">
                               </div>
                             </div>
                             <div class="w-100"></div>
@@ -332,13 +346,6 @@
                         <button  type="submit"  class="btn btn-primary mt-5 py-3  px-4">save details </button>
                         
                        </div>
-                          
-                      
-                    
-                        <!-- END -->
-            
-            
-            
                   </form>
               </div>
             </div>

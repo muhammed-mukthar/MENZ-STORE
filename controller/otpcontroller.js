@@ -25,7 +25,7 @@ exports.sendOTP=async(req,res)=>{
         type: "danger",
         message: "please register first",
       };
-      res.redirect('/users/sendotp')
+      res.redirect('/sendotp')
     }else{
   
   
@@ -48,7 +48,7 @@ exports.sendOTP=async(req,res)=>{
     .then((resp)=>{
       console.log('response',resp);
       req.session.number=req.body.phone
-      res.status(200).redirect('/users/verifyotp')
+      res.status(200).redirect('/verifyotp')
     }).catch((err)=>{
   
       console.log(err);
@@ -91,13 +91,13 @@ console.log(resp.status,resp.valid);
   if(resp.valid){
     
        req.session.userlogin=true
-    res.redirect('/users')
+    res.redirect('/')
   }else{
     req.session.message={
       type:"danger",
       message:"you have enterd wrong code"
     }
-    res.redirect('/users/verifyotp')
+    res.redirect('/verifyotp')
   }
 
   console.log('otp res',resp);
@@ -131,7 +131,7 @@ exports.resend_otp=(req,res)=>{
   })
   .then((resp)=>{
     console.log('response',resp);
-    res.status(200).redirect('/users/verifyotp')
+    res.status(200).redirect('/verifyotp')
   }).catch((err)=>{
     console.log(err);
   })

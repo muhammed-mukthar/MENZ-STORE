@@ -64,15 +64,15 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	         
-	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
 	          <%if(locals.isuser){%>
-				<li class="nav-item"><a href="/users/orders" class="nav-link">Orders</a></li>
-				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/orders" class="nav-link">Orders</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
 				<%}else{%>
-	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
 			  <%}%>
 	  
 
@@ -83,16 +83,7 @@
    
     <!-- END nav -->
 
-    <!-- <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_6.jpg');">
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-center justify-content-center">
-          <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="/users">Home</a></span> <span>Cart</span></p>
-            <h1 class="mb-0 bread">My Cart</h1>
-          </div>
-        </div>
-      </div>
-    </div> -->
+   
 
 	<%if(cartItems.length>0){%>
 	
@@ -115,7 +106,8 @@
 						    <tbody>
 								<%for(let i=0;i< cartItems.length;i++){%>
 						      <tr class="text-center">
-								<td class="product-remove"><a class="btn"  onclick="deleteproduct('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' )"><span class="ion-ios-close"></span></a></td>
+								<%console.log(cartItems[i].product,"muhammed mukthar",cartItems.length)%>
+								<td class="product-remove"><a class="btn"  onclick="deleteproduct('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','' )"><span class="ion-ios-close"></span></a></td>
 						        
 						        <td class="image-prod"><div  class="img" style="background-image:url(/<%=cartItems[i].product?.image[0]%>);"></div></td>
 						        
@@ -123,23 +115,7 @@
 						        	<h3><%=cartItems[i].product.product_name%></h3>
 						        	<p><%=cartItems[i].product.desc%></p>
 						        </td>
-						        
-						        <!-- <td class="price" id="prosingleprice" ><div class="pricing">
-									
-									<%for(let j=0;j< offercategories.length ;j++){%>
-										
-									<%if(cartItems[i].product.category == offercategories[j].categoryname){%>
-										<%console.log(cartItems[i].product.price * (1-offercategories[0].offer.percentage/100))%>
-										<div class="d-flex">
-	
-		    						<p class="price span"><span class="price-sale"><%=Math.trunc( cartItems[i].product.price * (1-offercategories[j].offer.percentage/100)) %></span></p>
-								</div>
-									<%}else{%>
-								<p class="price"><span class="price-sale"><%=cartItems[i].product.price  %></span></p>
-									<%}%>
-									<%}%>
-
-		    					</div></td> -->
+						       
 								<td class="price" id="prosingleprice" ><div class="pricing">
 							
 										
@@ -213,7 +189,7 @@
     						<span id="totalvalue">Rs <%=fulltotal?fulltotal:'0.00'%></span>
     					</p>
     				</div>
-    				<p class="text-center"><a id="checkoutpage" href="/users/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				<p class="text-center"><a id="checkoutpage" href="/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
     			</div>
     		</div>
 			</div>
@@ -226,7 +202,7 @@
 
 				<div class="empty-cart">
 						
-					<h3 class="text-center mt-5 ">Your cart is empty<a class="h5 ml-2 btn btn-dark text-white" href="/users/shop">Go to shop</a></h3>
+					<h3 class="text-center mt-5 ">Your cart is empty<a class="h5 ml-2 btn btn-dark text-white" href="/shop">Go to shop</a></h3>
 
 					<svg viewBox="656 573 264 182" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 						<rect id="bg-line" stroke="none" fill-opacity="0.2" fill="#FFE100" fill-rule="evenodd" x="656" y="624" width="206" height="38" rx="19"></rect>
@@ -370,7 +346,7 @@
       
       
         $.ajax({
-          url: '/users/change-product-quantity',
+          url: '/change-product-quantity',
           data: {
             user: userId,
             cart: cartId,
@@ -426,7 +402,7 @@
         }).then((result) => {
           if(result.isConfirmed){
             $.ajax({
-			url:'/users/cart/remove',
+			url:'/cart/remove',
 			data:{
 				user: userId,
             cart: cartId,

@@ -33,7 +33,9 @@ module.exports = {
          
           if (allProduct[m].category === offercategories[k].categoryname) {
             console.log("inside the loop");
-            if (nowDate.getTime() < offercategories[k].offer.valid_till.getTime()) {
+            console.log(nowDate.getTime(),'nowdate',offercategories[k].offer.valid_from.getTime(),'valid from' , offercategories[k].offer.valid_from  <  nowDate < offercategories[k].offer.valid_till,'now date',offercategories[k].offer.valid_till.getTime(),'valid till');
+            if (       offercategories[k].offer.valid_from.getTime()  < nowDate.getTime() < offercategories[k].offer.valid_till.getTime()) {
+
                 let offerprice = parseInt(
               allProduct[m].price *
                 (1 - offercategories[k].offer.percentage / 100)

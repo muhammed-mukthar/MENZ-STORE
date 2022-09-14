@@ -28,7 +28,11 @@ rel="stylesheet"
 />
 </head>
 <body>
-  
+<style>
+  .error{
+    color: red;
+  }
+</style>
   <nav class="navbar navbar-expand-lg bg-dark  n mb">
                 <div class="container-fluid ">
                   
@@ -39,9 +43,9 @@ rel="stylesheet"
                     <ul class="navbar-nav">
                       <li class="nav-item active"><a href="/"  class="nav-link text-white ">Home</a></li>
          
-                      <li class="nav-item"><a href="/users/shop" class="nav-link text-white ">shop</a></li>
-                      <li class="nav-item"><a href="/users/signup" class="nav-link text-white ">sign up</a></li>
-                      <li class="nav-item"><a href="/users/login" class="nav-link text-white ">Login</a></li>
+                      <li class="nav-item"><a href="/shop" class="nav-link text-white ">shop</a></li>
+                      <li class="nav-item"><a href="/signup" class="nav-link text-white ">sign up</a></li>
+                      <li class="nav-item"><a href="/login" class="nav-link text-white ">Login</a></li>
  
                     </ul>
                   </div>
@@ -78,7 +82,7 @@ rel="stylesheet"
                       <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
                           
-                          <form action="/users/login" method="post" >
+                          <form action="/login" id="form1" method="post" >
           
                             <div class="d-flex align-items-center mb-3 pb-1">
                               <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -118,10 +122,10 @@ rel="stylesheet"
                             </div>
           
                         
-                            <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/users/signup"
+                            <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup"
                                 style="color: #393f81;">Register here</a></p>
                             
-                            <a class="btn" href="/users/sendotp" >OTP LOGIN</a>
+                            <a class="btn" href="/sendotp" >OTP LOGIN</a>
                           </form>
           
                         </div>
@@ -145,6 +149,7 @@ rel="stylesheet"
 
   
   <script>
+    
     jQuery('#form1').validate({
       rules:{
        
@@ -154,9 +159,18 @@ rel="stylesheet"
           email:true
         },
         
-        password:"required"
-    
+        password:"required",
+        minlength:5
+      }, messages:{
+      email :{
+        required:"Enter valid email address",
+        email:"Enter valid email Id"
       },
+      password:{
+        required:"Password is required",
+        minlength:"Atleast 5 character required"
+        }
+    },
       submitHandler:function(form){
         form.submit();
       }

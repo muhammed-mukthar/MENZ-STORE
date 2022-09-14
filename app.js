@@ -42,7 +42,7 @@ app.use(
   "/admin/productimage",
   express.static(path.join(__dirname, "/public/productimage"))
 );
-app.use("/users", userroute);
+app.use("/", userroute);
 app.use("/admin", adminroute);
 
 app.set("views", path.join(__dirname, "views"));

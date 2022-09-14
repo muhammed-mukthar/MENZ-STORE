@@ -29,7 +29,7 @@ function confirm_Delete(id){
               'AddressId': id,
           },
       
-    url : '/users/removeaddress',
+    url : '/removeaddress',
       method:'post',
      
       success:(response)=>{

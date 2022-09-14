@@ -14,6 +14,7 @@ const Coupon=require('../models/couponoffer')
 let orderServices=require('../services/orderServices')
 let wishlistServices=require('../services/wishlistServices')
 let couponServices=require('../services/CouponServices')
+let cartServices=require('../services/cartServices')
 
 
 /* ------------------------------------ * ----------------------------------- */
@@ -34,11 +35,12 @@ const categoryController = require("../controller/categoryController");
 const orderController=require('../controller/orderController')
 const addressController=require('../controller/addressController');
 const CouponServices = require("../services/CouponServices");
+
 const userauth = (req, res, next) => {
   if (req.session.userlogin) {
     next();
   } else {
-    res.redirect("/users/login");
+    res.redirect("/login");
   }
 };
 
@@ -48,7 +50,10 @@ const userauth = (req, res, next) => {
 /* --------------------------------- paypal create order --------------------------------- */
 
 router.post("/api/orders",userauth, async (req, res) => {
-  const order = await paypal.createOrder();
+  let userId = req.session.user._id;
+ let total=await cartServices.calculate_total(userId)
+ console.log(total,'total here');
+  const order = await paypal.createOrder(total);
   res.json(order);
 });
  
@@ -155,7 +160,7 @@ router.get('/add-to-wishlist/:id',userauth,async(req,res)=>{
 
       }
     }
-    res.redirect("/users/wishlist");
+    res.redirect("/wishlist");
   } catch (err) {
     console.log(err + "error add to wishlist");
   }

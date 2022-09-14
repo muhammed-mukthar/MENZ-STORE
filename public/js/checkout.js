@@ -1,3 +1,11 @@
+//show div
+
+ $(document).ready(function(){
+  $("#displaycoupons").click(function(){
+ 
+      $("#showcoupons").toggle();
+  });
+});
 
   function  displaycheckout(){
 
@@ -18,12 +26,12 @@
      $("#checkout-form").submit((e) => {
        e.preventDefault();
        $.ajax({
-         url: "/users/place-order",
+         url: "/place-order",
          method: "post",
          data: $("#checkout-form").serialize(),
          success: (res) => {
            if (res.codSuccess) {
-             location.href = "/users/orderplaced";
+             location.href = "/orderplaced";
            } else {
              razorpayPayment(res);
            }
@@ -35,16 +43,16 @@
      $("#checkout-saveaddress-form").submit((e) => {
        e.preventDefault();
        $.ajax({
-         url: "/users/place-order",
+         url: "/place-order",
          method: "post",
          data: $("#checkout-saveaddress-form").serialize(),
          success: (res) => {
            if (res.codSuccess) {
              console.log(res.codSuccess);
-             location.href = "/users/orderplaced";
+             location.href = "/orderplaced";
            }else if(res.paypalSuccess) {
              console.log(res.paypalSuccess,'transaction completed successfully using paypal');
-             location.href = "/users/orderplaced";
+             location.href = "/orderplaced";
            } else {
              razorpayPayment(res);
            }
@@ -55,7 +63,7 @@
      function razorpayPayment(order) {
        var options = {
    "key": "rzp_test_hoOZcN9A4HjtUu", // Enter the Key ID generated from the Dashboard
-   "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+   "amount": order.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
    "currency": "INR",
    "name": "Menz shop",
    "description": "Test Transaction",
@@ -83,7 +91,7 @@
      function verifyPayment(payment,order){
       console.log(payment)
        $.ajax({
-         url:'/users/verifypayment',
+         url:'/verifypayment',
          data:{
            payment,
            order
@@ -92,7 +100,7 @@
          method:'post',
          success:(response=>{
            if(response.status){
-             location.href = "/users/orderplaced";
+             location.href = "/orderplaced";
            }else{
              alert('payment failed')
            }

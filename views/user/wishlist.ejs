@@ -8,15 +8,15 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	         
-	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
 	          <%if(locals.isuser){%>
-				<li class="nav-item"><a href="/users/orders" class="nav-link">Orders</a></li>
-				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/orders" class="nav-link">Orders</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
 				<%}else{%>
-	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
 			  <%}%>
         
 	        </ul>
@@ -31,10 +31,11 @@
             <div class="col-10">
       
               <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-normal mb-0 text-black">wishlist</h3>
+                <h3 class="fw-normal mb-0 text-black text-center">wishlist</h3>
                
               </div>
               <!-- wishlistItems -->
+             <% if(wishlistItems.length>0){%>
               <%for(let i=0;i< wishlistItems.length;i++){%>
               <div class="card rounded-3 mb-4">
                 <div class="card-body p-4">
@@ -54,13 +55,13 @@
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 ">
                       <%if(wishlistItems[i].product.price ==wishlistItems[i].product.offerprice){%>
-                      <h5 class="mb-0"><%=wishlistItems[i].product.price%>₹</h5>
+                      <h5 class="mb-0  "><%=wishlistItems[i].product.price%>Rs</h5>
                       <%}else{%>
                         <h5 class="mb-0"><%=wishlistItems[i].product.offerprice%>Rs</h5>
                         <%}%>
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2  d-flex flex-column text-center">
-                        <a href="/users/add-to-cart/<%=wishlistItems[i].product._id%>" onclick="deletewishlist('<%=wishlistItems[i]._id%>')" class="btn text-white btn-danger"> Cart+</a>
+                        <a href="/add-to-cart/<%=wishlistItems[i].product._id%>" onclick="deletewishlist('<%=wishlistItems[i]._id%>')" class="btn text-white btn-danger"> Cart+</a>
                         <a  onclick="deleteproduct('<%=wishlistItems[i]._id%>','<%=wishlistItems[i].product._id%>','<%=userId%>')" class="btn pt-2 text-danger"><i class="fas fa-trash fa-lg"></i></a>
                       </div>
                     </div>
@@ -69,6 +70,13 @@
                   </div>
                 </div>
                 <%}%>
+                <%}else{%>
+                  <div class=" text-center c">
+                    <img src="/images/wishlistempty.png"  alt="">
+                    <h5 class="text-center">Wishlist is empty <a href="/shop">Go to shop</a></h5>
+                  </div>
+
+                  <%}%>
               </div>
              
 			

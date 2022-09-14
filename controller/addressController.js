@@ -19,7 +19,7 @@ exports.saveAddress=async(req,res)=>{
       pincode:postcode
   })
   await savedaddress.save()
-  res.redirect("/users/userprofile");
+  res.redirect("/userprofile");
     }catch(err){
         console.log(err,'error happend while saving address userprofile');
     }
@@ -44,7 +44,7 @@ exports.saveAddress=async(req,res)=>{
       pincode:postcode
   })
   await savedaddress.save()
-  res.redirect("/users/checkout");
+  res.redirect("/checkout");
     }catch(err){
         console.log(err,'error happend while saving address checkout');
     }

@@ -1,22 +1,22 @@
 <%-include('../include/userheader.ejs')-%>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="/users">menz store </a>
+	      <a class="navbar-brand" href="/">menz store </a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	         
-	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
 			  <%if(locals.isuser){%>
 				
-				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
 				<%}else{%>
-	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
 			  <%}%>
 	          
 	        </ul>
@@ -44,7 +44,7 @@
 			</div>
 			
           <div class="col-xl-8 ftco-animate">
-						<form action="/users/editprofile"  method="post" class="billing-form">
+						<form action="/editprofile"  method="post" class="billing-form">
 							<h3 class="mb-4 billing-heading">User  Profile</h3>
 
 	          	<div class="row align-items-end">
@@ -87,7 +87,7 @@
 			<div class="col-md-12 my-5">
 			 
 									 <div class="forgot_password" >
-									   <a href="/users/changepassword" class="mr-3"> change Password</a>
+									   <a href="/changepassword" class="mr-3"> change Password</a>
 									   
 									  
 									 </div>
@@ -100,7 +100,7 @@
 			<h5 class="text-<%=message.type%>my-5"><%=message.message%></h5> 
 			 <%}%>
 		  -->
-			<form action="/users/saveaddress" method="post" id="" class="billing-form">
+			<form action="/saveaddress" method="post" id="" class="billing-form">
 				<h3 class="mb-4 billing-heading">Add Address</h3>
 			<div class="form-group">
 				
@@ -156,7 +156,7 @@
 							  <%for (let i=0;i < saveaddress.length;i++){%>
 							  <p class="d-flex total-price">
 								  <span class="col-3">address <%=i+1%></span>
-								  <span class="col-7"><%=saveaddress[i].address1%></span>
+								  <span class="col-7"><%=saveaddress[i].address1%>,<%=saveaddress[i].address2%>,<%=saveaddress[i].city%>,PO:<%=saveaddress[i].pincode%></span>
 								  <a onclick="confirm_Delete('<%=saveaddress[i]._id%>')"   class="btn btn-danger text-white col-2">remove</a>
 							  </p>
 							  <%}%>

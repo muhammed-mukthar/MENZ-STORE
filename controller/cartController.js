@@ -208,7 +208,7 @@ for(let j=0;j<categories.length;j++){
             console.log("product already added to cart");
           }
         }
-        res.redirect("/users/cart");
+        res.redirect("/cart");
       } catch (err) {
         console.log(err + "error add to cart");
       }
@@ -221,14 +221,16 @@ for(let j=0;j<categories.length;j++){
           let userdetails=await User.findOne({_id:ObjectId(userId)})
           let savedAddress=await Address.find({userId:ObjectId(userId)})
           let walletdetails=await Wallet.findOne({userId:ObjectId(userId)})
-          let availableCoupons=await Coupon.find({ isDelete:{$ne : true},status:false} ).sort({  expires:-1}).limit(3)
+          let availableCoupons=await Coupon.find({ isDelete:{$ne : true},status:false} ).sort({  expires:-1})
         console.log(userdetails);
      let fulltotal= await cartServices.calculate_total(userId)
-       
+     let couponused=false
      if(req.session.discountprice){
       if(fulltotal>req.session.discountprice.min){
+        couponused=true
         fulltotal=fulltotal-req.session.discountprice.offer
       }else{
+        couponused=false
         req.session.message = {
           type: "danger",
            message: "Coupon valid on order above"+req.session.discountprice.offer.min,
@@ -237,7 +239,7 @@ for(let j=0;j<categories.length;j++){
       }
       
      }
-        res.render('user/checkout',{walletdetails,total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails,availableCoupons })
+        res.render('user/checkout',{walletdetails,total:fulltotal,userId,isuser: req.session.userlogin,savedAddress,userdetails,availableCoupons,couponused,usedcoupon:req.session.discountprice })
         }catch(err){
           console.log(err+"error happenedd in order checkout");
         }

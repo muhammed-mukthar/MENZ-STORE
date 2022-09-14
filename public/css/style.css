@@ -1,6 +1,9 @@
 .form-control{
   font-weight: 300 !important;
 }
+.error{
+  color: red !important;
+}
 
 :root {
   --blue: #007bff;

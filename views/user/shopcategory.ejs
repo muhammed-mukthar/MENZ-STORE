@@ -50,23 +50,36 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="/">menz store </a>
+	      <a class="navbar-brand" href="">menz store </a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	         
-	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+			  <li class="nav-item"><div class="dropdown nav-link">
+				
+				<a class=" text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+				categories
+				</a>
+			  
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				  
+				  <%categories.forEach(function(categories){%>
+					  <li><a  class="dropdown-item" href="/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
+					  
+					  <%})%>
+				</ul>
+			  </div></li>
 			  <%if(locals.isuser){%>
-				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
 				<%}else{%>
-	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
 			  <%}%>
-	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
 	        </ul>
 	      </div>
@@ -79,80 +92,44 @@
     <section class="ftco-section bg-light">
     	<div class="container">
     		<div class="row">
-				
     			<div class="col-md-8 col-lg-10 order-md-last">
     				<div class="row">
 						<%Products.forEach(function(Products){%>
-					
 		    			<div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
 		    				<div class="product">
-		    					<a href="/users/productview/<%=Products._id%>" class="img-prod"><img class="img-fluid" src="/<%=Products.image[0]%>" alt="Colorlib Template">
-		    					
+		    					<a href="/productview/<%=Products._id%>" class="img-prod"><img class="img-fluid" src="/<%=Products.image[0]%>" alt="Colorlib Template">
 		    					</a>
 		    					<div class="text py-3 px-3">
-		    						<h3><a href="/users/productview/<%Products._id%>"><%=Products.product_name%></a></h3>
-		    						<div class="d-flex">
-										
+		    						<h3><a href="/productview/<%Products._id%>"><%=Products.product_name%></a></h3>
+		    						<div class="d-flex">					
 										<div class="pricing">
-									
-									
-										
 											<%if(Products.price == Products.offerprice ){%>
 												<p class="price"><span class="price-sale">Rs<%=Products.price  %></span></p>
-											<%}else{%>
-												
+											<%}else{%>	
 												<div class="d-flex">
 												<p class="price span px-2"><span class="price-sale"><del>Rs <%=Products.price  %></del> </span></p>
 											<p class="price span"><span class="price-sale">Rs<%=Products.offerprice  %></span></p>
-										</div>
-										
+										</div>	
 											<%}%>
-										
-		
 										</div>
-		    							
-										
 			    					</div>
 			    					<p class="bottom-area d-flex px-3">
-		    							<a href="/users/add-to-cart/<%=Products._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="/users/add-to-wishlist/<%=Products._id%>" class="buy-now text-center py-2">wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
+		    							<a href="/add-to-cart/<%=Products._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+		    							<a href="/add-to-wishlist/<%=Products._id%>" class="buy-now text-center py-2">wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
 		    						</p>
 		    					</div>
 		    				</div>
 		    			</div>
 						<%})%>
-		    			
 		    		</div>
-		    		
 		    	</div>
-
-		    	<div class="col-md-4 col-lg-2 sidebar">
-		    		<div class="sidebar-box-2">
-		    			<h2 class="heading mb-4"><a href="#">shop By category</a></h2>
-		    			<ul>
-                            <li><a href="/users/shop">All</a></li>
-							<%categories.forEach(function(categories){%>
-								<li><a href="/users/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
-								
-								<%})%>
-				
-		    			</ul>
-		    		</div>
-		    		
-    			</div>
     		</div>
     	</div>
     </section>
 
     <footer class="ftco-footer bg-light ftco-section">
       <div class="container">
-      	<div class="row">
-      		<div class="mouse">
-						<a href="#" class="mouse-icon">
-							<div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
-						</a>
-					</div>
-      	</div>
+      	
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">

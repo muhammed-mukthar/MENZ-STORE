@@ -1,6 +1,6 @@
 function deletewishlist(wishlistId){
     $.ajax({
-			url:'/users/wishlist/delete',
+			url:'/wishlist/delete',
 			data:{
             wishlist: wishlistId,
 			},
@@ -33,7 +33,7 @@ function deletewishlist(wishlistId){
         }).then((result) => {
           if(result.isConfirmed){
             $.ajax({
-			url:'/users/wishlist/remove',
+			url:'/wishlist/remove',
 			data:{
 				user: userId,
             wishlist: wishlistId,

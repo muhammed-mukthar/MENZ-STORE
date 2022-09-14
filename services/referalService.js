@@ -93,7 +93,8 @@ delete_referralOffer:(refferralOfferId)=>{
 
 referralApply:(referalcode,newuser_id)=>{
     return new Promise(async(resolve,reject)=>{
-      let refferalcodematch=  await Referal.findOne({referralcode:referalcode})
+        if(referalcode){
+             let refferalcodematch=  await Referal.findOne({referralcode:referalcode})
       if(refferalcodematch){
       let ReferalAmountdetails=await ReferalAmount.find()
      refferaldetails= ReferalAmountdetails=ReferalAmountdetails[0]
@@ -109,6 +110,10 @@ referralApply:(referalcode,newuser_id)=>{
         reject(err)
       }
       resolve()
+        }else{
+            resolve()
+        }
+     
     })
 }
 

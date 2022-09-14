@@ -36,7 +36,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 exports.userloginpage = (req, res) => {
   if(req.session.userlogin){
-    res.redirect('/users')
+    res.redirect('/')
   }else{
  res.render("user/login", { loginerror: req.session.loginerr });
   req.session.loginerr = false;
@@ -62,26 +62,26 @@ exports.userlogin = async (req, res) => {
           req.session.message = {
             message: "you are restricted",
           };
-          res.redirect("/users/login");
+          res.redirect("/login");
         } else {
           req.session.user=verifyUser
           req.session.userlogin = true;
           req.session.loginerr = false;
-          res.status(200).redirect("/users");
+          res.status(200).redirect("/");
         }
       } else {
         req.session.message = {
           message: "Invalid credentials",
         };
 
-        res.redirect("/users/login");
+        res.redirect("/login");
       }
     } else {
       req.session.message = {
         message: "invalid credentials",
       };
 
-      res.redirect("/users/login");
+      res.redirect("/login");
     }
   } catch (err) {
     res.status(200).send(err+"login eroor");
@@ -99,7 +99,7 @@ exports.signup=async (req, res) => {
       req.session.message = {
         message: "User already exists please login",
       };
-      res.status(422).redirect("/users/signup");
+      res.status(422).redirect("/signup");
     } else {
       const userdetails =  new User({
         name: req.body.name,
@@ -112,13 +112,13 @@ exports.signup=async (req, res) => {
       ReferalServices.createReferal(saveduser._id).then(()=>{
       walletServices.createWallet(saveduser._id,saveduser.email).then(()=>{
         ReferalServices.referralApply(req.body.referral,saveduser._id).then(()=>{
-      res.redirect("/users/login")
+      res.redirect("/login")
     }).catch((err)=>{
       req.session.message = {
         type: "danger",
         message: err,
       }
-      res.redirect("/users/signup")
+      res.redirect("/signup")
     })
       })
       })
@@ -220,7 +220,7 @@ exports.userLogout=(req, res) => {
   try{
   req.session.userlogin = false;
   req.session.user = false;
-  res.redirect("/users");
+  res.redirect("/");
   }catch(err){
     console.log(err,'error happened while user Logout');
   }
@@ -249,6 +249,7 @@ exports.userProfilePage=async (req, res) => {
   let referalcode=await ReferalServices.findreferal(userId)
   console.log(walletdetails);
   res.render("user/userdetails", {
+    isuser: req.session.userlogin,
     userdetails,walletdetails,
     isuser: req.session.userlogin,
     saveaddress,referalcode
@@ -293,7 +294,7 @@ exports.changePassword=async (req, res) => {
         type: "danger",
         message: "cannot type old password",
       };
-      res.redirect("/users/changePassword");
+      res.redirect("/changePassword");
     } else {
       await User.updateOne(
         { _id: ObjectId(userId) },
@@ -309,14 +310,14 @@ exports.changePassword=async (req, res) => {
         message: "password changed",
       };
 
-      res.redirect("/users/changePassword");
+      res.redirect("/changePassword");
     }
   } else {
     req.session.message = {
       type: "danger",
       message: "password is not correct",
     };
-    res.redirect("/users/changePassword");
+    res.redirect("/changePassword");
   }
 
   }catch(err){
@@ -358,13 +359,13 @@ if(verifypassword){
     type: "success",
     message: "userdetails updated",
   };
-  res.redirect("/users/userprofile");
+  res.redirect("/userprofile");
 }else{
   req.session.message = {
     type: "danger",
     message: "invalid  password",
   };
-  res.redirect("/users/userprofile");
+  res.redirect("/userprofile");
 }
 
 

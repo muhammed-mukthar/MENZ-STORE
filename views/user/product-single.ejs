@@ -177,14 +177,14 @@
 
 			  
 	          
-	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
 			  <%if(locals.isuser){%>
-				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
 				<%}else{%>
-	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
 			  <%}%>
-	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
 	        </ul>
 	      </div>
@@ -245,12 +245,12 @@
 					
 	          	<div class="w-100"></div>
 	          	<div class="col-md-12">
-	          		<p style="color: #000;"><%=products.stock%> piece available</p>
+	          	
 	          	</div>
           	</div>
 			<div class="d-flex justify-content-between">
-          	<p ><a href="/users/add-to-cart/<%=products._id%>" class="btn btn-black py-3 px-5">Add to Cart</a></p>
-			  <p><a href="/users/add-to-wishlist/<%=products._id%>" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
+          	<p ><a href="/add-to-cart/<%=products._id%>" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+			  <p><a href="/add-to-wishlist/<%=products._id%>" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
 			</div>
     			</div>
     		</div>

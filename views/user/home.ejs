@@ -8,24 +8,24 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/users" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="" class="nav-link">Home</a></li>
 	         
-	          <li class="nav-item"><a href="/users/shop" class="nav-link">shop</a></li>
+	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
 			  <%if(locals.isuser){%>
-				<li class="nav-item"><a href="/users/orders" class="nav-link">Orders</a></li>
-				<li class="nav-item"><a href="/users/logout" class="nav-link">Log out</a></li>
-				<li class="nav-item"><a href="/users/userprofile" class="nav-link">Profile</a></li>
+				<li class="nav-item"><a href="/orders" class="nav-link">Orders</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/userprofile" class="nav-link">Profile</a></li>
 				<%}else{%>
-	          <li class="nav-item"><a href="/users/signup" class="nav-link">sign up</a></li>
-	          <li class="nav-item"><a href="/users/login" class="nav-link">Login</a></li>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
 			  
 			  
 			
 			  <%}%>
 			  <%if(cartcount){%>
-	          <li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[<%=cartcount%>]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[<%=cartcount%>]</a></li>
 				<%}else{%>	
-					<li class="nav-item cta cta-colored"><a href="/users/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+					<li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 					<%}%>
 	        </ul>
 	      </div>
@@ -48,12 +48,12 @@
 		          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
 		          	<div class="text">
 		 
-		          		<div class="horizontal">
+		          		<div class="horizontal ">
 		          			<h3 class="vr" style="background-image: url(/<%=bannerimage[i]?.image%>);"></h3>
-				            <h1 class="mb-4 mt-3 fw-bold"><%=bannerimage[i]?.heading%></h1>
-				            <p class="fw-300"><%=bannerimage[i]?.desc%></p>
+				            <h1 class="mb-4 mt-3 text-white fw-bold"><%=bannerimage[i]?.heading%></h1>
+				            <p class="fw-300 text-white"><%=bannerimage[i]?.desc%></p>
 				            
-				            <p><a href="/users/shop" class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
+				            <p><a href="/shop" class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
 				          </div>
 		            </div>
 		          </div>
@@ -79,12 +79,12 @@
 				<%for(let i=0;i< newproducts.length;i++){%>
     			<div class="col-sm-6 col-12 col-md-6 col-lg ftco-animate">
     				<div class="product">
-    					<a href="/users/productview/<%=newproducts[i]._id%>" class="img-prod"><img class="img-fluid" src="/<%=newproducts[i].image[0]%>" alt="Colorlib Template">
+    					<a href="/productview/<%=newproducts[i]._id%>" class="img-prod"><img class="img-fluid" src="/<%=newproducts[i].image[0]%>" alt="Colorlib Template">
     						
     						<div class="overlay"></div>
     					</a>
     					<div class="text py-3 px-3">
-    						<h3><a href="/users/productview/<%=newproducts[i]._id%>"><%=newproducts[i].product_name%></a></h3>
+    						<h3><a href="/productview/<%=newproducts[i]._id%>"><%=newproducts[i].product_name%></a></h3>
     						<div class="d-flex">
 								<!-- ------------- checking if  there is category offer or not ------------- -->
     						
@@ -107,8 +107,8 @@
 		    					</div>
 	    					</div>
 	    					<p class="bottom-area d-flex px-3">
-    							<a href="/users/add-to-cart/<%=newproducts[i]._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="/users/add-to-wishlist/<%=newproducts[i]._id%>" class="buy-now text-center py-2">wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
+    							<a href="/add-to-cart/<%=newproducts[i]._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+    							<a href="/add-to-wishlist/<%=newproducts[i]._id%>" class="buy-now text-center py-2">wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
     						</p>
     					</div>
     				</div>

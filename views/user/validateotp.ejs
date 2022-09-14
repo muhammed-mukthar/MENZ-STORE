@@ -35,9 +35,9 @@ rel="stylesheet"
                     <ul class="navbar-nav">
                       <li class="nav-item active"><a href="/"  class="nav-link text-white ">Home</a></li>
          
-                      <li class="nav-item"><a href="/users/shop" class="nav-link text-white ">shop</a></li>
-                      <li class="nav-item"><a href="/users/signup" class="nav-link text-white ">sign up</a></li>
-                      <li class="nav-item"><a href="/users/login" class="nav-link text-white ">Login</a></li>
+                      <li class="nav-item"><a href="/shop" class="nav-link text-white ">shop</a></li>
+                      <li class="nav-item"><a href="/signup" class="nav-link text-white ">sign up</a></li>
+                      <li class="nav-item"><a href="/login" class="nav-link text-white ">Login</a></li>
  
                     </ul>
                   </div>
@@ -66,7 +66,7 @@ rel="stylesheet"
                             <p> <%=message.message%></p>
                              <%}%>
           
-                          <form action="/users/verifyotp" method="post" >
+                          <form action="/verifyotp" method="post" >
           
                             <div class="d-flex align-items-center mb-3 pb-1">
                               <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -88,7 +88,7 @@ rel="stylesheet"
                          
                           </form>
                           
-                          <form action="/users/resend" method="post" >
+                          <form action="/resend" method="post" >
           
                             <div class="new_user">
                             <div class="pt-1 mb-4" id="hide_send" style="visibility: hidden;" >
@@ -125,23 +125,9 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"
         document.getElementById('hide_send').style.visibility="visible";
 
       }
-      setTimeout('showdiv()',60*100);
-      document.getElementsByTagName('button')[0].disabled=true
-      const myTimeout = setTimeout(myGreeting, 59 * 1000);
-        function myGreeting() {
-            document.getElementsByTagName("button")[0].disabled = false
-        }
-        var timeLeft=60;
-        var elem=document.getElementById('Timer');
-        var timeId=setInterval(countdown,1000)
-        function countdown (){
-          if(timeLeft==0){
-            clearTimeout(timeId);
-            elem.innerHTML='Resend:'+timeLeft+'sec';
-            timeLeft--;
-          }
-        }
-
+      setTimeout('showdiv()',300*100);
+    
+    
     </script>
 </body>
 </html>

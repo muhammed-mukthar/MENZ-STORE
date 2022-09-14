@@ -84,10 +84,11 @@ exports.addCategory=async (req, res) => {
       if (Prducts) {
         res.render("user/shopCategory", {
           Products: Prducts,
-          categories: allcategories,offercategories
+          categories: allcategories,offercategories,
+          isuser: req.session.userlogin
         });
       } else {
-        res.redirect("/users/shop");
+        res.redirect("/shop");
       }
     } catch (err) {
       console.log(err + "error in category id");
