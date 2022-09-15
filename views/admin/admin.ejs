@@ -108,7 +108,73 @@
           <canvas id="myChart" width="400" height="400"></canvas>
       </div>
       </div>
-      <div class="d-flex justify-content-center text-center flex-column py-3 ">
+      
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">Order Stat</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table shadow text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Date Specific</th>
+              <th scope="col">Month Specific</th>
+              <th scope="col"> User Phone</th>
+          
+
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
+          
+            <tr >
+              <td class="p-5">  <form action="/admin/datestat" method="post">
+                <input type="date" name="Datestat"  >
+                <button type="submit" class="mx-4 btn btn-primary" >submit</button>
+                 </form></td>
+              <td class="p-5"> <form action="/admin/monthstat"   method="post">
+                <select name="m_month" id="">
+                  <option value="01">Jan</option>
+                  <option value="02">Feb</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">august</option>
+                  <option value="09">september</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>'
+                </select>
+                <select name="m_year" id="">
+                  <option value="2022">2022</option>
+                  <option value="2022">2021</option>
+                  <option value="2022">2020</option>
+                  <option value="2022">2019</option>
+                </select>
+             <button type="submit" class="btn btn-primary" >submit</button>
+              </form></td>
+              <td class="p-5"><form action="/admin/yearstat"  method="post">
+                <select name="yearstat"  id="">
+                <option value="2022">2022</option>
+                  <option value="2022">2021</option>
+                  <option value="2022">2020</option>
+                  <option value="2022">2019</option>
+                </select>
+             <button type="submit" class="btn btn-primary mx-5" >submit</button>
+              </form></td>
+             
+          
+            </tr>
+         
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
+      <!-- <div class="d-flex justify-content-center text-center flex-column py-3 ">
         <h3 class="py-4">Get Order Stat</h3>
         <div class="my-3">
           <form action="/admin/datestat" method="post">
@@ -152,7 +218,7 @@
          <button type="submit" class="btn btn-primary mx-5" >submit</button>
           </form>
         </div>
-      </div>
+      </div> -->
    
         </div>
       

@@ -74,48 +74,44 @@
    <%if(message){%>
               <p> <%=message.message%></p> 
                 <%}%>
-      <div class="container mt-3">
-          <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
-           
-              <tr>
-                 
                 
-                    <th scope="col">Referal Amount</th>
-                    <th scope="col">Referred user Amount</th>
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">User Details</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table  text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Referal Amount</th>
+              <th scope="col">Referred user Amount</th>
 
-                    <th scope="col">Action</th>
-                   
-                  
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                       
-              
-                  <tr>
-                 <%if(referalamountdetails){%>
-               
-                   <td><%=referalamountdetails.referralAmount%> Rs</td>
-                   <td><%=referalamountdetails.refereduserAmount%> Rs</td> 
-                   <td>
-                      <a  id="confirm" onclick="confirmation('<%=referalamountdetails._id%>')" class="btn btn-danger">delete</a></td>
-                    
-                    </tr>
-                <%}%>
+              <th scope="col">Action</th>    
 
-                
-                    
-             
-                   
-                    
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
           
-                </tbody>
-          </table>
+              <tr>
+                <%if(referalamountdetails){%>
+              
+                  <td><%=referalamountdetails.referralAmount%> Rs</td>
+                  <td><%=referalamountdetails.refereduserAmount%> Rs</td> 
+                  <td>
+                     <a  id="confirm" onclick="confirmation('<%=referalamountdetails._id%>')" class="btn btn-danger">delete</a></td>
+                   
+                   </tr>
+               <%}%>
+         
         
+          </tbody>
+        </table>
       </div>
+    </section>
 
-
+      
 
 
      

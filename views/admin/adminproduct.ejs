@@ -34,57 +34,66 @@
     </nav>
 
     
-    <section>
-      <div class="container mt-3">
-        <button  class="my-3" id="buttonstyle" ><a href="/admin/addproduct">Add Product</a></button>
-          <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
-              <%if(message){%>
-                <%=message.message%>
-                <%}%>
-              <tr>
-                 
-                    <th scope="col">Product name</th>
-                    <th scope="col">description</th>
-                    <th scope="col">category</th>
 
-                    <th scope="col">size</th>
-                    <th scope="col">stock</th>
-                    <th scope="col">actual price</th>
-                    <!-- <th scope="col">offerprice</th> -->
-                    <th scope="col">image</th>
-                    <th scope="col">action</th>
-                  
-                  </tr>
-                </thead>
-                <tbody>
-                  <% for ( let i=0; i < productdetails.length; i++){ %>
-                  <tr>
-                   
-                    <td><%=productdetails[i].product_name%></td>
-                    <td><%=productdetails[i].desc%></td>
-                      <td><%=productdetails[i].category%></td>
-                      <td><%=productdetails[i].size%></td>
-                      <td><%=productdetails[i].stock%></td>
-                      <td><%=productdetails[i].price%></td>
-                      <!-- <td><%=productdetails[i].offerprice%></td> -->
-                      <td><img src="/<%=productdetails[i].image[0]%>"width="50" class="img-thumbnail" alt="product image"></td>
-                      <td> 
-                        <a href="/admin/editproduct/<%=productdetails[i]._id%>"  class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
-                        <a onclick="confirmation('<%=productdetails[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a>
-                      </td>
-                    
-                  </tr>
-              <%}%>
-                </tbody>
-                
-     
-        </table>
+    <section  class="container h-100 mt-4  ">
+      <h2 class="text-center">Order History</h2>
+<div class="row mb-2">
+  <div class="d-flex justify-content-between">
+     <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
+  
+        <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
+  </div>
+
+    <button  class="py-1 btn btn-dark" id="buttonstyle" ><a href="/admin/addproduct">Add Product</a></button>
+  </div>
+ 
+  </div>
+      <div class="  table-responsive">
+        <table class="table shadow  ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Product name</th>
+              <th scope="col">description</th>
+              <th scope="col">category</th>
+
+              <th scope="col">size</th>
+              <th scope="col">stock</th>
+              <th scope="col">actual price</th>
+              <!-- <th scope="col">offerprice</th> -->
+              <th scope="col">image</th>
+              <th scope="col">action</th>
+            
+            </tr>
+          </thead>
+          <tbody class="searchable">
+            
         
+            
+              <% for ( let i=0; i < productdetails.length; i++){ %>
+                <tr >
+                 
+                  <td><%=productdetails[i].product_name%></td>
+                    <td ><%=productdetails[i].desc%></td>
+                    <td class="pt-60"><%=productdetails[i].category%></td>
+                    <td class="pt-60"><%=productdetails[i].size%></td>
+                    <td class="pt-60"><%=productdetails[i].stock%></td>
+                    <td class="pt-60"><%=productdetails[i].price%></td>
+                    <!-- <td><%=productdetails[i].offerprice%></td> -->
+                    <td><img src="/<%=productdetails[i].image[0]%>" width="100" class="img-thumbnail" alt="product image"></td>
+                    <td> 
+                      <a href="/admin/editproduct/<%=productdetails[i]._id%>"  class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                      <a onclick="confirmation('<%=productdetails[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a>
+                    </td>
+                  
+                </tr>
+            <%}%>
+        
+          </tbody>
+        </table>
       </div>
-
-</section>
-
+    </section>
+    
+   
 
 
  

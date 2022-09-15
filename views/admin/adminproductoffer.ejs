@@ -32,8 +32,58 @@
         </div>
       </div>
     </nav>
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">Order History</h2>
+      <div class="input-group d-flex justify-content-center col-lg-2  mx-auto my-2"> <span class="input-group-addon fw-300">Search Products</span>
 
-    
+        <input id="filter" type="text" class="ml-2 form-control w-auto h-auto" placeholder="Search...">
+    </div>
+      <div class="container  table-responsive">
+        <table class="table shadow  ">
+          <thead class="table-dark">
+            <tr>
+             
+                    <th scope="col">Product name</th>
+                  
+               
+                    <th scope="col">actual price</th>
+              
+                    <th scope="col">image</th>
+                    <th scope="col">offer</th>
+
+          
+                    <th scope="col">change offer</th>
+            </tr>
+          </thead>
+          <tbody class="searchable">
+            <%if(message){%>
+              <p class="text-<%=message.type%>"></p><%=message.message%>
+              <%}%>
+              <% for ( let i=0; i < productdetails.length; i++){ %>
+            <tr>
+            
+              <td><%=productdetails[i].product_name%></td>
+               
+                  
+                      <td><%=productdetails[i].price%></td>
+                  
+                      <td><img src="/<%=productdetails[i].image[0]%>"width="50"  class="img-thumbnail" alt="product image"></td>
+                      <td><%=productdetails[i].offer%>%</td>
+                    
+                      <td> <form action="/admin/productofferchange/<%=productdetails[i]._id%>" method="post">
+                       <input type="name" value="<%=productdetails[i].offer%>" class="col-4" name="prooffer" id="">
+                  
+                    <button class="btn btn-success" type="submit">submit</button>
+                </form></td>
+            </tr>
+            <%})%>
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+<!--     
     <section>
       <div class="container mt-3 shadow-lg">
         
@@ -85,6 +135,6 @@
       </div>
 
 </section>
-
+ -->
 
 <%-include('../include/adminresfooter.ejs')-%>

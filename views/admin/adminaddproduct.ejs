@@ -119,7 +119,7 @@
                              
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image2_error_message"></h5>
-                              <div style="display:flex">
+                              <div  id="image2container" style="display:flex">
                                 <div id="image-box2" class="image-container" style="height: 300px; width:20%"></div>
                                 <button type="button" class="btn btn-outline-info" id="crop-btn2" style=" margin-top: 10px; display: none;
                                       width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
@@ -284,10 +284,6 @@ crop_btn1.addEventListener('click', () => {
   })
 })
 })
-
-
-
-
 const imagebox2 = document.getElementById('image-box2')
 const crop_btn2 = document.getElementById('crop-btn2')
 const input2 = document.getElementById('id_image2')

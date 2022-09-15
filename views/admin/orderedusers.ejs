@@ -22,49 +22,39 @@
       </div>
     </nav>
 
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">User Details</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table shadow text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">User Name</th>
+              <th scope="col">User Email</th>
+              <th scope="col"> User Phone</th>
+          
 
-
-  <section  class="h-100 ">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-10 col-xl-8">
-          <div class="card" style="border-radius: 10px;">
-            <div class="card-header px-4 py-5">
-              <h1 class="text-dark text-center mb-0">user details </h1>
-            </div>
-            <div class="card-body p-4">
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
+          
+            <tr >
+              <td class="p-5"><%=userDetails[0].userData[0].name%></td>
+              <td class="p-5"><%=userDetails[0].userData[0].email%></td>
+              <td class="p-5"><%=userDetails[0].userData[0].phone%></td>
              
-            
-              <div class="card shadow-0 border mb-4">
-                <div class="card-body">
-                 
-                    <div class="row">
-                    
-                 
-                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
-                      <p class="text-dark mb-0"><%=userDetails[0].userData[0].name%></p>
-                    </div>
-                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
-                      <p class="text-dark mb-0 small"><%=userDetails[0].userData[0].email%></p>
-                    </div>
-                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
-                      <p class="text-dark mb-0 small"><%=userDetails[0].userData[0].phone%></p>
-                    </div>
-                   
-                    
-                  </div>
-               
-                  
-                  </div>
-                </div>
-              </div>
-  
-             
-          </div>
-        </div>
+          
+            </tr>
+         
+        
+          </tbody>
+        </table>
       </div>
-    </div>
-  </section>
+    </section>
+
 
 
 

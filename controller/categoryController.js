@@ -51,8 +51,8 @@ exports.addCategory=async (req, res) => {
   }
   exports.deleteCategory=async(req,res)=>{
     let existingcategory=await Category.findOne({_id:req.params.id})
-    let productExist=Product.find({category:existingcategory.categoryname})    
-    if(productExist){
+    let productExist=await Product.find({category:existingcategory.categoryname})    
+    if(productExist.length > 0){
       req.session.message = {
         type: "danger",
         message: "There is products in this category please change before deleting",

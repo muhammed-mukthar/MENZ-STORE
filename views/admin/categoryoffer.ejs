@@ -80,54 +80,65 @@
             </div>
         </div>
     </section>
+
+    
    <%if(message){%>
               <p> <%=message.message%></p> 
                 <%}%>
-      <div class="container mt-3">
-          <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
-           
-              <tr>
-                 
-                
+                <section  class="h-100 mt-4  container">
+                  <h2 class="text-center">User Details</h2>
+                  <div class="row mb-2">
+                    <div class="d-flex justify-content-between">
+                       <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
+                    
+                          <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
+                    </div>
+                  
+                   
+                    </div>
+                   
+                    </div>
+                  <div class="  table-responsive">
+                    <table class="table shadow  ">
+                      <thead class="table-dark">
+                        <tr>
+                        
                     <th scope="col">category</th>
                     <th scope="col">Percentage</th>
                     <th scope="col">Valid from</th>
                     <th scope="col">expires on</th>
                     <th scope="col">action</th>
       
-                  
-                  </tr>
-                </thead>
-                <tbody>
-                  <%categories.forEach(function(categories){%>
-                    <%if(categories.offer){%>
+                        </tr>
+                      </thead>
+                      <tbody class="searchable">
+                        
+                        <%categories.forEach(function(categories){%>
+                          <%if(categories.offer){%>
+                             
+                    
+                        <tr>
                        
-              
-                  <tr>
-                 
-               
-                    <td><%=categories.categoryname%></td>
-                    <td><%=categories.offer.percentage%></td>
-                    <td><%=categories.offer.valid_from.toISOString().slice(0,10)%></td>
-                    <td><%=categories.offer.valid_till.toISOString().slice(0,10)%></td>
-
-                
-                    
-             
-                    <td>
-                      <a  id="confirm" onclick="confirmation('<%=categories._id%>')" class="btn btn-danger">delete</a></td>
-                    
-                    </tr>
-                    <%}%>
-                  
-                 <%})%>
-          
-                </tbody>
-          </table>
-        
-      </div>
-
+                     
+                          <td><%=categories.categoryname%></td>
+                          <td><%=categories.offer.percentage%></td>
+                          <td><%=categories.offer.valid_from.toISOString().slice(0,10)%></td>
+                          <td><%=categories.offer.valid_till.toISOString().slice(0,10)%></td>
+      
+                      
+                          
+                   
+                          <td>
+                            <a  id="confirm" onclick="confirmation('<%=categories._id%>')" class="btn btn-danger">delete</a></td>
+                          
+                          </tr>
+                          <%}%>
+                        
+                       <%})%>
+                    </table>
+                  </div>
+                </section>
+     
 
 
 

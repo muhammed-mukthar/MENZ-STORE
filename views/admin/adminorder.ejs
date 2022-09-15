@@ -34,7 +34,80 @@
     </nav>
 
 
+    <section  class="container h-100 mt-4  ">
+      <h2 class="text-center">Order History</h2>
+      <div class="row mb-2">
+        <div class="d-flex justify-content-between">
+           <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
+        
+              <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
+        </div>
+      
+        </div>
+       
+        </div>
+      <div class="  table-responsive">
+        <table class="table shadow  ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col"> Date</th>
+              <th scope="col">address </th>
+              <th scope="col">payment Method</th>
 
+              <th scope="col">Amount</th>
+      
+              <th scope="col">product details</th>
+       
+              <th scope="col">user details</th>
+              <th scope="col">Status</th>
+              <th scope="col">Order Status</th>
+          
+            </tr>
+          </thead>
+          <tbody class="searchable">
+            
+            <% for ( let i=0; i < orderinfo.length; i++){ %>
+            
+            <tr>
+            
+              <td><%=orderinfo[i].date.toLocaleDateString()%></td>
+                   
+                   
+                    <td><%=orderinfo[i].deliveryDetails.address1%></td> 
+                      <td><%=orderinfo[i].paymentMethod%></td>
+                      <td>Rs<%=orderinfo[i].totalAmount%></td>
+                      <td><a class="btn btn-primary" href="/admin/orderedproducts/<%=orderinfo[i]._id%>">products</a></td>
+                      <td><a class="btn btn-primary" href="/admin/userinfo/<%=orderinfo[i]._id%>">user Info</a></td>
+                      <td><%=orderinfo[i].status%></td>
+                      <% if(orderinfo[i].status =='cancelled'){%>
+                        <td><p class="text-danger">Order has been cancelled</p></td>
+                        <%}else if(orderinfo[i].status =='delivered'){%>
+                          <td><p class="text-success">Order has been delivered</p></td>
+
+                          <%}else{%>
+                       <td>
+                        <form action="/admin/orderstatus/<%=orderinfo[i]._id%>" method="post">
+                        <select class="" name="status" id="size">
+                        <option value="<%=orderinfo[i].status%>" selected><%=orderinfo[i].status%></option>
+                        <option value="cancelled">cancelled</option>
+                        <option value="shipped">shipped</option>
+                        <option value="out for delivery">out for delivery</option>
+                        <option value="delivered">delivered</option>
+                      </select>
+                  
+                    <button class="btn btn-success" type="submit">submit</button>
+                </form>
+            </td> 
+            <%}%>
+            </tr>
+            <%}%>
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
+<!-- 
+    
     
     <section>
       <div class="container mt-3">
@@ -106,7 +179,7 @@
       </div>
 
 </section>
-
+ -->
 
 
 

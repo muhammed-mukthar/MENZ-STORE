@@ -23,59 +23,40 @@
     </nav>
 
 
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">Ordered Products</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table shadow text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Product Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col"> Product description</th>
+              <th scope="col">Product Price</th>
+              <th scope="col"> Product quantity</th>
 
-    <section>
-        <div class="container mt-3">
-         
-            <table id="example" class="display responsive nowrap" style="width:100%">
-              <thead class="theadclass">
-                <%if(message){%>
-                  <%=message.message%>
-                  <%}%>
-                <tr>
-                   
-                      <th scope="col">Product name</th>
-                      <th scope="col">description</th>
-                      <th scope="col">category</th>
-  
-                    
-                      <th scope="col">actual price</th>
-                      <th scope="col">quantity</th>
-                      
-                      <th scope="col">image</th>
-                     
-                    
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% for ( let i=0; i < orderdItems.length; i++){ %>
-                    <tr>
-                     
-                      <td><%=orderdItems[i].product.product_name%></td>
-                      <td><%=orderdItems[i].product.desc%></td>
-                      
-                      
-                       
-                        <td><%=orderdItems[i].product.category%></td>
-                      
-                          
-                      
-                    
-                        <td><%=orderdItems[i].product.price%></td>
-                        <td><%=orderdItems[i].quantity%></td>
-                        <td><img src="/<%=orderdItems[i].product.image[0]%>"width="50" class="img-thumbnail" alt="product image"></td>
-                      
-                      
-                    </tr>
-                <%}%>
-                  </tbody>
-                  
-       
-          </table>
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
+            <%for(let i=0;i < orderdItems.length;i++){%>
+            <tr>
+              <td><img src="/<%=orderdItems[i].product.image[0]%>" width="100px"  height="100px" class="img-fluid" alt="<%=orderdItems[i].product.product_name%>"></td>
+              <td class=""><%=orderdItems[i].product.product_name%></td>
+              <td><%=orderdItems[i].product.desc%></td>
+              <td><%=orderdItems[i].product.price%></td>
+              <td><%=orderdItems[i].quantity%></td>
           
-        </div>
-  
-  </section>
+            </tr>
+            <%}%>
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
 
 
 

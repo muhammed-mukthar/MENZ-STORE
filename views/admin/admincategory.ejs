@@ -33,7 +33,7 @@
       </div>
     </nav>
 
-      <section class="col-md-9 col-lg-10 ml-auto mb-2">
+      <!-- <section class="col-md-9 col-lg-10 ml-auto mb-2">
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-6">
@@ -48,58 +48,100 @@
                 </div>
             </div>
         </div>
+    </section> -->
+<!-- <form action="/admin/category" id="form5" method="post">
+      <input type="text" name="category" id="category" placeholder="New Category" class="form-control mb-3"></td>
+       ><button type="submit" class="btn btn-success  ">Submit</button></td>
+       
+    
+      </tr>
+      
+      </form> --> 
+    <section  class="h-100 mt-4 col-md-6  ">
+      <h2 class="text-center">Add Category</h2>
+    
+      <div class="container  ">
+        <form action="/admin/category" id="form5" method="post">
+          <input type="text" name="category" id="category" placeholder="New Category" class="form-control mb-3">
+           <button type="submit" class="btn btn-success  ">Submit</button>
+           
+        
+          </tr>
+          
+          </form>
+      </div>
     </section>
   
    <%if(message){%>
-              <p> <%=message.message%></p> 
+              <p class="text-<%=message.type%>"> <%=message.message%></p> 
                 <%}%>
-      <div class="container mt-3">
-          <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
-           
-              <tr>
-                 
-                
-                    <th scope="col">category</th>
+       
+    <div  class="container h-100 mt-4  ">
+      <h2 class="text-center">Categories</h2>
+<div class="row mb-2">
+  <div class="d-flex justify-content-between">
+     <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
+  
+        <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
+  </div>
+
+  </div>
+ 
+  </div>
+      <div class="  table-responsive">
+        <table class="table shadow  ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Index</th>
+              <th scope="col">category</th>
+
+              <th scope="col">Offers available</th>
                   
-                    <th scope="col">action</th>
-      
                   
-                  </tr>
-                </thead>
-                <tbody>
-                  <%categories.forEach(function(categories){%>
-                        
+              <th scope="col">action</th>
+            </tr>
+          </thead>
+          <tbody class="searchable">
+            <% let i=0%>
+        
+            <%categories.forEach(function(categories){%>
+                        <% i=i+1%>
                        
               
-                  <tr>
-               
-                    <td><%=categories.categoryname%></td>
-
-                
-                    
-             
-                    <td>
-                      <a  id="confirm" onclick="confirmation('<%=categories._id%>')" class="btn btn-danger">delete</a></td>
-                    
-                    </tr>
-                  
-                  
-                 <%})%>
+              <tr>
+                <td><%=i%></td>
           
-                </tbody>
-          </table>
-        
+                <td><%=categories.categoryname%></td>
+                <%if(categories.offer){%>
+                  <td>YES</td>
+               <%}else{%>
+                <td>NO</td>
+                <%}%>
+            
+                
+         
+                <td>
+                  <a  id="confirm" onclick="confirmation('<%=categories._id%>')" class="btn btn-danger">delete</a></td>
+                
+                </tr>
+              
+              
+             <%})%>
+          </tbody>
+        </table>
       </div>
-
-
+    </div>
+             
+      
 
 
      
  
 </body>
+<%-include('../include/adminresfooter.ejs')-%>
 
 <script>
+  
   
   function  confirmation(id){
     swal({
@@ -124,20 +166,51 @@
   }
 });
 		}
-
-
-  
-  $("#form1").validate({
    
-          rules: {
-          category:{
-             required:true,
-             minlength:3,
+    jQuery.validator.addMethod(
+    "lettersonly",
+    function (value, element) {
+      return this.optional(element) || /^[a-z,A-Z ]+$/.test(value);
+    },
+    "Letters only please"
+  );
+
+
+    jQuery('#form5').validate({
+    rules:{
+     
+      category:{
+        required:true,
+        lettersonly:true,
+        min:4,
+        max:20
+      }
+      
+   
+    },messages:{
+      category:{
+        required:"Category is required",
+        
+      },
+     
+      
+    },
+    submitHandler:function(form){
+      form.submit();
+    }
+  })
+
+  // $("#form1").validate({
+   
+  //         rules: {
+  //         category:{
+  //            required:true,
+  //            minlength:3,
 
            
-            }
-            },
-        });
+  //           }
+  //           },
+  //       });
                
        
              
@@ -147,4 +220,3 @@
 </script>
 
   
-<%-include('../include/adminresfooter.ejs')-%>

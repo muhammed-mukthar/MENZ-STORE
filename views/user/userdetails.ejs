@@ -31,10 +31,10 @@
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center ">
-			<div class="col-md-10 d-flex mt-5 mb-4">
+			<div class="col-md-10 d-flex  mb-4">
 				<div class="cart-detail shadow-sm  text-center p-3 p-md-4">
-					<h5 class=" mb-4 " style="font-weight: 400;"> Wallet balance: <span>  <%=walletdetails.amount%> Rs</span></h5>	
-					<h5 class=" mb-4 " style="font-weight: 400;"> Referralcode</h5>	
+					<h5 class=" mb-4" style="font-weight: bold;"> Wallet balance: <span class=" text-success">Rs  <%=walletdetails.amount%> </span></h5>	
+					<h5 class=" mb-4 " style="font-weight: bold;"> Referralcode</h5>	
 					 <!-- The text field -->
 <input type="text" value="<%=referalcode%>" disabled id="myInput">
 <!-- The button used to copy the text -->
@@ -45,7 +45,7 @@
 			
           <div class="col-xl-8 ftco-animate">
 						<form action="/editprofile"  method="post" class="billing-form">
-							<h3 class="mb-4 billing-heading">User  Profile</h3>
+							<h3 class="mb-4 billing-heading fw-bold">User  Profile</h3>
 
 	          	<div class="row align-items-end">
 	          		<div class="col-md-6">
@@ -101,7 +101,7 @@
 			 <%}%>
 		  -->
 			<form action="/saveaddress" method="post" id="" class="billing-form">
-				<h3 class="mb-4 billing-heading">Add Address</h3>
+				<h3 class="mb-4 billing-heading fw-bold">Add Address</h3>
 			<div class="form-group">
 				
 				

@@ -71,44 +71,57 @@
         </div>
     </section>
   
-  
-      <div class="container mt-3">
-          <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
+    <section  class="h-100 mt-4  container">
+      <h2 class="text-center">User Details</h2>
+      <div class="row mb-2">
+        <div class="d-flex justify-content-between">
+           <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
+        
+              <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
+        </div>
       
-              <tr>
-                 <th scope="col">coupon code</th>
-                 <th scope="col">offer percentage</th>
-                 <th scope="col">min purchase</th>
-                <th scope="col">valid from</th>
-                <th scope="col">expire date</th>
-                <th scope="col">Block</th>
-                <th scope="col">delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                   
-                    <% for ( let i=0; i < allcoupon.length; i++){ %>
-                  <tr>
-                    <td><%=allcoupon[i].coupon%></td>
-                    <td><%=allcoupon[i].offer%> RS</td>
-                    <td><%=allcoupon[i].min%> Rs</td>
-                    <td><%=allcoupon[i].from.toISOString().slice(0,10)%></td>
-                    <td><%=allcoupon[i].expires.toISOString().slice(0,10)%></td>
-                    <% if(allcoupon[i].status==false){%>
-                      <td><a href="/admin/invalidcoupon/<%=allcoupon[i]._id%>" class="btn btn-danger" >Block</a></td>
-                     <% }else{ %>
-                        <td><a href="/admin/validcoupon/<%=allcoupon[i]._id%>"  class="btn btn-danger" >UnBlock</a></td>
-                    
-                      <%} %>
-                    
-                  <td><a onclick="confirmation('<%=allcoupon[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a></td>
-                    </tr>
-                    <%}%>
+       
+        </div>
+       
+        </div>
+      <div class="  table-responsive">
+        <table class="table shadow  ">
+          <thead class="table-dark">
+            <tr>
+            
+              <th scope="col">coupon code</th>
+              <th scope="col">offer percentage</th>
+              <th scope="col">min purchase</th>
+             <th scope="col">valid from</th>
+             <th scope="col">expire date</th>
+             <th scope="col">Block</th>
+             <th scope="col">delete</th>
 
-                </tbody>
-          </table>
+            </tr>
+          </thead>
+          <tbody class="searchable">
+            
+            <% for ( let i=0; i < allcoupon.length; i++){ %>
+              <tr>
+                <td><%=allcoupon[i].coupon%></td>
+                <td><%=allcoupon[i].offer%> RS</td>
+                <td><%=allcoupon[i].min%> Rs</td>
+                <td><%=allcoupon[i].from.toISOString().slice(0,10)%></td>
+                <td><%=allcoupon[i].expires.toISOString().slice(0,10)%></td>
+                <% if(allcoupon[i].status==false){%>
+                  <td><a href="/admin/invalidcoupon/<%=allcoupon[i]._id%>" class="btn btn-danger" >Block</a></td>
+                 <% }else{ %>
+                    <td><a href="/admin/validcoupon/<%=allcoupon[i]._id%>"  class="btn btn-danger" >UnBlock</a></td>
+                
+                  <%} %>
+                
+              <td><a onclick="confirmation('<%=allcoupon[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a></td>
+                </tr>
+                <%}%>
+        </table>
       </div>
+    </section>
+     
 </body>
   
 <%-include('../include/adminresfooter.ejs')-%>
