@@ -16,6 +16,7 @@ const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
 
 const dotenv = require("dotenv");
+const { categoryoffer } = require("../services/offerServices");
 dotenv.config();
 
 
@@ -24,9 +25,26 @@ dotenv.config();
 
 exports.allproducts = async (req, res) => {
   try {
-    let productdetails = await Product.find();
+    var limit=5
+    var page=1
+    if(req.query.page){
+      page=req.query.page
+    }
+    var search=''
+    if(req.query.search){
+      search=req.query.search
+    }
+    let productdetails = await Product.find({$or:[
+      {
+       product_name:{$regex:'.*'+search+'.*',$options:'i'} 
+      }
+    ]}).limit(limit) .skip((page - 1) *limit)
+    .exec(); 
+
+    let count = await Product.find().countDocuments()
    
-    res.render("admin/adminproduct", { productdetails });
+    res.render("admin/adminproduct", { productdetails,totalPages: Math.ceil(count/limit),
+    previous: page - 1, });
   } catch (err) {
     console.log(err+"error in all products view");
    
@@ -349,31 +367,46 @@ exports.productviewuser= async (req, res) => {
 
 exports.displayshop=async (req, res) => {
   try {
-    const allProduct = await Product.find();
-    const categories = await Category.find();
-    
-    
-    let offercategories=[]
-    for(let j=0;j<categories.length;j++){
-      if(categories[j].offer){
-        offercategories.push(categories[j])
-      }
+    var limit=9
+    var page=1
+    if(req.query.page){
+      page=req.query.page
     }
-    
+    var search=''
+    if(req.query.search){
+      search=req.query.search
+    }
+    const allProduct = await Product.find({$or:[
+      {
+       product_name:{$regex:'.*'+search+'.*',$options:'i'} 
+      }
+    ]}).limit(limit) .skip((page - 1) *limit)
+    .exec(); 
+    const count = await Product.find().countDocuments()
+
+
+
+
+
+    const categories = await Category.find();   
+   
     if(req.session.userlogin){
       let userid= req.session.user._id
         let cartdetails= await Cart.findOne({user:userid})
         let cartcount= cartdetails?.products.length
         res.render("user/shop", {
-          products: allProduct,
+          products: allProduct,totalPages: Math.ceil(count/limit),
+        previous: page - 1,
           isuser: req.session.userlogin,
-          categories,cartcount,offercategories
+          categories,cartcount
         });
     }else{
       res.render("user/shop", {
+      
         products: allProduct,
-        isuser: req.session.userlogin,offercategories,
-        categories,cartcount:'0'
+        isuser: req.session.userlogin,
+        categories,cartcount:'0' , totalPages: Math.ceil(count/limit),
+        previous: page - 1,
       });
 
     }

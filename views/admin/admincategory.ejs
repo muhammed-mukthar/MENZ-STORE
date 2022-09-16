@@ -32,43 +32,13 @@
         </div>
       </div>
     </nav>
-
-      <!-- <section class="col-md-9 col-lg-10 ml-auto mb-2">
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2 class="text-center">Add Category</h2>
-                    <p class="" style="display: none;"  id="error">category is required</p>
-                    <form action="/admin/category" id="form1" method="post">
-                        <label for="">Category Name</label>
-                        <input type="text" name="category" placeholder="New Category" class="form-control mb-3">
-
-                        <button type="submit" class="btn btn-success mt-5 ">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section> -->
-<!-- <form action="/admin/category" id="form5" method="post">
-      <input type="text" name="category" id="category" placeholder="New Category" class="form-control mb-3"></td>
-       ><button type="submit" class="btn btn-success  ">Submit</button></td>
-       
     
-      </tr>
-      
-      </form> --> 
+
+    
     <section  class="h-100 mt-4 col-md-6  ">
-      <h2 class="text-center">Add Category</h2>
-    
+     
       <div class="container  ">
-        <form action="/admin/category" id="form5" method="post">
-          <input type="text" name="category" id="category" placeholder="New Category" class="form-control mb-3">
-           <button type="submit" class="btn btn-success  ">Submit</button>
-           
         
-          </tr>
-          
-          </form>
       </div>
     </section>
   
@@ -77,17 +47,21 @@
                 <%}%>
        
     <div  class="container h-100 mt-4  ">
+      <h2 class="text-center">Add Category</h2>
+      <div class="row mb-2">
+      <div class="d-flex  justify-content-center mb-4 col-12">
+        <form action="/admin/category" class="col-12 col-md-6" id="categoryform" method="post">
+          <input type="text" name="category"  id="category" placeholder="New Category" class="col-8 m-2 py-2 form-control mb-3">
+           <button type="submit" class="col-auto btn btn-success p-2 ">Submit</button>
+          </form>
+        
+        </div>
+        
+     
+      </div>
+      
       <h2 class="text-center">Categories</h2>
-<div class="row mb-2">
-  <div class="d-flex justify-content-between">
-     <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
-  
-        <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
-  </div>
 
-  </div>
- 
-  </div>
       <div class="  table-responsive">
         <table class="table shadow  ">
           <thead class="table-dark">
@@ -153,7 +127,7 @@
 })
 .then((willDelete) => {
   if (willDelete) {
-    swal("Poof! Your imaginary file has been deleted!", {
+    swal("Poof! Your  file has been deleted!", {
       icon: "success",
     }).then(()=>{
        location.href = `/admin/category/${id}`;
@@ -162,7 +136,7 @@
     
    
   } else {
-    swal("Your imaginary file is safe!");
+    swal("Your file is safe!");
   }
 });
 		}
@@ -176,14 +150,13 @@
   );
 
 
-    jQuery('#form5').validate({
+    jQuery('#categoryform').validate({
     rules:{
      
       category:{
         required:true,
         lettersonly:true,
-        min:4,
-        max:20
+       
       }
       
    

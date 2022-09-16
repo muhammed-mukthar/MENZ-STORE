@@ -35,9 +35,9 @@
       </div>
     </nav>
 
-<h1 class="text-center">Edit product</h1>
-    <div class="container">
-        
+
+    <div class="container p-4 shadow">
+      <h1 class="text-center">Edit product</h1>
       <form action="/admin/editproduct/<%= productdetails._id%>" id="myform"  enctype="multipart/form-data"  method="post" >
           <div class="row">
             <div class="col-md-6 mt-3">
@@ -51,7 +51,7 @@
               
               <input maxlength="60" class="form-control " value="<%=productdetails.desc%>"  rows="2" name="description">
             </div>
-            <div class=" mt-5 col-md-4">
+            <div class=" mt-5 col-md-3">
               <label for="category" class="mr-2">Category</label>
               
                 <select class="custom-select " name="categoryid"   id="category">
@@ -63,19 +63,10 @@
                     <%})%>
                 </select>
             </div>
-              
-              <!-- <div class="mt-5 col-md-4">
-                <label for="subcategory" class=" col-form-label">Sub Category</label>
-                <select class="custom-select"   name="subcategory" id="subcategory">
-                    <option value="<%=productdetails.subcategory%>"  selected><%=productdetails.subcategory%></option>
-                    <option value="Levis">Levis</option>
-                    <option value="allen solley">allen solley</option>
-                    
-                </select>
-                  </div> -->
+            
 
 
-                  <div class="mt-5 col-md-4">
+                  <div class="mt-5 col-md-2">
                     <label for="size" class="col-form-label">size</label>
                     <select class="custom-select" name="size" id="size">
                         <option value="<%=productdetails.size%>" selected><%=productdetails.size%> </option>
@@ -87,19 +78,14 @@
 
 
 
-                      <div class="mt-5 col-md-4">
+                      <div class="mt-5 col-md-3">
                           <label for="price" class="">
                               Price
                           </label>
                           <input id="price" name="price" value="<%=productdetails.price%>" type="number"class="form-control ">
                           </div>
-                          <!-- <div class="mt-5 col-md-4">
-                            <label for="price" class="">
-                               discounted Price
-                            </label>
-                            <input id="offerprice" value="<%=productdetails.offerprice%>" name="editedofferprice"  type="number" class="form-control ">
-                            </div> -->
-                          <div class="mt-5 col-md-4">
+                         
+                          <div class="mt-5 col-md-3">
                               <label for="stock" class="">Units In
                                   Stock
                               </label>
@@ -114,7 +100,7 @@
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image1_error_message"></h5>
                               <div style="display:flex">
-                                <div id="image-box1" class="image-container" style="height: 300px; width:20%"></div>
+                                <div id="image-box1" class="image-container clr" style="height: 300px; width:20%"></div>
                                 <button type="button" class="btn btn-outline-info" id="crop-btn1" style=" margin-top: 10px; display: none;
                                       width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
                               </div>
@@ -127,7 +113,7 @@
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image2_error_message"></h5>
                               <div style="display:flex">
-                                <div id="image-box2" class="image-container" style="height: 300px; width:20%"></div>
+                                <div id="image-box2" class="image-container clr" style="height: 300px; width:20%"></div>
                                 <button type="button" class="btn btn-outline-info" id="crop-btn2" style=" margin-top: 10px; display: none;
                                       width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
                               </div>
@@ -142,7 +128,7 @@
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image3_error_message"></h5>
                               <div style="display:flex">
-                                <div id="image-box3" class="image-container" style="height: 300px; width:20%"></div>
+                                <div id="image-box3" class="image-container clr" style="height: 300px; width:20%"></div>
                                 <button type="button" class="btn btn-outline-info" id="crop-btn3" style=" margin-top: 10px; display: none;
                                       width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
                               </div>
@@ -159,9 +145,9 @@
 
 
                                
-                                          <div class="mt-5 col-md-5">
-                                              <div class="">
-                                                  <button type="submit" class="btn btn-primary ">edit
+                                          <div class="mt-2 col-md-12 ">
+                                              <div class=" d-flex justify-content-center mb-5">
+                                                  <button type="submit" class="btn btn-primary ">edit Product
                                                   </button>
                                               </div>
                                               </div>
@@ -169,7 +155,11 @@
         </form>
         
       </div>
-
+      <style>
+        .clr{
+          display: none;
+        }
+      </style>
 
 
 

@@ -21,6 +21,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
 const dotenv = require("dotenv");
+const { query } = require("express");
 dotenv.config();
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -200,7 +201,7 @@ exports.cancelOrder=async (req, res) => {
         },
       }
     ])
-  
+  console.log('this is make ',orderdItems);
   res.render('admin/orderproducts',{orderdItems})
   
   
@@ -246,8 +247,9 @@ exports.cancelOrder=async (req, res) => {
         },
       },
     ]);
-  
+   
     res.render("user/orderedProducts", {
+     
       orderdItems,
       isuser: req.session.userlogin,
     });
@@ -264,15 +266,44 @@ exports.cancelOrder=async (req, res) => {
   exports.orderPage=async (req, res) => {
     try{
   let userId = req.session.user._id;
-  
-    let orders = await Order.find({ userId: ObjectId(userId) }).sort({
-      date: -1,
-    });
-  
-    let date = orders[0].date.toLocaleDateString();
+  var limit=5
+  var page=1
+  if(req.query.page){
+    page=req.query.page
+  }
+  var search=''
+  if(req.query.search){
+    search=req.query.search
+  }
+    let orders = await Order.find({ userId: ObjectId(userId),$or:[
+      {
+       paymentMethod:{$regex:'.*'+search+'.*',$options:'i'} 
+      },{
+        status:{$regex:'.*'+search+'.*',$options:'i'} 
+      }
+    ]}).sort({  date: -1})
+    .limit(5) 
+    .skip((page - 1) *limit)
+    .exec();
+
+    console.log(orders.length,'orders here');
+
+    let count = await Order.find({ userId: ObjectId(userId),$or:[
+      {
+       paymentMethod:{$regex:'.*'+search+'.*',$options:'i'} 
+      },{
+        status:{$regex:'.*'+search+'.*',$options:'i'} 
+      }
+    ]}).countDocuments()
+
+
+    let date = orders[0]?.date.toLocaleDateString();
     console.log(date);
     req.session.discountprice=false
-    res.render("user/orderdetails", { orders, isuser: req.session.userlogin });
+    res.render("user/orderdetails", { orders, 
+      isuser: req.session.userlogin ,totalPages: Math.ceil(count/limit),
+      previous: page - 1,
+    });
     }catch(err){
         console.log(err,'error happened  showing orders page user side');
     }
@@ -282,10 +313,36 @@ exports.cancelOrder=async (req, res) => {
 /* ---------------------------- admin orders page --------------------------- */
   exports.ordersPageAdmin=async(req,res)=>{
     try{
-    let  orderinfo=await Order.find().sort({
-      date: -1,
-    })
-    res.render('admin/adminorder',{orderinfo})
+      var limit=5
+      var page=1
+      if(req.query.page){
+        page=req.query.page
+      }
+      var search=''
+      if(req.query.search){
+        search=req.query.search
+      }
+    let  orderinfo=await Order.find({$or:[
+      {
+       paymentMethod:{$regex:'.*'+search+'.*',$options:'i'} 
+      },{
+        status:{$regex:'.*'+search+'.*',$options:'i'} 
+      },
+    ]}).sort({ date: -1,}).limit(8) 
+    .skip((page - 1) *limit)
+    .exec();
+
+    let  count=await Order.find({$or:[
+      {
+       paymentMethod:{$regex:'.*'+search+'.*',$options:'i'} 
+      },{
+        status:{$regex:'.*'+search+'.*',$options:'i'} 
+      }
+    ]}).countDocuments()
+
+
+    res.render('admin/adminorder',{orderinfo,totalPages: Math.ceil(count/limit),
+    previous: page - 1,})
     }catch(err){
         console.log(err,'error happened while loading orders page in admin side');
     }
@@ -296,7 +353,7 @@ exports.cancelOrder=async (req, res) => {
 exports.monthsale=async(req,res)=>{
     try{
       let orders=await orderServices.getAllOrders()
-      console.log(orders,'orders monthsale');
+      
       res.json(orders);
     }catch(err){
       console.log(err,'error happened in order-details admin');

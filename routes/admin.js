@@ -129,9 +129,7 @@ router.post('/categoryoffer',async(req,res)=>{
   })
   }catch(err){
     console.log(err,'error occured on categoryoffer');
-}
- 
-  
+}  
 })
 
 
@@ -263,7 +261,7 @@ router.post('/monthstat',async(req,res)=>{
     }
     ])
   
-    console.log(yearsales);
+    console.log(yearsales,'sfsaff');
   
     res.render('admin/orderstat', { 'sales':yearsales })
   })

@@ -109,7 +109,7 @@
                 >
                 
                   <div class="row align-items-end">
-              
+                    <% if(savedAddress.length){%>
 
                     <div class="d-md-flex">
                     <div class="col-md-6">
@@ -266,8 +266,13 @@
                         <div id="paypal-button-container" class="clr"  style=" margin-top: 1rem;"></div>
                       </div>
                     </div>
+                    <%}else{%>
+
+                    <p class="text-danger"> please add a address to chekout</p> 
+                      <%}%>
                     </form>
                     <div class="col-md-6 d-flex">
+                      <%if(savedAddress.length){%>
                       <div class="cart-detail cart-total bg-light p-3 p-md-4">
                             <%if(message){%>
                              <p class="text-danger"><%=message.message%></p> 
@@ -287,6 +292,7 @@
                   </form>
                        
                         <%}%>
+
                       <button type="button"  id="displaycoupons"  class="btn btn-outline-info my-3">available Coupons</button>
                      
                      
@@ -298,6 +304,10 @@
                       </div>
                     </div>
                   </div>
+                  <%}else{%>
+
+                    
+                    <%}%>
                 <div class="col-md-6 d-flex">
                 
                 </div>         
@@ -308,6 +318,8 @@
                 role="tabpanel"
                 aria-labelledby="tab-register"
               >
+
+             
                 <form action="/checkoutsaveaddress" id="checkout-address" method="post" class=" ">
                   
                     <h3 class="mb-4 billing-heading">User  Profile</h3>

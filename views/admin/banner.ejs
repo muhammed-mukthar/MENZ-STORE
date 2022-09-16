@@ -49,7 +49,7 @@
             <div class="row d-flex justify-content-center  ">
                 <div class="col-md-4 -">
                   <h2 class="text-center">Add banner </h2> 
-                  <form action="/admin/banner" class=" pt-2 ml-auto" id="form1" enctype="multipart/form-data" method="post">
+                  <form action="/admin/banner" class=" pt-2 ml-auto" id="banner21" enctype="multipart/form-data" method="post">
                     <label class="form-label" for="customFile">image</label>
                     <input type="file" required id="id_image1" name="bannerimage" accept="image/*" class="form-control" onchange="viewImage1(event)"
                       style="width:100%;"><br>
@@ -58,9 +58,11 @@
                         <!-- 
                         <input type="file" class="form-control " name="bannerimage" id="customFile" /> -->
                         <label class="form-label" for="heading">heading for banner</label>
-                        <input type="text" name="heading" max="30" id="heading" >
+                        <input type="text" name="heading"  id="heading" >
+                        <br>
                         <label class="form-label " for="desc">description for banner</label>
-                        <input type="text" class="d-block" name="desc" max="30" id="desc" >
+                        <input type="text" class="d-block" name="desc"  id="desc" >
+                        <br>
                         <button type="submit" class="my-4 btn btn-primary">submit</button>
                     </form>
                 </div>
@@ -103,7 +105,44 @@
   
      
 </body>
+<%-include('../include/adminresfooter.ejs')-%>
+
 <script>
+jQuery.validator.addMethod(
+    "lettersonly",
+    function (value, element) {
+      return this.optional(element) || /^[a-z,A-Z ]+$/.test(value);
+    },
+    "Letters only please"
+  );
+
+
+
+jQuery('#banner21').validate({
+    rules:{
+      desc:{
+        required:true,
+        minlength:6,
+        lettersonly: true,
+      },
+      heading:{
+        required:true,
+        minlength:6,
+        lettersonly: true,
+        
+      },
+      bannerimage:{      
+        required:true
+      },
+     
+    },
+    submitHandler:function(form){
+      form.submit();
+    }
+  })
+
+
+
   function viewImage1(event) {
 var fileInput1 = document.getElementById('id_image1');
 var filePath1 = fileInput1.value;
@@ -145,4 +184,3 @@ if (!allowedExtensions.exec(filePath1)) {
   
 </script>
   
-<%-include('../include/adminresfooter.ejs')-%>

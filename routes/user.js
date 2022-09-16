@@ -112,7 +112,9 @@ router.get("/signup", userController.userSignup);
 /* -------------------------------- //signup  post-------------------------------- */
 router.post("/signup", userController.signup);
 
-
+router.get('/404',(req,res)=>{
+  res.render('include/404')
+})
 
 /* -------------------------------- wishlist -------------------------------- */
 
@@ -228,10 +230,6 @@ router.post("/place-order",userauth, orderController.placeOrder);
 
 
 router.post('/verifypayment',userauth,orderController.razorVerifyPayment)
-
-
-
-
 /* ----------------------------- get orderplacedpage ----------------------------- */
 
 router.get("/orderplaced", userauth, orderController.placeOrderpage);

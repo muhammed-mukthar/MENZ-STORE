@@ -35,15 +35,16 @@
     <section  class="h-100 mt-4  container">
       <h2 class="text-center">User Details</h2>
       <div class="row mb-2">
-        <div class="d-flex justify-content-between">
-           <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
-        
-              <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
-        </div>
-      
-       
-        </div>
-       
+        <div class="row mb-2">
+          <div class="d-flex  justify-content-center mb-4 col-12">
+            <form  class="col-12 col-md-6">
+              <input  type="text" class="col-8 m-2 py-2" name="search" placeholder="Search...">
+              <input type="submit" class="col-auto btn btn-success p-2" value="Search">
+            </form>
+               
+            </div>
+         
+          </div>
         </div>
       <div class="  table-responsive">
         <table class="table shadow  ">
@@ -80,43 +81,30 @@
           </tbody>
         </table>
       </div>
-    </section>
-
-    <!-- <div class="container mt-3">
-      <table id="example" class="display responsive nowrap" style="width:100%">
-        <thead class="theadclass">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="text-success page-link disabled" >Page <%=previous+1%></li>
+          <%if( previous > 0){%>
+          <li class="page-item ">
+            <a class="page-link" href="?page=<%=previous%> ">Previous</a>
+          </li>
+          <%}%>
        
-          <tr>
-           
+          <li class="page-item" ><a class="page-link sameclass"  href="?page=<%=1%>"><%=1%></a></li> 
+          <li class="page-item" ><a class="page-link sameclass "  > ...</a></li>
+          <li class="page-item"><a class="page-link " href="?page=<%=totalPages%>"><%=totalPages%></a></li>
+		  <%console.log(totalPages,previous)%>
+          <%if(totalPages >= (previous+2)){%>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%=previous+2%> ">Next</a>
+         
+          </li>
+          <%}%>
+         
             
-           
-          
-          </tr>
-        </thead>
-        <tbody>
-          <h1><listuser[i].name></h1>
-          <%listuser.forEach(function(listuser){%>
-          <tr>
-           
-            <td><%= listuser.name%></td>
-            <td><%= listuser.email%></td>
-            
-            
-              <% if(listuser.isBlocked==false){%>
-              <td><a href="/admin/block/<%=listuser._id%>" class="btn btn-danger" >Block</a></td>
-             <% }else{ %>
-                <td><a href="/admin/unblock/<%=listuser._id%>"  class="btn btn-danger" >UnBlock</a></td>
-            
-              <%} %>
-           
-            
-          </tr>
-          <%})%>
-        </tbody>
-        
-      </table>
-    
-  </div> -->
+        </ul>
+      </nav>
+    </section>
 
 
 

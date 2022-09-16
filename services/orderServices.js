@@ -28,6 +28,7 @@ module.exports = {
 
     return new Promise(async(resolve,reject)=>{
       let orderdetails=await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },{$sort:{date:-1}}])
+      // let orderdetails=await Order.find({status:{$nin:['cancelled']}}).sort({date:-1})
       console.log(orderdetails);
       resolve(orderdetails)
     })

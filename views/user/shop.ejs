@@ -46,7 +46,19 @@
 	  
     <section class="ftco-section bg-light">
     	<div class="container">
+			
     		<div class="row">
+				<div class="d-flex  justify-content-center mb-4 col-12">
+					<form  class="col-12 col-md-6">
+					  <input  type="text" class="col-8 m-2 py-2" name="search" placeholder="Search...">
+					  <input type="submit" class="col-auto btn btn-success p-2" value="Search">
+					</form>
+					
+					
+				  
+					   
+				  </div>
+				
     			<div class="col-md-8 col-lg-10 order-md-last mx-auto">
     				<div class="row">
 						<%products.forEach(function(products){%>
@@ -85,24 +97,31 @@
 		    		</div>
 		    		
 		    	</div>
-
-		    	<!-- <div class="col-md-4 col-lg-2 sidebar">
-		    		<div class="sidebar-box-2">
-		    			<h2 class="heading mb-4"><a href="#">shop By category</a></h2>
-		    			<ul>
-							<li><a href="/shop">All</a></li>
-
-							<%categories.forEach(function(categories){%>
-								<li><a href="/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
-								
-								<%})%>
-				
-		    			</ul>
-		    		</div>
-		    		
-    			</div> -->
     		</div>
     	</div>
+		<nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="text-success page-link disabled" >Page <%=previous+1%></li>
+          <%if( previous > 0){%>
+          <li class="page-item ">
+            <a class="page-link" href="?page=<%=previous%> ">Previous</a>
+          </li>
+          <%}%>
+       
+          <li class="page-item" ><a class="page-link sameclass"  href="?page=<%=1%>"><%=1%></a></li> 
+          <li class="page-item" ><a class="page-link sameclass "  > ...</a></li>
+          <li class="page-item"><a class="page-link disabled" href="?page=<%=totalPages%>"><%=totalPages%></a></li>
+		  <%console.log(totalPages,previous)%>
+          <%if(totalPages >= (previous+2)){%>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%=previous+2%> ">Next</a>
+         
+          </li>
+          <%}%>
+         
+            
+        </ul>
+      </nav>
     </section>
 
 	<%-include('../include/userfooter.ejs')-%>

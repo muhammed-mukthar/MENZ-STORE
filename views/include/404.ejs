@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>menz store </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+ <!-- Font Awesome -->
+ <link
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+ rel="stylesheet"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AW5XHGQa4tPDFs9-1iGsvoMrpYQNdfK-cfPrm49btpIiGPQTXgC1MzrD-GCi1AxB_TnZCzQwSskgefJ-&currency=USD"></script>    
+<!-- Google Fonts -->
+<link
+ href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+ rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+ href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css"
+ rel="stylesheet"
+/>
+
+    <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+	
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="/css/aos.css">
+
+    <link rel="stylesheet" href="/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/css/icomoon.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700&display=swap" rel="stylesheet">
+  </head>
+  <style>/*
+    Author: W3layouts
+    Author URL: http://w3layouts.com
+    */
+    :root {
+      --para-color: #555555;
+      --theme-color: #fff;
+      --theme-hover-color: #333;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Work Sans', sans-serif;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .d-grid {
+      display: grid;
+    }
+    
+    .d-flex {
+      display: flex;
+      display: -webkit-flex;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-left {
+      text-align: left;
+    }
+    
+    .text-right {
+      text-align: right;
+    }
+    
+    button,
+    input,
+    select {
+      -webkit-appearance: none;
+      outline: none;
+    }
+    
+    button,
+    .btn,
+    select {
+      cursor: pointer;
+    }
+    
+    a {
+      text-decoration: none;
+    }
+    
+    iframe {
+      border: none;
+    }
+    
+    ul {
+      margin: 0;
+      padding: 0
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      margin: 0;
+      padding: 0
+    }
+    
+    p {
+      color: #444;
+      font-size: 16px;
+      line-height: 24px;
+    }
+    
+    .p-relative {
+      position: relative;
+    }
+    
+    .p-absolute {
+      position: absolute;
+    }
+    
+    .p-fixed {
+      position: fixed;
+    }
+    
+    .p-sticky {
+      position: sticky;
+    }
+    
+    .btn,
+    button,
+    .actionbg,
+    input {
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -o-border-radius: 4px;
+      -ms-border-radius: 4px;
+    }
+    
+    .btn,
+    button,
+    .btn:hover,
+    button:hover {
+      transition: 0.5s ease;
+      -webkit-transition: 0.5s ease;
+      -o-transition: 0.5s ease;
+      -ms-transition: 0.5s ease;
+      -moz-transition: 0.5s ease;
+    }
+    
+    /*--------------------
+    Page
+    --------------------*/
+    .page {
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /*--------------------
+    Content
+    --------------------*/
+    .content {
+      text-align: center;
+      display: grid;
+      grid-template-rows: 1fr auto 1fr;
+      min-height: 100vh;
+      align-items: center;
+      padding: 30px 15px;
+    }
+    
+    .w3l-error-grid {
+      margin: 0px auto;
+      max-width: 850px;
+      text-align: center;
+      padding: 1em;
+    }
+    
+    .content h1 {
+      font-weight: 700;
+      font-size: 175px;
+      color: #eee;
+      opacity: .4;
+    }
+    
+    .content h2 {
+      font-size: 30px;
+      margin-bottom: 10px;
+      color: #eee;
+      font-weight: 500;
+    }
+    
+    .content p {
+      font-size: 16px;
+      color: #ccc;
+      line-height: 24px;
+      margin-top: 10px;
+    }
+    
+    .content a.home {
+      display: inline-block;
+      font-size: 16px;
+      border: 2px solid #CDD4DE;
+      padding: 12px 30px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #CDD4DE;
+      margin-top: 50px;
+    }
+    
+    .content a.home:hover {
+      background: rgba(152, 152, 152, 0.15);
+      border: 2px solid #fff;
+      background: #fff;
+      color: #333;
+    }
+    
+    .copy-right p {
+      color: #aaa;
+    }
+    
+    .copy-right p a {
+      color: #fff;
+    }
+    
+    .copy-right p a:hover {
+      color: #888;
+    }
+    
+    a.brand-logo {
+      color: var(--theme-color);
+      font-weight: 600;
+      font-size: 35px;
+      line-height: 40px;
+      border: none;
+      background: none;
+      padding: 0px;
+      text-transform: uppercase;
+    }
+    
+    /*--------------------
+    Image
+    --------------------*/
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transform: scale(1.1);
+    }
+    
+    
+    @media (max-width: 991px) {
+      .content h1 {
+        font-size: 120px;
+      }
+    }
+    
+    @media (max-width: 568px) {}
+    
+    @media (max-width: 440px) {
+      .content {
+        padding-bottom: 20px;
+        padding-top: 20px;
+      }
+    
+      a.brand-logo {
+        font-size: 30px;
+        line-height: 35px;
+      }
+    
+      .content h1 {
+        font-size: 100px;
+      }
+    
+      .content p {
+        font-size: 15px;
+      }
+    }</style>
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!DOCTYPE html>
+<html lang="zxx">
+
+<!-- <head>
+    <title>Fog error Responsive Widget Template :: W3layouts</title>
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords"
+        content="Fog error web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <!-- //Meta tag Keywords -->
+
+    <!-- google fonts -->
+  
+
+    <!-- //google fonts -->
+
+    <!--/Style-CSS -->
+    <!-- <link rel="stylesheet" href="css/style.css" type="text/css" media="all" /> -->
+    <!--//Style-CSS -->
+
+    <!--/fontAwesome-CSS -->
+    <!-- <link rel="stylesheet" href="css/fontAwesome.css" type="text/css" media="all" /> -->
+    <!--/fontAwesome-CSS -->
+<!-- </head> --> 
+
+<body>
+    <div class="w3l-error-block">
+
+        <div class="page">
+            <div class="content">
+                <div class="logo">
+                    <a class="brand-logo" href="index.html">404 Error</a>
+                    <!-- if logo is image enable this   
+                <a class="brand-logo" href="#index.html">
+                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+                </a> 
+            -->
+                </div>
+                <div class="w3l-error-grid">
+                    <h1>404</h1>
+                    <h2>Page not found</h2>
+                    <p></p>
+                    <a href="index.html" class="home">Back to Home</a>
+                </div>
+
+               
+            </div>
+            <img src="/images/404.jpg" class="img-responsive" alt="error image" />
+        </div>
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script>
+            var lFollowX = 0,
+                lFollowY = 0,
+                x = 0,
+                y = 0,
+                friction = 1 / 30;
+
+            function animate() {
+                x += (lFollowX - x) * friction;
+                y += (lFollowY - y) * friction;
+
+                translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
+
+                $('img').css({
+                    '-webit-transform': translate,
+                    '-moz-transform': translate,
+                    'transform': translate
+                });
+
+                window.requestAnimationFrame(animate);
+            }
+
+            $(window).on('mousemove click', function (e) {
+
+                var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+                var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+                lFollowX = (20 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
+                lFollowY = (10 * lMouseY) / 100;
+
+            });
+
+            animate();
+        </script>
+    </div>
+</body>
+
+</html>

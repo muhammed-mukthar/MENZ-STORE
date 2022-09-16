@@ -24,13 +24,24 @@
 	    </div>
 	  </nav>
 
-    <section  class="h-100 mt-4  ">
+    <section  class= "container h-100 mt-4 mb-5  ">
       <h2 class="text-center">Order History</h2>
-      <div class="input-group d-flex justify-content-center col-lg-2  mx-auto my-2"> <span class="input-group-addon fw-300">Search Products</span>
-
-        <input id="filter" type="text" class="ml-2 form-control w-auto h-auto" placeholder="Search...">
-    </div>
-      <div class="container  table-responsive">
+    
+        <div class="d-flex  justify-content-between mb-2 col-12">
+          <form  class="col-12 col-md-6">
+            <input  type="text" class="col-8 m-2  " name="search" placeholder="Search...">
+            <input type="submit" class="col-auto btn btn-success" value="Search">
+          </form>
+          
+          
+        
+             
+        </div>
+      
+       
+       
+        </div>
+      <div class="  table-responsive">
         <table class="table shadow  ">
           <thead class="table-dark">
             <tr>
@@ -65,14 +76,39 @@
         
           </tbody>
         </table>
+        
       </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="text-success page-link disabled" >Page <%=previous+1%></li>
+          <%if( previous > 0){%>
+          <li class="page-item ">
+            <a class="page-link" href="?page=<%=previous%> ">Previous</a>
+          </li>
+          <%}%>
+       
+          <li class="page-item" ><a class="page-link sameclass"  href="?page=<%=1%>"><%=1%></a></li>
+       
+          <li class="page-item" ><a class="page-link sameclass "  > ...</a></li>
+     
+         
+          <li class="page-item"><a class="page-link disabled" href="?page=<%=totalPages-1%>"><%=totalPages-1%></a></li>
+          <%if(totalPages > (previous+2)){%>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%=previous+2%> ">Next</a>
+         
+          </li>
+          <%}%>
+         
+            
+        </ul>
+      </nav>
     </section>
 
-    
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
+
+    <%-include('../include/userfooter.ejs')-%>
+    <script>
+
     function confirm_Delete(id){
       Swal.fire({
     title: 'Are you sure?',
@@ -104,44 +140,3 @@
   </script>
 
  
-
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="/js/popper.min.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/jquery.easing.1.3.js"></script>
-  <script src="/js/jquery.waypoints.min.js"></script>
-  <script src="/js/jquery.stellar.min.js"></script>
-  <script src="/js/owl.carousel.min.js"></script>
-  <script src="/js/jquery.magnific-popup.min.js"></script>
-  <script src="/js/aos.js"></script>
-  <script src="/js/jquery.animateNumber.min.js"></script>
-  <script src="/js/bootstrap-datepicker.js"></script>
-  <script src="/js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="/js/google-map.js"></script>
-  <script src="/js/main.js"></script>
-<script >
-  $(document).ready(function () {
-
-(function ($) {
-
-    $('#filter').keyup(function () {
-
-        var rex = new RegExp($(this).val(), 'i');
-        $('.searchable tr').hide();
-        $('.searchable tr').filter(function () {
-            return rex.test($(this).text());
-        }).show();
-
-    })
-
-}(jQuery));
-
-});
-</script>
-
-</body>
-
- 
-</html>

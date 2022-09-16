@@ -58,18 +58,10 @@ rel="stylesheet"
 
       <div class="row">
         <div class=""> -->
-          <section class="vh-100" style="background-color: #9A616D;">
+          <section class="vh-100" style="background-color: #fcfcfc;">
             
             <div class="container py-5 h-100">
-              <%if(message){%>
-                <%=message.message%>
-                <%}%>
-              <%if(loginerror){%>
-                <p class="lead">
-                 
-                  <%=loginerror%>
-                </p>
-                 <%}%>
+            
               <div class="row d-flex justify-content-center align-items-center h-100">
                 
                 <div class="col col-xl-10">
@@ -88,7 +80,15 @@ rel="stylesheet"
                               <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                               <span class="h1 fw-bold mb-0">Menz kart</span>
                             </div>
-          
+                            <%if(message){%>
+                             <p class="text-danger"> <%=message.message%></p>
+                              <%}%>
+                            <%if(loginerror){%>
+                              <p class="lead">
+                               
+                                <%=loginerror%>
+                              </p>
+                               <%}%>
                             <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
           
                             <div class="form-outline mb-4">

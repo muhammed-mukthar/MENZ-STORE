@@ -33,10 +33,10 @@
         </div>
       </div>
     </nav>
-    <h1 class="text-center"> Add Product</h1>
+    
 
-    <div class="container">
-
+    <div class="container p-4 shadow">
+      <h1 class="text-center"> Add Product</h1>
         <form  id="myform"       action="/admin/addproduct" method="post" enctype="multipart/form-data" >
             <div class="row">
               <div class="col-md-6 mt-3">
@@ -52,7 +52,7 @@
                 
                 <input maxlength="60" class="form-control "  rows="2" name="description"></input>
               </div>
-              <div class=" mt-5 col-md-4">
+              <div class=" mt-5 col-md-2">
                 <label for="category" class="mr-2">Category</label>
                 <select class="" name="categoryid" id="category">
                     <option value="" selected>Select one</option>
@@ -63,9 +63,9 @@
                 </select>
                 </div>
 
-                    <div class="mt-5 col-md-4">
+                    <div class="mt-5 col-md-3">
                         <label for="size" class="">size</label>
-                        <select class="" name="size" id="size">
+                        <select class="d-block" name="size" id="size">
                           <option value="" selected>Select one</option>
                           <option value="sm">sm</option>
                           <option value="md">md</option>
@@ -74,14 +74,14 @@
                         </select>
                         </div>
                         
-                        <div class="mt-5 col-md-4">
+                        <div class="mt-5 col-md-3 " >
                             <label for="price" class="">
                                actual Price
                             </label>
                             <input id="price" name="price"  type="number" class="form-control ">
                             </div>
                            
-                            <div class="mt-5 heightreduce col-md-4">
+                            <div class="mt-5  col-md-3">
                                 <label for="stock" class="">Units In
                                     Stock
                                 </label>
@@ -91,81 +91,75 @@
 
 
 
-                                <div class="mt-5 heightreduce col-md-4"> 
+                                <div class="mt-5  col-md-4"> 
                                   <label for="productimage" class="">
                                     Image
                                   </label>
                                   
                                   <input type="file" required id="id_image1" name="image1" accept="image/*" class="form-control" onchange="viewImage1(event)"
                                   style="width:100%;"><br>
-                                <img src="" id="imgView1" alt="" style="height:100px">
+                                <img src="" id="imgView1" alt="" class="clr" style="height:100px">
                                
                                 <div class="vald-info" id="info"></div>
                                 <h5 class="error_form text-danger" id="image1_error_message"></h5>
                                 <div style="display:flex">
-                                  <div id="image-box1" class="image-container" style="height: 300px; width:20%"></div>
+                                  <div id="image-box1" class="clr image-container" style="height: 300px; width:20%"></div>
                                   <button type="button" class="btn btn-outline-info" id="crop-btn1" style=" margin-top: 10px;  display: none;
                                         width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button> 
                                 </div>
                               </div>
 
-                              <div class="mt-5 heightreduce col-md-4"> 
+                              <div class="mt-5  col-md-4"> 
                                 <label for="productimage" class="">
                                   Image
                                 </label>
                                 <input type="file" id="id_image2" required name="image2" accept="image/*" class="form-control" onchange="viewImage2(event)"
                                 style="width:100%;"><br>
-                              <img src="" id="imgView2" alt="" style="height:100px">
+                              <img src="" id="imgView2" class="clr" alt="" style="height:100px">
                              
                               <div class="vald-info" id="info"></div>
                               <h5 class="error_form text-danger" id="image2_error_message"></h5>
                               <div  id="image2container" style="display:flex">
-                                <div id="image-box2" class="image-container" style="height: 300px; width:20%"></div>
+                                <div id="image-box2" class="image-container clr" style="height: 300px; width:20%"></div>
                                 <button type="button" class="btn btn-outline-info" id="crop-btn2" style=" margin-top: 10px; display: none;
                                       width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
                               </div>
                             </div>
-                                        <!-- <div class="mt-5 col-md-4">
-                                            <label for="productimage" class="">
-                                              Image
-                                            </label>
-                                            <input id="productimage3" accept="image/*" name="image3" type="file" class="form-control ">
-                                            </div> -->
+                                     
 
-                                            <div class="mt-1 heightreduce mb-5 col-md-4"> 
+                                            <div class="mt-5  mb-5 col-md-4"> 
                                               <label for="productimage" class="">
                                                 Image
                                               </label>
                                               
                                               <input  type="file" required id="id_image3" name="image3" accept="image/*" class="form-control" onchange="viewImage3(event)"
                                               style="width:100%;"><br>
-                                            <img src="" id="imgView3" alt="" style="height:100px">
+                                            <img src="" id="imgView3" class="clr" alt="" style="height:100px">
                                            
                                             <div class="vald-info" id="info"></div>
                                             <h5 class="error_form text-danger" id="image3_error_message"></h5>
                                             <div style="display:flex">
-                                              <div id="image-box3" class="image-container" style="height: 300px; width:20%"></div>
+                                              <div id="image-box3" class="image-container clr" style="height: 300px; width:20%"></div>
                                               <button type="button" class="btn btn-outline-info" id="crop-btn3" style=" margin-top: 2px; display: none;
                                                     width:  50% ; margin: 20rem 0rem 0rem 0rem;">Crop</button>
                                             </div>
                                           </div>
-                                    
-
-
-
-
-
-                                            <div class="mt-5 col-md-5">
-                                                <div class="">
-                                                    <button type="submit" class="btn btn-big btn-primary  w-10" >Add
-                                                    </button>
-                                                </div>
-                                                </div>
+    
+                                          <div class="mt-2 col-md-12 ">
+                                            <div class=" d-flex justify-content-center mb-5">
+                                                <button type="submit" class="btn btn-primary ">Add Product
+                                                </button>
+                                            </div>
+                                            </div>
             </div>
           </form>
           
         </div>
-
+<style>
+  .clr{
+    display: none;
+  }
+</style>
         <script>
 
      
@@ -174,12 +168,14 @@
     
      productname: {
       required:true,
-      minlength:4,
+  
+      minlength:10,
+      maxlength:40
       
      },description:{
       required:true,
       minlength:10,
-      maxlength:42
+      maxlength:60
      },category:{
       required:true
      },size:{
@@ -250,6 +246,7 @@ const image1 = document.getElementById('image1')
 document.getElementById('image-box1').style.display = 'block'
 // Displaying the Crop buttton
 document.getElementById('crop-btn1').style.display = 'block'
+document.getElementById('imgView1').style.display = 'block'
 // Hiding the Post button
 const cropper1 = new Cropper(image1, {
   autoCropArea: 1,
@@ -314,6 +311,8 @@ const image2 = document.getElementById('image2')
 document.getElementById('image-box2').style.display = 'block'
 // Displaying the Crop buttton
 document.getElementById('crop-btn2').style.display = 'block'
+
+document.getElementById('imgView2').style.display = 'block'
 // Hiding the Post button
 const cropper2 = new Cropper(image2, {
   autoCropArea: 1,
@@ -419,6 +418,8 @@ crop_btn3.addEventListener('click', () => {
     document.getElementById('image-box3').style.display = 'none'
     // Hide the crop button
     document.getElementById('crop-btn3').style.display = 'none'
+
+    document.getElementById('imgView3').style.display = 'block'
   })
 })
 })

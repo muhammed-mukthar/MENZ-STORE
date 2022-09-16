@@ -53,7 +53,7 @@
                     <p class="" style="display: none;"  id="error">offer is required</p>
 
 
-                    <form action="/admin/categoryoffer" id="form1" method="post">
+                    <form action="/admin/categoryoffer" id="offercategory" method="post">
                       <label for="category" class="mr-2">Category</label>
                     <div>
                       <select class="custom-select col-12 " name="category" id="category">
@@ -66,13 +66,13 @@
                       </div>
                         <label for="">New Offer</label>
                         <div>
-                        <input type="number" min="0" max="30" name="categoryoffer" placeholder="New offer" class="form-control mb-3 ">
+                        <input type="number" id="categoryoffer"  name="categoryoffer" placeholder="offer percentage" class="form-control mb-3 ">
                        </div>
                        <div class="my-3"> <label class="form-label" for="validdate">Valid from</label>
-                        <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="validdate" id="validdate" >
+                        <input type="date"  min="2021-09-08T00:00" max="2022-12-31T00:00" name="validdate" id="validdate" >
                     </div>
                     <div> <label class="form-label" for="expiredate">expire at</label>
-                     <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="expiredate" id="validdate" >
+                     <input type="date"  min="2022-09-08T00:00"  name="expiredate" id="expiredate" >
                  </div>
                         <button type="submit" class="btn btn-success mt-3 ">Submit</button>
                     </form>
@@ -87,17 +87,7 @@
                 <%}%>
                 <section  class="h-100 mt-4  container">
                   <h2 class="text-center">User Details</h2>
-                  <div class="row mb-2">
-                    <div class="d-flex justify-content-between">
-                       <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
-                    
-                          <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
-                    </div>
-                  
-                   
-                    </div>
-                   
-                    </div>
+                 
                   <div class="  table-responsive">
                     <table class="table shadow  ">
                       <thead class="table-dark">
@@ -108,7 +98,6 @@
                     <th scope="col">Valid from</th>
                     <th scope="col">expires on</th>
                     <th scope="col">action</th>
-      
                         </tr>
                       </thead>
                       <tbody class="searchable">
@@ -170,6 +159,35 @@
         }
       });
       }
+
+      jQuery('#offercategory').validate({
+    rules:{
+      categoryoffer:{
+        maxlength:2,
+        Number:true,
+        required:true,
+        
+      },
+      category:{
+        required:true
+      },
+      validdate:'required',
+      expiredate:'required'
+    },
+    messages:{
+      percentage: {
+        maxlength: 'Can only select % below 100',
+        },
+        validdate:{
+          required:'This field is reqired'
+        }, expiredate:{
+          required:'This field is reqired'
+        }
+      },
+    submitHandler:function(form){
+      form.submit();
+    }
+  })
       </script>
   
 <%-include('../include/adminresfooter.ejs')-%>

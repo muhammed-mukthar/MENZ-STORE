@@ -37,17 +37,20 @@
     <section  class="container h-100 mt-4  ">
       <h2 class="text-center">Order History</h2>
       <div class="row mb-2">
-        <div class="d-flex justify-content-between">
-           <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
-        
-              <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
-        </div>
-      
-        </div>
+        <div class="d-flex  justify-content-center mb-4 col-12">
+					<form  class="col-12 col-md-6">
+					  <input  type="text" class="col-8 m-2 py-2" name="search" placeholder="Search...">
+					  <input type="submit" class="col-auto btn btn-success p-2" value="Search">
+					</form>
+					
+					
+				  
+					   
+				  </div>
        
         </div>
-      <div class="  table-responsive">
-        <table class="table shadow  ">
+      <div class="  table-responsive my-3">
+        <table class="table shadow  w-auto "  >
           <thead class="table-dark">
             <tr>
               <th scope="col"> Date</th>
@@ -64,7 +67,7 @@
           
             </tr>
           </thead>
-          <tbody class="searchable">
+          <tbody class="searchable ">
             
             <% for ( let i=0; i < orderinfo.length; i++){ %>
             
@@ -73,7 +76,7 @@
               <td><%=orderinfo[i].date.toLocaleDateString()%></td>
                    
                    
-                    <td><%=orderinfo[i].deliveryDetails.address1%></td> 
+                    <td class="w-10" ><%=orderinfo[i].deliveryDetails.address1%>,<%=orderinfo[i].deliveryDetails.city%></td> 
                       <td><%=orderinfo[i].paymentMethod%></td>
                       <td>Rs<%=orderinfo[i].totalAmount%></td>
                       <td><a class="btn btn-primary" href="/admin/orderedproducts/<%=orderinfo[i]._id%>">products</a></td>
@@ -83,7 +86,6 @@
                         <td><p class="text-danger">Order has been cancelled</p></td>
                         <%}else if(orderinfo[i].status =='delivered'){%>
                           <td><p class="text-success">Order has been delivered</p></td>
-
                           <%}else{%>
                        <td>
                         <form action="/admin/orderstatus/<%=orderinfo[i]._id%>" method="post">
@@ -105,82 +107,33 @@
           </tbody>
         </table>
       </div>
-    </section>
-<!-- 
-    
-    
-    <section>
-      <div class="container mt-3">
-
-          <table id="example" class="display responsive nowrap" style="width:100%">
-            <thead class="theadclass">
-              <%if(message){%>
-                <%=message.message%>
-                <%}%>
-              <tr>
-                 
-                    <th scope="col"> Date</th>
-                    <th scope="col">address </th>
-                    <th scope="col">payment Method</th>
-
-                    <th scope="col">Amount</th>
-            
-                    <th scope="col">product details</th>
-             
-                    <th scope="col">user details</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Order Status</th>
-                  
-              </tr>
-                </thead>
-                <tbody>
-                
-                  <% for ( let i=0; i < orderinfo.length; i++){ %>
-                
-                  <tr>
-                   
-                    <td><%=orderinfo[i].date.toLocaleDateString()%></td>
-                   
-                   
-                    <td><%=orderinfo[i].deliveryDetails.address1%></td> 
-                      <td><%=orderinfo[i].paymentMethod%></td>
-                      <td>Rs<%=orderinfo[i].totalAmount%></td>
-                      <td><a class="btn btn-primary" href="/admin/orderedproducts/<%=orderinfo[i]._id%>">products</a></td>
-                      <td><a class="btn btn-primary" href="/admin/userinfo/<%=orderinfo[i]._id%>">user Info</a></td>
-                      <td><%=orderinfo[i].status%></td>
-                      <% if(orderinfo[i].status =='cancelled'){%>
-                        <td><p class="text-danger">Order has been cancelled</p></td>
-                        <%}else if(orderinfo[i].status =='delivered'){%>
-                          <td><p class="text-success">Order has been delivered</p></td>
-
-                          <%}else{%>
-                       <td>
-                        <form action="/admin/orderstatus/<%=orderinfo[i]._id%>" method="post">
-                        <select class="" name="status" id="size">
-                        <option value="<%=orderinfo[i].status%>" selected><%=orderinfo[i].status%></option>
-                        <option value="cancelled">cancelled</option>
-                        <option value="shipped">shipped</option>
-                        <option value="out for delivery">out for delivery</option>
-                        <option value="delivered">delivered</option>
-                      </select>
-                  
-                    <button class="btn btn-success" type="submit">submit</button>
-                </form>
-            </td> 
-            <%}%>
-        
-                  </tr>
-              <%}%>
-                </tbody>
-                
+      <nav aria-label="Page navigation example mb-4">
+        <ul class="pagination justify-content-center">
+          <li class="text-success page-link disabled" >Page <%=previous+1%></li>
+          <%if( previous > 0){%>
+          <li class="page-item ">
+            <a class="page-link" href="?page=<%=previous%> ">Previous</a>
+          </li>
+          <%}%>
+       
+          <li class="page-item" ><a class="page-link sameclass"  href="?page=<%=1%>"><%=1%></a></li>
+       
+          <li class="page-item" ><a class="page-link sameclass "  > ...</a></li>
      
-        </table>
-        
-      </div>
-
-</section>
- -->
-
+         
+          <li class="page-item"><a class="page-link " href="?page=<%=totalPages%>"><%=totalPages%></a></li>
+		  <%console.log(totalPages,previous)%>
+          <%if(totalPages >= (previous+2)){%>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%=previous+2%> ">Next</a>
+         
+          </li>
+          <%}%>
+         
+            
+        </ul>
+      </nav>
+    </section>
 
 
 <%-include('../include/adminresfooter.ejs')-%>

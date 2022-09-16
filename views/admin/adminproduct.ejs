@@ -36,16 +36,19 @@
     
 
     <section  class="container h-100 mt-4  ">
-      <h2 class="text-center">Order History</h2>
+      <h2 class="text-center">Product Details</h2>
 <div class="row mb-2">
-  <div class="d-flex justify-content-between">
-     <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
-  
-        <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
-  </div>
-
-    <button  class="py-1 btn btn-dark" id="buttonstyle" ><a href="/admin/addproduct">Add Product</a></button>
-  </div>
+  <div class="d-flex  justify-content-center mb-4 col-12">
+    <form  class="col-12 col-md-6">
+      <input  type="text" class="col-8 m-2 py-2" name="search" placeholder="Search...">
+      <input type="submit" class="col-auto btn btn-success p-2" value="Search">
+    </form>
+       
+    </div>
+    <div class="d-flex  justify-content-end mb-4 col-12">
+      <a href="/admin/addproduct" class="btn btn-info">Add Product</a>
+         
+      </div>
  
   </div>
       <div class="  table-responsive">
@@ -91,6 +94,29 @@
           </tbody>
         </table>
       </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="text-success page-link disabled" >Page <%=previous+1%></li>
+          <%if( previous > 0){%>
+          <li class="page-item ">
+            <a class="page-link" href="?page=<%=previous%> ">Previous</a>
+          </li>
+          <%}%>
+       
+          <li class="page-item" ><a class="page-link sameclass"  href="?page=<%=1%>"><%=1%></a></li> 
+          <li class="page-item" ><a class="page-link sameclass "  > ...</a></li>
+          <li class="page-item"><a class="page-link disabled" href="?page=<%=totalPages%>"><%=totalPages%></a></li>
+		  <%console.log(totalPages,previous)%>
+          <%if(totalPages >= (previous+2)){%>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%=previous+2%> ">Next</a>
+         
+          </li>
+          <%}%>
+         
+            
+        </ul>
+      </nav>
     </section>
     
    

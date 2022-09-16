@@ -93,13 +93,13 @@ exports.userlogin = async (req, res) => {
 /* --------------------------------- signup --------------------------------- */
 exports.signup=async (req, res) => {
   try {
-    const userexist = await User.findOne({ email: req.body.email });
+    const userexist = await User.findOne({$or:[{email:req.body.email},{phone:req.body.phone}] });
     console.log(userexist);
     if (userexist) {
       req.session.message = {
         message: "User already exists please login",
       };
-      res.status(422).redirect("/signup");
+      res.redirect("/signup");
     } else {
       const userdetails =  new User({
         name: req.body.name,
@@ -124,7 +124,7 @@ exports.signup=async (req, res) => {
       })
     }
   } catch (err) {
-    res.status(200).send(err)
+    res.redirect('/404')
   }
 }
 
@@ -134,9 +134,24 @@ exports.signup=async (req, res) => {
 
 exports.getallusers = async (req, res) => {
   try {
-    let getuser = await User.find();
-
-    res.status(200).render("admin/adminuser", { listuser: getuser });
+    var limit=5
+    var page=1
+    if(req.query.page){
+      page=req.query.page
+    }
+    var search=''
+    if(req.query.search){
+      search=req.query.search
+    }
+    let getuser = await User.find({$or:[
+      {
+       name:{$regex:'.*'+search+'.*',$options:'i'} 
+      }
+    ]}).limit(limit) .skip((page - 1) *limit)
+    .exec(); 
+let count=await User.find().countDocuments()
+    res.status(200).render("admin/adminuser", { listuser: getuser ,totalPages: Math.ceil(count/limit),
+    previous: page - 1, });
   } catch (err) {
     res.send(err).status(500);
   }
