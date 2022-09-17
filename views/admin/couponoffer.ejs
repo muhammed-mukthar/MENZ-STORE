@@ -17,13 +17,13 @@
               <a class="nav-link" href="/admin/orders">Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="/admin/products">Products</a>
+              <a class="nav-link" href="/admin/products">Products</a>
             </li>
             <li class="nav-item">
               <a href="/admin/usermanagement" class="nav-link ">Users</a>
             </li>
             <li class="nav-item">
-              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
+              <a href="/admin/category" class="nav-link ">Category</a>
             </li>
             <li class="nav-item">
               <a href="/admin/logout" class="nav-link ">Sign out</a>
@@ -31,13 +31,20 @@
             <li class="nav-item dropdown-content">
               
                
-              <a href="/admin/categoryoffer" class="nav-link">Category Offers</a>
-              <a href="#">coupon offer</a>
-              
-                <a href="#">referal offer</a>
-                <a href="#">product offer</a>
-         
-
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link " >Category Offers</a></li>
+                  <li> <a href="/admin/couponoffer" class="nav-link active" aria-current="page">coupon Offers</a></li>
+                  <li><a href="/admin/referraloffer" class="nav-link " >Referal Offers</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/bannermanage" class="nav-link "> banner</a>
             </li>
           </ul>
         </div>
@@ -50,10 +57,12 @@
                 <div class="col-md-4 -">
                   <h2 class="text-center">Add Coupon </h2> 
                   <form action="/admin/coupon" class=" pt-2 ml-auto" id="form1"  method="post">
-                    <label class="form-label" for="coupon">code</label>
-                    <input type="text"  name="coupon" id="coupon" class="col-4 form-control">
+                    <div class="my-3"> <label class="form-label" for="offer">Coupon</label>
+                      <input type="text"  name="coupon" id="coupon" class="col-4 form-control">
+                  </div>
+                    
                     <div class="my-3"> <label class="form-label" for="offer">Offer Amount</label>
-                      <input class="col-4" type="number"  name="offer" id="offer" >
+                      <input class="col-4 " type="number"  name="offer" id="offer" >
                   </div>
                   <div class="my-3"> <label class="form-label" for="min">Min Purchase</label>
                     <input class="col-4" type="number"  name="min" id="min" >
@@ -63,8 +72,8 @@
                     </div>
                     <div> <label class="form-label" for="expiredate">expire at</label>
                      <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="expiredate" id="validdate" >
-                 </div>
-                        <button type="submit" class="my-4 btn btn-primary">submit</button>
+                 </div >
+                        <button type="submit" class="my-4 btn btn-primary text-center">submit</button>
                     </form>
                 </div>
             </div>
@@ -75,15 +84,13 @@
       <h2 class="text-center">User Details</h2>
       <div class="row mb-2">
         <div class="d-flex justify-content-between">
-           <div class="d-flex"> <p class="input-group-addon fw-300 m-2">Search Products</p>
-        
-              <input id="filter" type="text" class="col-4 m-2 " placeholder="Search...">
-        </div>
+          
       
        
         </div>
        
         </div>
+        <%if(allcoupon.length > 0){%>
       <div class="  table-responsive">
         <table class="table shadow  ">
           <thead class="table-dark">
@@ -103,11 +110,11 @@
             
             <% for ( let i=0; i < allcoupon.length; i++){ %>
               <tr>
-                <td><%=allcoupon[i].coupon%></td>
-                <td><%=allcoupon[i].offer%> RS</td>
-                <td><%=allcoupon[i].min%> Rs</td>
-                <td><%=allcoupon[i].from.toISOString().slice(0,10)%></td>
-                <td><%=allcoupon[i].expires.toISOString().slice(0,10)%></td>
+                <td class="py-2"><%=allcoupon[i].coupon%></td>
+                <td  class="py-2"><%=allcoupon[i].offer%> RS</td>
+                <td  class="py-2"><%=allcoupon[i].min%> Rs</td>
+                <td  class="py-2"><%=allcoupon[i].from.toISOString().slice(0,10)%></td>
+                <td  class="py-2"><%=allcoupon[i].expires.toISOString().slice(0,10)%></td>
                 <% if(allcoupon[i].status==false){%>
                   <td><a href="/admin/invalidcoupon/<%=allcoupon[i]._id%>" class="btn btn-danger" >Block</a></td>
                  <% }else{ %>
@@ -115,10 +122,12 @@
                 
                   <%} %>
                 
-              <td><a onclick="confirmation('<%=allcoupon[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a></td>
+              <td  class="py-2"><a onclick="confirmation('<%=allcoupon[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a></td>
                 </tr>
                 <%}%>
         </table>
+        <%}else{%>
+          <%}%>
       </div>
     </section>
      

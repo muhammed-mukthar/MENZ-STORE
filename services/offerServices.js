@@ -7,6 +7,9 @@ const Product = require("../models/product");
 const moment=require('moment')
 module.exports = {
 
+
+/* --------------------------- apply coupon offer --------------------------- */
+
   categoryoffer: (offerObj, categoryId) => {
     console.log(offerObj);
     return new Promise(async (resolve, reject) => {
@@ -20,7 +23,7 @@ module.exports = {
           },
         }
       );
-      
+
       let allProduct = await Product.find();
       const categories = await category.find();   
       let offercategories=[]
@@ -81,9 +84,7 @@ module.exports = {
                 }
               })
               reject()
-            }
-
-          
+            }    
           } else {
             
             console.log("outside the loop");
@@ -94,6 +95,9 @@ module.exports = {
       resolve(cateforyOffer);
     });
   },
+
+
+  /* -------------------------- delete category offer ------------------------- */
 
   deleteCategoryoffer:(categoryid)=>{
     return new Promise(async(resolve,reject)=>{

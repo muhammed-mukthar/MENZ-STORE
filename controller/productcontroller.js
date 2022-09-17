@@ -160,8 +160,6 @@ exports.edit_productsPage = async (req, res) => {
 /* ------------------------------ edit product ------------------------------ */
 
 exports.editProduct = async(req, res) => {
- 
-  
   const id=req.params.id
   let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
   // console.log(existproduct[0].image[0]);
