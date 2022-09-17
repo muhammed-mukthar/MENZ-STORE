@@ -1,25 +1,27 @@
 const router = require("express").Router();
 const Product = require("../models/product");
 const Category = require("../models/category");
-const Banner=require('../models/banner')
-const Coupon=require('../models/couponoffer')
-const adminController=require('../controller/admincontroller')
-const userController=require('../controller/usercontroller')
-const productController=require('../controller/productcontroller')
-const categoryController=require('../controller/categoryController')
-const orderController=require('../controller/orderController')
-const Order=require('../models/order')
-const User=require('../models/user')
+const Banner = require("../models/banner");
+const Coupon = require("../models/couponoffer");
+const adminController = require("../controller/admincontroller");
+const userController = require("../controller/usercontroller");
+const productController = require("../controller/productcontroller");
+const categoryController = require("../controller/categoryController");
+const orderController = require("../controller/orderController");
+const bannercontroller=require('../controller/bannerController')
+const couponController=require('../controller/couponController')
+const refferalController=require('../controller/referralController')
+const Order = require("../models/order");
+const User = require("../models/user");
 var ObjectId = require("mongoose").Types.ObjectId;
-let bannerServices=require('../services/bannerServices')
-let orderServices=require('../services/orderServices')
-let offerServices=require('../services/offerServices')
-let couponServices=require('../services/CouponServices')
-let referalService=require('../services/referalService')
+let bannerServices = require("../services/bannerServices");
+let orderServices = require("../services/orderServices");
+let offerServices = require("../services/offerServices");
+let couponServices = require("../services/CouponServices");
+let referalService = require("../services/referalService");
 /* -------------------------------- services -------------------------------- */
 const fs = require("fs");
 const { route } = require("./user");
-
 
 /* ----------------------------- checking admin ----------------------------- */
 
@@ -40,26 +42,21 @@ router.get("/login", adminController.loginpage);
 
 /* --------------------------- //admin login post --------------------------- */
 
-router.post("/login",adminController.adminlogin);
+router.post("/login", adminController.adminlogin);
 
 /* ------------------------------ //adminlogout ----------------------------- */
 
-router.get("/logout",adminController.adminlogout );
-
+router.get("/logout",adminauth, adminController.adminlogout);
 
 /* -------------------------- //admin get all user -------------------------- */
 
-router.get("/usermanagement", adminauth,userController.getallusers );
-
-
-
+router.get("/usermanagement", adminauth, userController.getallusers);
 
 /* --------------------------- //update blockuser --------------------------- */
 
 router.get("/block/:id", adminauth, userController.blockuserupdate);
 
 // router.put('/unblock/:id',async(req,res)=>{
-
 
 /* ---------------------------- // update unblock --------------------------- */
 
@@ -73,326 +70,136 @@ router.get("/products", adminauth, productController.allproducts);
 
 router.get("/addproduct", adminauth, productController.addproductspage);
 
-
 /* ------------------------------------ * ----------------------------------- */
-
 
 /* ---------------------------- //post addproduct --------------------------- */
 
-
-
-
-
-
-router.post("/addproduct",adminauth,productController.addproduct);
+router.post("/addproduct", adminauth, productController.addproduct);
 
 /* ---------------------------- //get editproduct --------------------------- */
 
-router.get("/editproduct/:id", adminauth,productController.edit_productsPage );
+router.get("/editproduct/:id", adminauth, productController.edit_productsPage);
 
 /* -------------------------- //upload editproduct -------------------------- */
 
-router.post("/editproduct/:id",adminauth, productController.editProduct);
+router.post("/editproduct/:id", adminauth, productController.editProduct);
 
 /* ----------------------------- //deleteproduct ---------------------------- */
 
-router.get("/deleteproduct/:id", adminauth,productController.deleteproduct );
-
+router.get("/deleteproduct/:id", adminauth, productController.deleteproduct);
 
 /* --------------------------- get category offer --------------------------- */
-router.get('/categoryoffer',async(req,res)=>{
-  let categories= await Category.find()
-  let categorylength=categories
-  res.render("admin/categoryoffer",{categories,categorylength});
-})
+router.get("/categoryoffer", adminauth, categoryController.categoryofferpage);
 
 /* ---------------------------------- post category offer ---------------------------------- */
 
-
-router.post('/categoryoffer',async(req,res)=>{
-  try{
- 
- let newObj={
-      percentage:Number(req.body.categoryoffer),
-      valid_from:new Date(req.body.validdate),
-      valid_till:new Date(req.body.expiredate),
-      status:false,
-      expired:false     
-  }
-  console.log(newObj);
-  
-   let categoryId=req.body.category
-  offerServices.categoryoffer(newObj,categoryId).then((result)=>{
- res.redirect('back')
-  }).catch(()=>{
-    res.redirect('back')
-  })
-  }catch(err){
-    console.log(err,'error occured on categoryoffer');
-}  
-})
-
+router.post("/categoryoffer", adminauth, categoryController.categoryoffer);
 
 /* -------------------------- delet category offer -------------------------- */
 
-router.get('/deletecategoryoffer/:id',(req,res)=>{
-  try{
-let cateogryid=req.params.id
-  offerServices.deleteCategoryoffer(cateogryid).then(()=>{
-    res.redirect('back')
-  })
-  }catch(err){
-    console.log('error happened in delete category offer');
-  }
-  
-})
-
+router.get("/deletecategoryoffer/:id", adminauth, categoryController.deletecategoryoffer);
 
 /* ----------------------------- // get category ---------------------------- */
-
-
 
 router.get("/category", adminauth, categoryController.categorypage);
 
 /* ----------------------------- //post category ---------------------------- */
 
-router.post("/category",adminauth,categoryController.addCategory );
+router.post("/category", adminauth, categoryController.addCategory);
 
 /* ---------------------------- //delete category --------------------------- */
 
-router.get('/category/:id',adminauth,categoryController.deleteCategory)
-
+router.get("/category/:id", adminauth, categoryController.deleteCategory);
 
 /* ------------------------------- order view page ------------------------------- */
 
-
-router.get('/orders',adminauth,orderController.ordersPageAdmin)
-
+router.get("/orders", adminauth, orderController.ordersPageAdmin);
 
 /* --------------------------- order products info -------------------------- */
 
-router.get('/orderedproducts/:id',adminauth,orderController.orderedProductsAdmin)
-
+router.get( "/orderedproducts/:id",adminauth,orderController.orderedProductsAdmin);
 
 /* ----------------------------- order user info ---------------------------- */
 
-router.get('/userinfo/:id',adminauth,orderController.orderUserInfo)
-
+router.get("/userinfo/:id", adminauth, orderController.orderUserInfo);
 
 /* ------------------------------ order status ------------------------------ */
 
-router.post('/orderstatus/:id',adminauth,orderController.adminChangeOrderStatus)
+router.post(  "/orderstatus/:id", adminauth,  orderController.adminChangeOrderStatus);
 
 /* ------------------------- order details sale ------------------------ */
 
-router.get('/order-details',adminauth,orderController.monthsale)
+router.get("/order-details", adminauth, orderController.monthsale);
 
 /* ------------------------------- order stat monthly------------------------------- */
 
-
-router.get('/orderstatmonth',adminauth,orderController.Showstat)
+router.get("/orderstatmonth", adminauth, orderController.Showstat);
 
 /* -------------------------- admin orders details -------------------------- */
 
-
 /* ---------------------------- according to date --------------------------- */
 
-router.post('/datestat',adminauth,async(req,res)=>{
-  let date=req.body.Datestat
-  const daysales = await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },
-  { $project: { order: '$userId', date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } }, paymentmode: '$paymentMethod', total: '$totalAmount' } },
-  {
-    $match: { date: req.body.Datestat }
-  }
-  ])
-  console.log(daysales);
-  res.render('admin/orderstat', {'sales': daysales })
-})
-
+router.post("/datestat", adminauth, orderController.datestat);
 
 /* --------------------------- according to month --------------------------- */
 
-router.post('/monthstat',async(req,res)=>{
-    let matchkey = req.body.m_year + "-" + req.body.m_month
-    console.log(matchkey);
-    const monthsales = await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
-      
-        yearmonth: { $first: { $dateToString: { format: "%Y-%m", date: "$date" } } },
-        total: { $sum: '$totalAmount' },
-        count: { $sum: 1 }
-      }
-    },
-    {
-      $sort: { _id: 1 },
-    },
-    {
-      $match: { yearmonth: matchkey }
-    }
-    ])
-  
-    console.log(monthsales);
-  
-    res.render('admin/orderstat', { 'sales':monthsales })
-  })
+router.post("/monthstat", adminauth, orderController.monthstat);
 
-  /* ----------------------------- yearly reports ----------------------------- */
+/* ----------------------------- yearly reports ----------------------------- */
 
-  router.post('/yearstat',async(req,res)=>{
-    let year=req.body.yearstat
-    const yearsales = await Order.aggregate([{ $match: { 'status': { $nin: ['cancelled'] } } },
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
-        month:{ $first: { $dateToString: { format: "%Y-%m", date: "$date" } } },
-      
-        yearmonth: { $first: { $dateToString: { format: "%Y", date: "$date" } } },
-        total: { $sum: '$totalAmount' },
-        count: { $sum: 1 }
-      }
-    },
-    {
-      $sort: { _id: 1 },
-    },
-    {
-      $match: { yearmonth: year }
-    }
-    ])
-  
-    console.log(yearsales,'sfsaff');
-  
-    res.render('admin/orderstat', { 'sales':yearsales })
-  })
+router.post("/yearstat", adminauth, orderController.yearstat);
 
-  /* --------------------------------- banner --------------------------------- */
+/* ---------------------------------add banner page--------------------------------- */
 
-router.get('/bannermanage',adminauth,(req,res)=>{
-  bannerServices.getbannerpage().then((result)=>{
-      res.render('admin/banner',{'bannerdetails':result})
-  })
+router.get("/bannermanage", adminauth,bannercontroller.bannermanage);
 
-})
-router.post('/banner',adminauth,(req,res)=>{
-  try{
-  let bannerimage=req.files?.bannerimage
-  let heading=req.body.heading
-  let desc=req.body.desc
-  console.log(bannerimage);
-  bannerServices.add(heading,desc).then((result)=>{
-    bannerServices.bannerimage(bannerimage,result._id).then(()=>{
-          console.log(result._id);
-    res.redirect('/admin/bannermanage')
-    })
-  })
-  }catch(err){
-    console.log(err,'error happened in banner');
-  }
-})
-router.get('/deletebanner/:id',(req,res)=>{
-  let bannerId=req.params.id
-  bannerServices.deletebanner(bannerId).then(()=>{
-    res.redirect('back')
-  })
-})
+
+/* ------------------------------- add banner ------------------------------- */
+
+
+router.post("/banner", adminauth,bannercontroller.addbanner);
+
+
+
+/* ------------------------------ delete banner ----------------------------- */
+
+
+router.get("/deletebanner/:id",adminauth, bannercontroller.deletebanner);
+
+
 
 /* --------------------------------- coupon --------------------------------- */
-router.get('/couponoffer',async(req,res)=>{
-   couponServices.allCoupon().then((allcoupon)=>{
-    console.log(allcoupon);
-      res.render('admin/couponoffer',{allcoupon})
-  })
-})
+router.get("/couponoffer", adminauth,couponController.couponoffer_Page);
 
 /* ------------------------------- create coupon ------------------------------ */
 
-
-router.post('/coupon',async(req,res)=>{
-  try{
- let coupon=req.body.coupon
-  let validdate=req.body.validdate
-  let expiredate=req.body.expiredate
-  let offer=req.body.offer
-  let minpurchase=req.body.min
-
- couponServices.addcoupon(coupon,validdate,expiredate,offer,minpurchase).then((newcoupon)=>{
-     console.log(newcoupon);
-  
-res.redirect('/admin/couponoffer')
- })
-
-}catch(err){
-    console.log(err,'error happened in coupon');
-  }
-})
+router.post("/coupon", adminauth, couponController.create_coupon);
 
 /* ------------------------------ delete coupon ----------------------------- */
 
-router.get('/deletecoupon/:id',(req,res)=>{
-  let couponId=req.params.id
-  couponServices.deletCoupon(couponId).then((delet)=>{
-  
-    res.redirect('back')
-  })
-})
+router.get("/deletecoupon/:id", adminauth, couponController.delete_coupon);
 
 /* ------------------------------- validcoupon ------------------------------ */
-router.get('/validcoupon/:id',(req,res)=>{
-  let couponId=req.params.id
-    couponServices.validcoupon(couponId).then(()=>{
-      res.redirect('back')
-    })
-})
+router.get("/validcoupon/:id", adminauth, couponController.valid_Coupon);
 
 /* ------------------------------ invalidcoupon ----------------------------- */
 
-router.get('/invalidcoupon/:id',(req,res)=>{ 
-    let couponId=req.params.id
-      couponServices.Invalidcoupon(couponId).then(()=>{
-        res.redirect('back')
-      })
-})
-
+router.get("/invalidcoupon/:id", adminauth, couponController.invalidcoupon);
 
 /* --------------------------- referal offer page --------------------------- */
-
-router.get('/referraloffer',(req,res)=>{
-  try{
-    referalService.referramountdetails().then((referalamountdetails)=>{
-      console.log(referalamountdetails);
-          res.render('admin/adminreferral',{referalamountdetails})
-    })
+router.get("/referraloffer", adminauth,refferalController.referralPage);
 
 
-
-
-  }catch(err){
-    console.log(err,'error happened in referal offer page');
-  }
-})
 /* --------------------------- referal offer form submit post --------------------------- */
 
-router.post('/referraloffer',(req,res)=>{
-  try{
-    let referralAmount=req.body.referral
-    let referedUser=req.body.referreduserAmount
-    referalService.referramount(referralAmount,referedUser).then(()=>{
-      res.redirect('/admin/referraloffer')
-    })
-  }catch(err){
-    console.log(err,'error happened in referal offer form submit');
-  }
-})
+
+router.post("/referraloffer", adminauth, refferalController.referraloffer);
+
 
 /* -------------------------- delete referral offer ------------------------- */
 
-router.get('/deletereferaloffer/:id',(req,res)=>{
-  let refferralOfferId=req.params.id
-  referalService.delete_referralOffer(refferralOfferId).then(()=>{
-    res.redirect('back')
-  })
 
-})
+router.get("/deletereferaloffer/:id", adminauth, refferalController.delete_referraloffer);
+
 
 module.exports = router;

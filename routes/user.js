@@ -15,11 +15,11 @@ let orderServices=require('../services/orderServices')
 let wishlistServices=require('../services/wishlistServices')
 let couponServices=require('../services/CouponServices')
 let cartServices=require('../services/cartServices')
-
-
+let paypalServices=require('../services/paypalService')
+const CouponServices = require("../services/CouponServices");
 /* ------------------------------------ * ----------------------------------- */
 
-const paypal = require('../paypal')
+
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
@@ -34,7 +34,12 @@ const userController = require("../controller/usercontroller");
 const categoryController = require("../controller/categoryController");
 const orderController=require('../controller/orderController')
 const addressController=require('../controller/addressController');
-const CouponServices = require("../services/CouponServices");
+const wishlistController=require('../controller/wishlistController')
+const CouponController=require('../controller/couponController')
+
+
+/* ------------------------ autentication middleware ------------------------ */
+
 
 const userauth = (req, res, next) => {
   if (req.session.userlogin) {
@@ -49,21 +54,11 @@ const userauth = (req, res, next) => {
 
 /* --------------------------------- paypal create order --------------------------------- */
 
-router.post("/api/orders",userauth, async (req, res) => {
-  let userId = req.session.user._id;
- let total=await cartServices.calculate_total(userId)
- console.log(total,'total here');
-  const order = await paypal.createOrder(total);
-  res.json(order);
-});
+router.post("/api/orders",userauth,orderController.paypal_createorder);
  
 /* -------------------------- paypal capture order -------------------------- */
 
-router.post("/api/orders/:orderId/capture",userauth, async (req, res) => {
-  const { orderId } = req.params;
-  const captureData = await paypal.capturePayment(orderId);
-  res.json(captureData);
-});
+router.post("/api/orders/:orderId/capture",userauth, orderController.paypal_captureOrder);
 
 /* ------------------------------------ # ----------------------------------- */
 
@@ -112,88 +107,24 @@ router.get("/signup", userController.userSignup);
 /* -------------------------------- //signup  post-------------------------------- */
 router.post("/signup", userController.signup);
 
-router.get('/404',(req,res)=>{
-  res.render('include/404')
-})
+/* -------------------------------- 404 page -------------------------------- */
+
+router.get('/404',userController.errorpage)
 
 /* -------------------------------- wishlist -------------------------------- */
 
-router.get('/wishlist',userauth,(req,res)=>{
-  let userId = req.session.user?._id;
-
-  wishlistServices.getproducts(userId).then((wishlistItems)=>{
-    console.log(wishlistItems);
-    res.render('user/wishlist',{wishlistItems,userId,  isuser: req.session.userlogin,})
-  })
-})
+router.get('/wishlist',userauth,wishlistController.wishlist_Page)
 
 /* ----------------------------- add to wishlist ---------------------------- */
-router.get('/add-to-wishlist/:id',userauth,async(req,res)=>{
-  try {
-    let userId = req.session.user._id;
-    let productId = req.params.id;
-
-    let isWishList = await WishList.findOne({ user: userId });
-
-    let productadd = {
-      item: ObjectId(productId),
-      quantity: 1,
-    };
-    if (isWishList == null) {
-    
-
-      let newWishList = new WishList({
-        user: userId,
-        products: [productadd],
-      });
-      newWishList.save();
-     
-    } else {
-
-     const alreadyExists = isWishList.products.findIndex(product => product.item == productId)
-      if (alreadyExists === -1) {
-        const addWishList = await WishList.updateOne(
-          { user: userId },
-          { $push: { products: { item: ObjectId(productId), quantity: 1 } } }
-        );
-    
-        console.log(addWishList);
-      } else {
-
-      }
-    }
-    res.redirect("/wishlist");
-  } catch (err) {
-    console.log(err + "error add to wishlist");
-  }
-}
-  
-)
+router.get('/add-to-wishlist/:id',userauth,wishlistController.add_to_wishlist)
 
 /* ----------------------------- delete wishlist ---------------------------- */
 
-router.post('/wishlist/remove',(req,res)=>{
-  
-  let wishlistId=req.body.wishlist;
-  let productId=req.body.product
-  let userId=req.body.user
-  console.log(wishlistId,productId,userId);
-  wishlistServices.deleteWishlistproduct(wishlistId,productId,userId).then(()=>{
-    res.json(removeproduct =true)
-  })
-
-})
+router.post('/wishlist/remove',userauth,wishlistController.remove_wishlist)
 
 /* ------------------- remove wishlist when added to cart ------------------- */
 
-router.post('/wishlist/delete',async(req,res)=>{
- 
-  let wishlistId=req.body.wishlist
-  wishlistServices.deleteWishlist(wishlistId).then(()=>{
-    res.json(removewishlist =true)
-  })
-
-})
+router.post('/wishlist/delete',userauth,wishlistController.delete_wishlist_cart)
 
 
 /* ------------------------------ cart display ------------------------------ */
@@ -213,17 +144,14 @@ router.get("/add-to-cart/:id", userauth, cartController.addtocart);
 
 router.get("/checkout", userauth, cartController.ordercheckout); 
 
-/* ------------------------------------  ----------------------------------- */
+
 
 /* ------------------------------- remove cart ------------------------------ */
 
 router.post("/cart/remove",userauth, cartController.removeCart);
 
 /* ---------------------------------- order placed --------------------------------- */
-/*
 
-
-*/
 router.post("/place-order",userauth, orderController.placeOrder);
 
 /* ------------------------------ verifypayment razorpay ----------------------------- */
@@ -290,20 +218,6 @@ router.post('/checkoutsaveaddress',userauth,addressController.saveaddressCheckou
 router.post('/removeaddress',userauth,addressController.removeAddress)
 
 /* ------------------------------ apply coupon ------------------------------ */
-router.post('/applycoupon',(req,res)=>{
-    
-  let coupon=req.body.coupon
-  let userId = req.session.user?._id;
-  CouponServices.applyCoupon(coupon,userId).then((couponexist)=>{
-    req.session.discountprice=couponexist
-    res.redirect('back')
-  }).catch((err)=>{
-    req.session.message = {
-      message: err,
-    };
-    req.session.discountprice=false
-    res.redirect('back')
-  })
-})
+router.post('/applycoupon',userauth,CouponController.applyCoupon)
 
 module.exports = router;

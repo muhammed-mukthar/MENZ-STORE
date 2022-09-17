@@ -18,12 +18,18 @@ const Banner=require('../models/banner')
 
 /* ------------------------------------*  ----------------------------------- */
 /* ---------------------------- helpers/services ---------------------------- */
-let orderServices=require('../services/orderServices')
+
 let walletServices=require('../services/walletServices')
 let ReferalServices=require('../services/referalService')
+let orderServices=require('../services/orderServices')
+let wishlistServices=require('../services/wishlistServices')
+let couponServices=require('../services/CouponServices')
+let cartServices=require('../services/cartServices')
+let paypalServices=require('../services/paypalService')
+
 /* ------------------------------------ * ----------------------------------- */
 
-const paypal = require('../paypal')
+
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
@@ -388,3 +394,8 @@ if(verifypassword){
     console.log(err + "error at editing profile details");
   }
 }
+
+exports.errorpage=(req,res)=>{
+  res.render('include/404')
+}
+

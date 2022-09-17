@@ -59,11 +59,17 @@ module.exports={
         })
     },
 
-    deleteWishlist:(wishlistId)=>{
+    deleteWishlist:(wishlistId,productId)=>{
       return new Promise(async(resolve,reject)=>{
-        await WishList.deleteOne({ _id: ObjectId(wishlistId)}).then(()=>{
-          resolve(wishlistdelete=true)
+        await WishList.updateOne({_id:ObjectId(wishlistId)},{
+          $pull:{
+            products:{
+              item:ObjectId(productId)
+            }
+          }
         })
+        resolve(wishlistdelete=true)
+      
 
       })
     },

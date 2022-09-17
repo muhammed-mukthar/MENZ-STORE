@@ -40,6 +40,7 @@ applyCoupon:(coupon,currentuserId)=>{
         let couponexist= await Coupon.findOne({coupon:coupon,isDelete:{$ne : true},status:false})
         if(couponexist){
             const nowDate = new Date();
+            console.log(nowDate.getTime() < couponexist.expires.getTime(),'coupon exist');
             if (nowDate.getTime() > couponexist.expires.getTime()) {
                 let err="coupon is expired"
               reject(err)
@@ -87,7 +88,4 @@ Invalidcoupon:(couponid)=>{
         resolve()
     })
 }
-
-
-
 }

@@ -5,6 +5,8 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const Category = require("../models/category");
 
+
+const offerServices=require('../services/offerServices')
 var ObjectId = require("mongoose").Types.ObjectId;
 const fs = require("fs");
 
@@ -92,5 +94,49 @@ exports.addCategory=async (req, res) => {
       }
     } catch (err) {
       console.log(err + "error in category id");
+    }
+  }
+
+
+  exports.categoryoffer=async (req, res) => {
+    try {
+      let newObj = {
+        percentage: Number(req.body.categoryoffer),
+        valid_from: new Date(req.body.validdate),
+        valid_till: new Date(req.body.expiredate),
+        status: false,
+        expired: false,
+      };
+      console.log(newObj);
+  
+      let categoryId = req.body.category;
+      offerServices
+        .categoryoffer(newObj, categoryId)
+        .then((result) => {
+          res.redirect("back");
+        })
+        .catch(() => {
+          res.redirect("back");
+        });
+    } catch (err) {
+      console.log(err, "error occured on categoryoffer");
+    }
+  }
+
+  exports.categoryofferpage=async (req, res) => {
+    let categories = await Category.find();
+    let categorylength = categories;
+    res.render("admin/categoryoffer", { categories, categorylength });
+  }
+
+
+  exports.deletecategoryoffer=(req, res) => {
+    try {
+      let cateogryid = req.params.id;
+      offerServices.deleteCategoryoffer(cateogryid).then(() => {
+        res.redirect("back");
+      });
+    } catch (err) {
+      console.log("error happened in delete category offer");
     }
   }

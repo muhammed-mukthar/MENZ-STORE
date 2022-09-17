@@ -222,10 +222,11 @@ for(let j=0;j<categories.length;j++){
           let savedAddress=await Address.find({userId:ObjectId(userId)})
           let walletdetails=await Wallet.findOne({userId:ObjectId(userId)})
           let availableCoupons=await Coupon.find({ isDelete:{$ne : true},status:false} ).sort({  expires:-1})
-        console.log(userdetails);
+       
      let fulltotal= await cartServices.calculate_total(userId)
      let couponused=false
      if(req.session.discountprice){
+      console.log(req.session.discountprice,'disocufsljkjfal;f');
       if(fulltotal>req.session.discountprice.min){
         couponused=true
         fulltotal=fulltotal-req.session.discountprice.offer

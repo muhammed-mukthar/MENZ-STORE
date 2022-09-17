@@ -1,3 +1,6 @@
+
+
+
 require("dotenv").config();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const { CLIENT_ID, APP_SECRET } = process.env;
@@ -20,7 +23,7 @@ exports.createOrder = async function (total) {
         {
           amount: {
             currency_code: "USD",
-            value: total,
+            value: total ,
           },
         },
       ],

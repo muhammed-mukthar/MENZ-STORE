@@ -1,8 +1,9 @@
-function deletewishlist(wishlistId){
+function deletewishlist(wishlistId,product_Id){
     $.ajax({
 			url:'/wishlist/delete',
 			data:{
             wishlist: wishlistId,
+            productId:product_Id
 			},
 			method: 'post',
 			success:(res)=>{
@@ -12,9 +13,6 @@ function deletewishlist(wishlistId){
         })
 
 
-
-          
-           
 
   }
 

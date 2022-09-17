@@ -61,7 +61,7 @@
                         <%}%>
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2  d-flex flex-column text-center">
-                        <a href="/add-to-cart/<%=wishlistItems[i].product._id%>" onclick="deletewishlist('<%=wishlistItems[i]._id%>')" class="btn text-white btn-danger"> Cart+</a>
+                        <a href="/add-to-cart/<%=wishlistItems[i].product._id%>" onclick="deletewishlist('<%=wishlistItems[i]._id%>','<%=wishlistItems[i].product._id%>')" class="btn text-white btn-danger"> Cart+</a>
                         <a  onclick="deleteproduct('<%=wishlistItems[i]._id%>','<%=wishlistItems[i].product._id%>','<%=userId%>')" class="btn pt-2 text-danger"><i class="fas fa-trash fa-lg"></i></a>
                       </div>
                     </div>
