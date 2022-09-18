@@ -51,7 +51,9 @@
               <th scope="col">Order Status</th>
               <th scope="col"> Payment Method</th>
               <th scope="col">Products Ordered</th>
-              <th scope="col">Cancel Order </th>
+             
+              <th scope="col"> Order state </th>
+            
           
             </tr>
           </thead>
@@ -65,8 +67,12 @@
               <td><%=orders.status%></td>
               <td><%=orders.paymentMethod%></td>
               <td>   <a class="btn btn-success my-2" href="/orderproducts/<%=orders._id%>">Products</a></td>
-              <td>     <%if(orders.status=='cancelled'){%>
+              <td>     <%if(orders.status=='cancelled' ){%>
                <span class="text-danger">cancelled</span> 
+                <%}else if(orders.status == 'delivered'){%>
+                  <span class="text-success">delivered</span> 
+                
+                
                 <%}else{%>
 
                <a class="btn btn-danger my-2 text-white " onclick="confirm_Delete('<%=orders._id%>')">Cancel</a>

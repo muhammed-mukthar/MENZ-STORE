@@ -6,7 +6,8 @@ const CouponServices = require("../services/CouponServices");
 exports.applyCoupon=(req,res)=>{
     let coupon=req.body.coupon
     let userId = req.session.user?._id;
-    CouponServices.applyCoupon(coupon,userId).then((couponexist)=>{
+    let totalAmount=req.body.totalamount
+    CouponServices.applyCoupon(coupon,userId,totalAmount).then((couponexist)=>{
       req.session.discountprice=couponexist
       res.redirect('/checkout')
     }).catch((err)=>{
@@ -29,25 +30,39 @@ exports.applyCoupon=(req,res)=>{
 
   /* ------------------------------ create coupon ----------------------------- */
 
-  exports.create_coupon=async (req, res) => {
-    try {
-      let coupon = req.body.coupon;
-      let validdate = req.body.validdate;
-      let expiredate = req.body.expiredate;
-      let offer = req.body.offer;
-      let minpurchase = req.body.min;
   
-      CouponServices
-        .addcoupon(coupon, validdate, expiredate, offer, minpurchase)
-        .then((newcoupon) => {
-          console.log(newcoupon);
-  
+
+ exports.create_coupon=async (req, res) => {
+  try {
+    let coupon = req.body.coupon;
+    let validdate = req.body.validdate;
+    let expiredate = req.body.expiredate;
+    let offer = req.body.offer;
+    let minpurchase = req.body.min;
+
+    CouponServices
+      .addcoupon(coupon, validdate, expiredate, offer, minpurchase)
+      .then((couponalreadyexist) => {
+        if(couponalreadyexist){
+          req.session.message = {
+            type: "danger",
+             message: "coupon already exist",
+          }
           res.redirect("/admin/couponoffer");
-        });
-    } catch (err) {
-      console.log(err, "error happened in coupon");
-    }
+      
+        }else{
+          res.redirect("/admin/couponoffer");
+        }
+
+ 
+      });
+  } catch (err) {
+    console.log(err, "error happened in coupon");
   }
+}
+
+
+
 
 
   /* ------------------------------ delete coupon ----------------------------- */

@@ -232,10 +232,10 @@ for(let j=0;j<categories.length;j++){
         fulltotal=fulltotal-req.session.discountprice.offer
       }else{
         couponused=false
-        req.session.message = {
-          type: "danger",
-           message: "Coupon valid on order above"+req.session.discountprice.offer.min,
-        }
+        // req.session.message = {
+        //   type: "danger",
+        //    message: "Coupon not valid on this order "
+        // }
 
       }
       

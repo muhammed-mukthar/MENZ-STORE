@@ -288,14 +288,11 @@
                         <form action="/applycoupon"  method="post">
                           <p>Coupon</p>     
                     <input type="text" name="coupon" id="coupon">
+                    <input type="text" name="totalamount" hidden value="<%=total%>">
                     <button type="submit"  class="btn btn-success">apply</button>
                   </form>
-                       
                         <%}%>
-
                       <button type="button"  id="displaycoupons"  class="btn btn-outline-info my-3">available Coupons</button>
-                     
-                     
                       <div id="showcoupons" style="display: none;">
                       <%for(let i=0; i< availableCoupons.length;i++){%>
                      <p><%=availableCoupons[i].coupon%></p> 

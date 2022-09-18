@@ -91,6 +91,10 @@
        
         </div>
         <%if(allcoupon.length > 0){%>
+          <%if(message){%>
+            <h5 class="text-<%=message.type%>"><%=message.message%></h5> 
+             <%}%>
+          
       <div class="  table-responsive">
         <table class="table shadow  ">
           <thead class="table-dark">
