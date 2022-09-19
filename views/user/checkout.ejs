@@ -112,17 +112,7 @@
                     <% if(savedAddress.length){%>
 
                     <div class="d-md-flex">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input
-                          type="text"
-                          name="phone"
-                          id="phone"
-                          class="form-control"
-                          value="<%=userdetails.phone%>"
-                          placeholder="phone"
-                        />
+                   
                         <input
                           type="text"
                           name="userId"
@@ -131,7 +121,7 @@
                           class="form-control"
                           placeholder=""
                         />
-                      </div>
+                    
                     </div>
                     
                   <div class="col-md-10  d-flex">
@@ -148,6 +138,7 @@
                         <% const saved = JSON.stringify(savedAddress[i])%>
 
                         <input
+                        required
                           class="form-check-input "
                           type="radio"
                           value="<%=saved%>"
@@ -366,13 +357,13 @@
     </section>
     <!-- .section -->
 
-		<%-include('../include/userfooter.ejs')-%>
   
+		<%-include('../include/userfooter.ejs')-%>
+
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="/js/paypal-pay.js"></script>
-<script src="/js/validate.js"></script>
+
 
 <script src="/js/checkout.js"></script>
-
-
 

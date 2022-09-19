@@ -1,8 +1,4 @@
 const router = require("express").Router();
-const Product = require("../models/product");
-const Category = require("../models/category");
-const Banner = require("../models/banner");
-const Coupon = require("../models/couponoffer");
 const adminController = require("../controller/admincontroller");
 const userController = require("../controller/usercontroller");
 const productController = require("../controller/productcontroller");
@@ -11,17 +7,8 @@ const orderController = require("../controller/orderController");
 const bannercontroller=require('../controller/bannerController')
 const couponController=require('../controller/couponController')
 const refferalController=require('../controller/referralController')
-const Order = require("../models/order");
-const User = require("../models/user");
-var ObjectId = require("mongoose").Types.ObjectId;
-let bannerServices = require("../services/bannerServices");
-let orderServices = require("../services/orderServices");
-let offerServices = require("../services/offerServices");
-let couponServices = require("../services/CouponServices");
-let referalService = require("../services/referalService");
+
 /* -------------------------------- services -------------------------------- */
-const fs = require("fs");
-const { route } = require("./user");
 
 /* ----------------------------- checking admin ----------------------------- */
 

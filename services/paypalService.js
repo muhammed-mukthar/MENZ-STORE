@@ -9,29 +9,37 @@ const base = "https://api-m.sandbox.paypal.com";
 
 
 exports.createOrder = async function (total) {
-  const accessToken = await generateAccessToken();
-  const url = `${base}/v2/checkout/orders`;
-  const response = await fetch(url, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "USD",
-            value: total ,
+  try{
+
+    const accessToken = await generateAccessToken();
+    const url = `${base}/v2/checkout/orders`;
+    const response = await fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        intent: "CAPTURE",
+        purchase_units: [
+          {
+            amount: {
+              currency_code: "USD",
+              value: total ,
+            },
           },
-        },
-      ],
-    }),
-  });
-  const data = await response.json();
-  console.log(data);
-  return data;
+        ],
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+
+  }catch(err){
+    console.log(err);
+
+  }
+
 }
 
 exports.capturePayment = async function (orderId) {

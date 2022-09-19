@@ -5,9 +5,16 @@ let bannerServices = require("../services/bannerServices");
 /* --------------------------- banner manage page --------------------------- */
 
 exports.bannermanage=(req, res) => {
+  try{
     bannerServices.getbannerpage().then((result) => {
       res.render("admin/banner", { bannerdetails: result });
     });
+
+  }catch(err){
+    console.log(err,'errpr happened in banner manage');
+    res.redirect('/404')
+  }
+  
   }
 
 
@@ -29,14 +36,20 @@ exports.bannermanage=(req, res) => {
       });
     } catch (err) {
       console.log(err, "error happened in banner");
+      res.redirect('/404')
     }
   }
 
   /* ------------------------------ delete banner ----------------------------- */
 
   exports.deletebanner=(req, res) => {
-    let bannerId = req.params.id;
+    try {
+      let bannerId = req.params.id;
     bannerServices.deletebanner(bannerId).then(() => {
       res.redirect("back");
-    });
+    }).catch(()=>{res.redirect('/404')});
+    } catch (error) {
+      res.redirect('/404')
+    }
+    
   }

@@ -14,7 +14,7 @@
               <a class="nav-link "  href="/admin">dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin/orders">Orders</a>
+              <a class="nav-link " href="/admin/orders">Orders</a>
             </li>
             <li class="nav-item">
               <a class="nav-link " href="/admin/products">Products</a>
@@ -23,16 +23,33 @@
               <a href="/admin/usermanagement" class="nav-link ">Users</a>
             </li>
             <li class="nav-item">
-              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
+              <a href="/admin/category" class="nav-link active" aria-current="page">Category</a>
             </li>
             <li class="nav-item">
               <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+            <li class="nav-item dropdown-content">
+              
+               
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link">Category Offers</a></li>
+                  <li> <a href="/admin/couponoffer" class="nav-link">coupon Offers</a></li>
+                  <li><a href="/admin/referraloffer" class="nav-link ">Referal Offers</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/bannermanage" class="nav-link "> banner</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    
 
     
     <section  class="h-100 mt-4 col-md-6  ">
@@ -42,16 +59,13 @@
       </div>
     </section>
   
-   <%if(message){%>
-              <p class="text-<%=message.type%>"> <%=message.message%></p> 
-                <%}%>
-       
     <div  class="container h-100 mt-4  ">
       <h2 class="text-center">Add Category</h2>
       <div class="row mb-2">
       <div class="d-flex  justify-content-center mb-4 col-12">
         <form action="/admin/category" class="col-12 col-md-6" id="categoryform" method="post">
           <input type="text" name="category"  id="category" placeholder="New Category" class="col-8 m-2 py-2 form-control mb-3">
+          <br>
            <button type="submit" class="col-auto btn btn-success p-2 ">Submit</button>
           </form>
         
@@ -62,6 +76,10 @@
       
       <h2 class="text-center">Categories</h2>
 
+      <%if(message){%>
+        <p class="text-<%=message.type%>"> <%=message.message%></p> 
+          <%}%>
+ 
       <div class="  table-responsive">
         <table class="table shadow  ">
           <thead class="table-dark">
@@ -140,56 +158,14 @@
   }
 });
 		}
-   
-    jQuery.validator.addMethod(
-    "lettersonly",
-    function (value, element) {
-      return this.optional(element) || /^[a-z,A-Z ]+$/.test(value);
-    },
-    "Letters only please"
-  );
 
-
-    jQuery('#categoryform').validate({
-    rules:{
-     
-      category:{
-        required:true,
-        lettersonly:true,
-       
-      }
-      
-   
-    },messages:{
-      category:{
-        required:"Category is required",
-        
-      },
-     
-      
-    },
-    submitHandler:function(form){
-      form.submit();
-    }
-  })
-
-  // $("#form1").validate({
-   
-  //         rules: {
-  //         category:{
-  //            required:true,
-  //            minlength:3,
-
-           
-  //           }
-  //           },
-  //       });
-               
-       
+  
              
                  </script>
        
 
 </script>
+
+<%-include('../include/adminresfooter.ejs')-%>
 
   

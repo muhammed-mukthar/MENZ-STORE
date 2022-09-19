@@ -17,13 +17,13 @@
               <a class="nav-link" href="/admin/orders">Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="/admin/products">Products</a>
+              <a class="nav-link" href="/admin/products">Products</a>
             </li>
             <li class="nav-item">
               <a href="/admin/usermanagement" class="nav-link ">Users</a>
             </li>
             <li class="nav-item">
-              <a href="/admin/category"  aria-current="page" class="nav-link active ">Category</a>
+              <a href="/admin/category" class="nav-link ">Category</a>
             </li>
             <li class="nav-item">
               <a href="/admin/logout" class="nav-link ">Sign out</a>
@@ -31,18 +31,26 @@
             <li class="nav-item dropdown-content">
               
                
-              <a href="/admin/categoryoffer" class="nav-link">Category Offers</a>
-              <a href="#">coupon offer</a>
-              
-                <a href="#">referal offer</a>
-                <a href="#">product offer</a>
-         
-
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link">Category Offers</a></li>
+                  <li> <a href="/admin/couponoffer" class="nav-link">coupon Offers</a></li>
+                  <li><a href="/admin/referraloffer" class="nav-link">Referal Offers</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/bannermanage" aria-current="page" class="nav-link active"> banner</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+
 
       <section class="col-md-12 col-lg-12 ml-auto mb-2">
         <div class="container   mt-4">
@@ -108,38 +116,7 @@
 <%-include('../include/adminresfooter.ejs')-%>
 
 <script>
-jQuery.validator.addMethod(
-    "lettersonly",
-    function (value, element) {
-      return this.optional(element) || /^[a-z,A-Z ]+$/.test(value);
-    },
-    "Letters only please"
-  );
 
-
-
-jQuery('#banner21').validate({
-    rules:{
-      desc:{
-        required:true,
-        minlength:6,
-        lettersonly: true,
-      },
-      heading:{
-        required:true,
-        minlength:6,
-        lettersonly: true,
-        
-      },
-      bannerimage:{      
-        required:true
-      },
-     
-    },
-    submitHandler:function(form){
-      form.submit();
-    }
-  })
 
 
 

@@ -47,6 +47,7 @@ exports.allproducts = async (req, res) => {
     previous: page - 1, });
   } catch (err) {
     console.log(err+"error in all products view");
+    res.redirect('/404')
    
   }
 };
@@ -59,7 +60,8 @@ exports.addproductspage = async (req, res) => {
     res.render("admin/adminaddproduct", { category });
   } catch (err) {
     log(err);
-    res.send(err).status(500);
+    res.redirect('/404')
+   
   }
 };
 
@@ -138,6 +140,8 @@ exports.addproduct=async(req,res)=>{
     }
   }catch(err){
     console.log(err+"error in add product")
+    res.redirect('/404')
+   
   }
 }
 
@@ -152,7 +156,9 @@ exports.edit_productsPage = async (req, res) => {
       categorys: categorys,
     });
   } catch (err) {
-    res.send(err +"error").status(500);
+    console.log(err,'error happened in edit prodct page');
+    res.redirect('/404')
+   
   }
 };
 
@@ -160,6 +166,9 @@ exports.edit_productsPage = async (req, res) => {
 /* ------------------------------ edit product ------------------------------ */
 
 exports.editProduct = async(req, res) => {
+  try{
+
+ 
   const id=req.params.id
   let existproduct=await Product.aggregate( [{$match:{_id:ObjectId(id)}},  { $project : { image : 1 ,_id:0} }  ] ) 
   // console.log(existproduct[0].image[0]);
@@ -325,6 +334,10 @@ imagepath.push(img)
       }
     
     }
+  }catch(err){
+    res.redirect('/404')
+   console.log('error happend edit producgt');
+  }
 }
 
 /* ----------------------------- delete product ----------------------------- */
@@ -334,7 +347,8 @@ exports.deleteproduct = async (req, res) => {
     await Product.findByIdAndDelete(req.params.id);
     res.redirect("/admin/products");
   } catch (err) {
-    res.status(500).send(err);
+    console.log(err,'delete product');
+    res.redirect('/404')
   }
 };
 
@@ -359,6 +373,7 @@ exports.productviewuser= async (req, res) => {
   res.render("user/product-single", { products, imagelength,offercategories,  isuser: req.session.userlogin, });
   }catch(err){
     console.error('error occured on product view user');
+    res.redirect('/404')
   }
 
 }
@@ -410,5 +425,6 @@ exports.displayshop=async (req, res) => {
     }
   } catch (err) {
     console.log(err + "shop");
+    res.redirect('/404')
   }
 }

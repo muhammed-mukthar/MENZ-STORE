@@ -209,7 +209,6 @@
 				</div>
     			<div class="mt-lg-5 col-lg-6 product-details pl-md-5 ftco-animate">
     				<h3><%=products.product_name%></h3>
-
             <div class="d-flex">
               <div class="pricing">		
                 <%if(products.price == products.offerprice ){%>
@@ -222,10 +221,7 @@
                 <%}%>
                 </div>
             </div>
-    				<!-- <p class="price"><span>Rs <%=products.price%></span></p> -->
-    				<h5 class="dark"><%=products.desc%></h5>>
-				
-						
+    				<h5 class="dark"><%=products.desc%></h5>
 						<div class="row mt-4">
 							<div class="col-md-6">
 								<div class="form-group d-flex">
@@ -248,8 +244,8 @@
 	          	
 	          	</div>
           	</div>
-			<div class="d-flex justify-content-between">
-          	<p ><a href="/add-to-cart/<%=products._id%>" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+			<div class="d-flex">
+          	<p ><a href="/add-to-cart/<%=products._id%>" class="btn btn-black py-3 mx-2 px-5">Add to Cart</a></p>
 			  <p><a href="/add-to-wishlist/<%=products._id%>" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
 			</div>
     			</div>

@@ -12,14 +12,14 @@
 	         
 	          <li class="nav-item"><div class="dropdown nav-link">
 				
-  <a class=" text-black dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+  <a class="  dropdown-toggle nav-item" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
   categories
   </a>
 
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+  <ul class="dropdown-menu nav-item" aria-labelledby="dropdownMenuLink">
 	
 	<%categories.forEach(function(categories){%>
-		<li><a  class="dropdown-item" href="/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
+		<li><a  class="dropdown-item  nav-item" href="/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
 		
 		<%})%>
   </ul>

@@ -4,6 +4,7 @@ const CouponServices = require("../services/CouponServices");
 /* ------------------------------- applycoupon ------------------------------ */
 
 exports.applyCoupon=(req,res)=>{
+  try{
     let coupon=req.body.coupon
     let userId = req.session.user?._id;
     let totalAmount=req.body.totalamount
@@ -17,14 +18,26 @@ exports.applyCoupon=(req,res)=>{
       req.session.discountprice=false
       res.redirect('back')
     })
+
+  }catch(err){
+    console.log(err,'apply coupon');
+    res.redirect('/404')
+  }
+    
   }
   /* ---------------------------- coupon offer page --------------------------- */
 
   exports.couponoffer_Page=async (req, res) => {
-    CouponServices.allCoupon().then((allcoupon) => {
-      console.log(allcoupon);
-      res.render("admin/couponoffer", { allcoupon });
-    });
+    try{
+      CouponServices.allCoupon().then((allcoupon) => {
+        console.log(allcoupon);
+        res.render("admin/couponoffer", { allcoupon });
+      });
+    }catch(err){
+      console.log(err,'error happened in coupon offer page');
+      res.redirect('/404')
+    }
+   
   }
 
 
@@ -58,6 +71,7 @@ exports.applyCoupon=(req,res)=>{
       });
   } catch (err) {
     console.log(err, "error happened in coupon");
+    res.redirect('/404')
   }
 }
 
@@ -68,23 +82,43 @@ exports.applyCoupon=(req,res)=>{
   /* ------------------------------ delete coupon ----------------------------- */
 
   exports.delete_coupon=(req, res) => {
-    let couponId = req.params.id;
-    CouponServices.deletCoupon(couponId).then((delet) => {
-      res.redirect("back");
-    });
+    try{
+      let couponId = req.params.id;
+      CouponServices.deletCoupon(couponId).then((delet) => {
+        res.redirect("back");
+      });
+
+    }catch(err){
+      console.log(err,'error happened in delete coupon');
+      res.redirect('/404')
+    }
+  
   }
 
 
  exports.invalidcoupon=(req, res) => {
+  try{
     let couponId = req.params.id;
     CouponServices.Invalidcoupon(couponId).then(() => {
       res.redirect("back");
     });
+
+  }catch(err){
+    console.log('invalid coupon',err);
+    res.redirect('/404')
+  }
+ 
   }
 
   exports.valid_Coupon=(req, res) => {
-    let couponId = req.params.id;
+    try{
+let couponId = req.params.id;
     CouponServices.validcoupon(couponId).then(() => {
       res.redirect("back");
     });
+    }catch(err){
+      console.log(err,'valid coupon');
+      res.redirect('/404')
+    }
+    
   }

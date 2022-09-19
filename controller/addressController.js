@@ -22,6 +22,7 @@ exports.saveAddress=async(req,res)=>{
   res.redirect("/userprofile");
     }catch(err){
         console.log(err,'error happend while saving address userprofile');
+        res.redirect('/404')
     }
    
   }
@@ -47,6 +48,7 @@ exports.saveAddress=async(req,res)=>{
   res.redirect("/checkout");
     }catch(err){
         console.log(err,'error happend while saving address checkout');
+        res.redirect('/404')
     }
    
   }
@@ -59,6 +61,7 @@ exports.saveAddress=async(req,res)=>{
       res.json('removed')
     }catch(err){
       console.log(err+"error happened remove address");
+      res.redirect('/404')
     }
     }
 

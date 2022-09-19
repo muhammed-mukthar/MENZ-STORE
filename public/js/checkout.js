@@ -7,6 +7,25 @@
   });
 });
 
+// jQuery('#checkout-saveaddress-form').validate({
+//     rules:{ 
+//       savedAddress : {
+//         required :true
+//       },
+    
+//        phone:{
+//          Number:true,
+//          required:true,
+//          minlength:10,
+//          maxlength:10
+//        },
+//    },
+//      submitHandler:function(form){
+//        form.submit();
+//      }
+//    })
+
+
   function  displaycheckout(){
 
     let list1=   document.getElementById("checkout-button").classList
@@ -102,6 +121,8 @@
            if(response.status){
              location.href = "/orderplaced";
            }else{
+      
+
              alert('payment failed')
            }
          })

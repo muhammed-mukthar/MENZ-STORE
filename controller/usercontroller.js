@@ -41,11 +41,16 @@ var ObjectId = require("mongoose").Types.ObjectId;
 /* ----------------------------- userlogin page ----------------------------- */
 
 exports.userloginpage = (req, res) => {
-  if(req.session.userlogin){
+  try{
+ if(req.session.userlogin){
     res.redirect('/')
   }else{
  res.render("user/login", { loginerror: req.session.loginerr });
   req.session.loginerr = false;
+  }
+  }catch(err){
+    console.log(err,'error happened in usrloginpage');
+  res.redirect('/404')
   }
 }
 
@@ -73,7 +78,7 @@ exports.userlogin = async (req, res) => {
           req.session.user=verifyUser
           req.session.userlogin = true;
           req.session.loginerr = false;
-          res.status(200).redirect("/");
+          res.redirect("/");
         }
       } else {
         req.session.message = {
@@ -90,7 +95,8 @@ exports.userlogin = async (req, res) => {
       res.redirect("/login");
     }
   } catch (err) {
-    res.status(200).send(err+"login eroor");
+    res.console.log(err,'eror happened in login post');
+    res.redirect('/404')
   }
 };
 
@@ -100,7 +106,7 @@ exports.userlogin = async (req, res) => {
 exports.signup=async (req, res) => {
   try {
     const userexist = await User.findOne({$or:[{email:req.body.email},{phone:req.body.phone}] });
-    console.log(userexist);
+  
     if (userexist) {
       req.session.message = {
         message: "User already exists please login",
@@ -130,6 +136,7 @@ exports.signup=async (req, res) => {
       })
     }
   } catch (err) {
+    console.log(err,'error happened in signup');
     res.redirect('/404')
   }
 }
@@ -159,7 +166,8 @@ let count=await User.find().countDocuments()
     res.status(200).render("admin/adminuser", { listuser: getuser ,totalPages: Math.ceil(count/limit),
     previous: page - 1, });
   } catch (err) {
-    res.send(err).status(500);
+    console.log(err,'get all users');
+    res.redirect('/404')
   }
 };
 
@@ -176,7 +184,8 @@ exports.blockuserupdate = async (req, res) => {
 
     res.status(200).redirect("/admin/usermanagement");
   } catch (err) {
-    res.send(err).status(500);
+    console.log(err,'block user update');
+    res.redirect('/404')
   }
 };
 
@@ -191,7 +200,8 @@ exports.unblokuserupdate = async (req, res) => {
     });
     res.status(200).redirect("/admin/usermanagement");
   } catch (err) {
-    res.send(err).status(500);
+    console.log(err,'error happened in unblok user update');
+    res.redirect('/404')
   }
 };
 
@@ -231,6 +241,7 @@ let bannerimage=await Banner.find()
 
   }catch(err){
     console.log(err,'error happened in user homepage');
+    res.redirect('/404')
   }
 }
 
@@ -244,6 +255,7 @@ exports.userLogout=(req, res) => {
   res.redirect("/");
   }catch(err){
     console.log(err,'error happened while user Logout');
+    res.redirect('/404')
   }
 }
 
@@ -251,11 +263,12 @@ exports.userLogout=(req, res) => {
 
 exports.userSignup=(req, res) => {
   try{
-
+    res.render("user/signup");
   }catch(err){
     console.log(err,'error happened in user Signup');
+    res.redirect('/404')
   }
-  res.render("user/signup");
+
 }
 
 
@@ -277,6 +290,7 @@ exports.userProfilePage=async (req, res) => {
   });
   }catch(err){
     console.log(err,'error happened while loading userProfile');
+    res.redirect('/404')
   }
   
 }
@@ -289,6 +303,7 @@ exports.changePasswordPage=(req, res) => {
   res.render("user/changePassword", { isuser: req.session.userlogin });
   }catch(err){
     console.log(err,'error happened while loading change password page ');
+    res.redirect('/404')
   }
 
 }
@@ -343,6 +358,7 @@ exports.changePassword=async (req, res) => {
 
   }catch(err){
     console.log(err,'error happened while changing password');
+    res.redirect('/404')
   }
 }
 
@@ -392,10 +408,22 @@ if(verifypassword){
 
   } catch (err) {
     console.log(err + "error at editing profile details");
+    res.redirect('/404')
   }
 }
 
 exports.errorpage=(req,res)=>{
-  res.render('include/404')
+  try{
+ let adminlog=req.session.adminlog;
+  let userlog= req.session.userlogin
+ 
+      
+
+  res.render('include/404',{adminlog,userlog})
+  }catch(err){
+    res.redirect('/login')
+    console.log(err,'error page');
+  }
+ 
 }
 

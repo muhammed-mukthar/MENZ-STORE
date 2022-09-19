@@ -48,9 +48,14 @@ module.exports={
 
     deletebanner:(bannerId)=>{
         return new Promise(async(resolve,reject)=>{
-        await Banner.deleteOne({_id:bannerId})
+            try {
+                await Banner.deleteOne({_id:bannerId})
          fs.unlinkSync(`./public/bannerimage/${bannerId}.jpeg`)
         resolve()
+            } catch (error) {
+                reject(error)
+            }
+        
     })
     }
 }

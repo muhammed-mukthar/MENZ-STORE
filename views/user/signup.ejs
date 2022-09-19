@@ -56,7 +56,7 @@
               <h3 class="display-4">Welcome!</h3>
               <p class="text-muted mb-4">Get the best deals.</p>
              
-              <form action="/signup" id="form2" method="POST">
+              <form action="/signup" id="usersignup" method="POST">
                
                 <div class="form-group mb-3">
                   <input
@@ -143,56 +143,9 @@
   url('../../images/about.jpg'); background-size: cover;
   background-position: center center; }
 </style>
-
+<script src="/js/validation.js"></script>
 <script>
-  jQuery('#form2').validate({
-    rules:{
-     
-      name:"required",
-      email:{
-        required:true,
-        email:true
-      },
-      password:{
-        required:true,
-        minlength:5,},
-  phone:{
-        required:true,
-        minlength:10,
-        maxlength:10
-    },
-    },messages:{
-      name:{
-        required:"Name is required",
-      },
-      email:{
-        required:"Email address is required",
-        email:"Enter valid email address"
-      },
-      phone:{
-        required:"Mobile number is required",
-        minlength:"Should contain 10 numbers",
-        maxlength:"Should contain only 10 numbers"
-      },
-      password:{
-        required:"Password is required",
-        minlength:"Atleast 5 character required"
-        }
-    },
-    messages:{
-      email :{
-        required:"Enter valid email address",
-        email:"Enter valid email Id"
-      },
-      password:{
-        required:"Password is required",
-        minlength:"Atleast 5 character required"
-        }
-    },
-    submitHandler:function(form){
-      form.submit();
-    }
-  })
+  
 
   
   </script>

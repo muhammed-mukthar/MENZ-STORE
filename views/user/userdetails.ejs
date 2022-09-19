@@ -44,7 +44,7 @@
 			</div>
 			
           <div class="col-xl-8 ftco-animate">
-						<form action="/editprofile"  method="post" class="billing-form">
+						<form action="/editprofile" id="userprofile"  method="post" class="billing-form">
 							<h3 class="mb-4 billing-heading fw-bold">User  Profile</h3>
 
 	          	<div class="row align-items-end">
@@ -100,7 +100,7 @@
 			<h5 class="text-<%=message.type%>my-5"><%=message.message%></h5> 
 			 <%}%>
 		  -->
-			<form action="/saveaddress" method="post" id="" class="billing-form">
+			<form action="/saveaddress" method="post" id="userdetailsaddress" class="billing-form">
 				<h3 class="mb-4 billing-heading fw-bold">Add Address</h3>
 			<div class="form-group">
 				
@@ -153,13 +153,37 @@
 						
 							  <hr>
 							  <% if(saveaddress.length){%>
-							  <%for (let i=0;i < saveaddress.length;i++){%>
-							  <p class="d-flex total-price">
-								  <span class="col-3">address <%=i+1%></span>
-								  <span class="col-7"><%=saveaddress[i].address1%>,<%=saveaddress[i].address2%>,<%=saveaddress[i].city%>,PO:<%=saveaddress[i].pincode%></span>
-								  <a onclick="confirm_Delete('<%=saveaddress[i]._id%>')"   class="btn btn-danger text-white col-2">remove</a>
-							  </p>
-							  <%}%>
+								
+							
+								<div class="  table-responsive">
+									<table class="table shadow  ">
+									  <thead class="table-dark">
+										<tr>
+									
+										  <th scope="col">Index</th>
+										  <th scope="col"> address</th>
+										  <th scope="col">Action</th>
+										 
+									  
+										</tr>
+									  </thead>
+									  <tbody class="searchable">
+										<%for (let i=0;i < saveaddress.length;i++){%>
+										<tr>
+										
+										  <td>address <%=i+1%></td>
+										  <td><%=saveaddress[i].address1%>,<%=saveaddress[i].address2%>,<%=saveaddress[i].city%>,PO:<%=saveaddress[i].pincode%></td>
+										  <td>  <a onclick="confirm_Delete('<%=saveaddress[i]._id%>')"   class="btn btn-danger text-white ">remove</a></td>
+										
+										</tr>
+										  <%}%>
+									
+									  </tbody>
+									</table>
+									
+								  </div>
+							 
+							
 							  <%}else{%>
 								<p class="d-flex total-price">
 									<span lass="col-12">saved address is empty</span>	

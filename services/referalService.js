@@ -10,17 +10,22 @@ module.exports={
     /* ----------------------------- create referalcode ----------------------------- */
 
     createReferal:(user_id)=>{
-        return new Promise(async(resolve,reject)=>{
-            const randomString = crypto.randomBytes(4).toString('hex');//creating random string
-
-            let newReferal= new Referal({
-                userId:ObjectId(user_id),
-                referralcode:randomString
-                
+        try{
+            return new Promise(async(resolve,reject)=>{
+                const randomString = crypto.randomBytes(4).toString('hex');//creating random string
+    
+                let newReferal= new Referal({
+                    userId:ObjectId(user_id),
+                    referralcode:randomString
+                    
+                })
+                await newReferal.save()
+                resolve()
             })
-            await newReferal.save()
-            resolve()
-        })
+        }catch(err){
+            console.log(err,'error in create referal service');
+        }
+        
     },
 
     /* ----------------------- find referal code for user ----------------------- */
@@ -92,29 +97,34 @@ delete_referralOffer:(refferralOfferId)=>{
 /* ----------------------------- apply referral ----------------------------- */
 
 referralApply:(referalcode,newuser_id)=>{
-    return new Promise(async(resolve,reject)=>{
-        if(referalcode){
-             let refferalcodematch=  await Referal.findOne({referralcode:referalcode})
-      if(refferalcodematch){
-      let ReferalAmountdetails=await ReferalAmount.find()
-     refferaldetails= ReferalAmountdetails=ReferalAmountdetails[0]
-     console.log(refferaldetails.referralAmount,'referralAmount',refferaldetails.refereduserAmount,'refereduserAmount');
-      await Wallet.updateOne({userId:ObjectId(refferalcodematch.userId)},{$inc:{
-        amount:refferaldetails.refereduserAmount
-      }})
-      await Wallet.updateOne({userId:ObjectId(newuser_id)},{$inc:{amount:refferaldetails.referralAmount}})
-      }else{
-        await User.deleteOne({_id:ObjectId(newuser_id)})
-        await Wallet.deleteOne({userId:ObjectId(newuser_id)})
-        let err='incorrect referral code'
-        reject(err)
-      }
-      resolve()
-        }else{
-            resolve()
-        }
-     
-    })
+    try{
+        return new Promise(async(resolve,reject)=>{
+            if(referalcode){
+                 let refferalcodematch=  await Referal.findOne({referralcode:referalcode})
+          if(refferalcodematch){
+          let ReferalAmountdetails=await ReferalAmount.find()
+         refferaldetails= ReferalAmountdetails=ReferalAmountdetails[0]
+         console.log(refferaldetails.referralAmount,'referralAmount',refferaldetails.refereduserAmount,'refereduserAmount');
+          await Wallet.updateOne({userId:ObjectId(refferalcodematch.userId)},{$inc:{
+            amount:refferaldetails.refereduserAmount
+          }})
+          await Wallet.updateOne({userId:ObjectId(newuser_id)},{$inc:{amount:refferaldetails.referralAmount}})
+          }else{
+            await User.deleteOne({_id:ObjectId(newuser_id)})
+            await Wallet.deleteOne({userId:ObjectId(newuser_id)})
+            let err='incorrect referral code'
+            reject(err)
+          }
+          resolve()
+            }else{
+                resolve()
+            }
+         
+        })
+    }catch(err){
+        console.log(err,'error referalapply services');
+    }
+  
 }
 
 }

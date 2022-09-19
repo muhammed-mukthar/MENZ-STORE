@@ -96,11 +96,11 @@
 						    <thead class="thead-primary">
 						      <tr class="text-center">
 						        <th>&nbsp;</th>
-						        <th>&nbsp;</th>
+						        <th>&nbsp;Image</th>
 						        <th>Product</th>
 						        <th>Price</th>
 						        <th>Quantity</th>
-						        <th>Total</th>
+						        <!-- <th>Total</th> -->
 						      </tr>
 						    </thead>
 						    <tbody>
@@ -144,7 +144,7 @@
                                         <button style="height:3rem ; width:3rem; "
                                             onclick="changeQuantity('<%=cartItems[i]._id%>' , '<%=cartItems[i].product._id%>','<%=user._id%>' , 1)">+</button>
                                     </div>
-									<td class="total" id="productpriceincrease" >
+									<!-- <td class="total" id="productpriceincrease" >
 										<%if(cartItems[i].product.price == cartItems[i].product.offerprice){%>
 											<p class="price"><span class="price-sale">Rs <%=cartItems[i].quantity * cartItems[i].product.price  %></span></p>
 											
@@ -155,7 +155,7 @@
 										<%}%>
 										
 	
-									</td>
+									</td> -->
 				
 						      </tr><!-- END TR-->
 

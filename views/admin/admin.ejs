@@ -56,8 +56,8 @@
       
       <div class="container py-3 shadow-lg"  style="width: 100%; height: 100%; ">
         <div class="row  " >
-          <div class="col-12 d-flex">
-            <div class="d-flex  justify-content-between col-4 col-md-4">
+          <div class="col-12 d-md-flex">
+            <div class="d-md-flex  justify-content-between col-4 col-md-4">
               <div class="col-sm-11 col-md-6">
                 <div class="\ bg-light rounded d-flex align-items-center  p-4">
                     <i class="fa fa-chart-line fa-3x text-primary"></i>
@@ -129,12 +129,14 @@
               <%}%>
           
             <tr >
-              <td class="p-5">  <form action="/admin/datestat" method="post">
+              <td class="p-5"> 
+                 <form action="/admin/datestat" class="d-flex" id="date_stat" method="post">
                 <input type="date" name="Datestat"  >
                 <button type="submit" class="mx-4 btn btn-primary" >submit</button>
                  </form></td>
-              <td class="p-5"> <form action="/admin/monthstat"   method="post">
-                <select name="m_month" id="">
+              <td class="p-5">
+                 <form action="/admin/monthstat" class="d-flex" id="month-stat"  method="post">
+                <select name="m_month" id="m_month">
                   <option value="01">Jan</option>
                   <option value="02">Feb</option>
                   <option value="03">March</option>
@@ -148,20 +150,21 @@
                   <option value="11">November</option>
                   <option value="12">December</option>'
                 </select>
-                <select name="m_year" id="">
+                <select name="m_year" class="mx-2" id="m_year">
                   <option value="2022">2022</option>
-                  <option value="2022">2021</option>
-                  <option value="2022">2020</option>
-                  <option value="2022">2019</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
                 </select>
              <button type="submit" class="btn btn-primary" >submit</button>
               </form></td>
-              <td class="p-5"><form action="/admin/yearstat"  method="post">
-                <select name="yearstat"  id="">
-                <option value="2022">2022</option>
-                  <option value="2022">2021</option>
-                  <option value="2022">2020</option>
-                  <option value="2022">2019</option>
+              <td class="p-5"><form action="/admin/yearstat" class="d-flex"  method="post">
+                <select name="yearstat"  id="m_month">
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                
                 </select>
              <button type="submit" class="btn btn-primary mx-5" >submit</button>
               </form></td>

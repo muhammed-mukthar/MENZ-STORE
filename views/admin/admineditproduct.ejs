@@ -38,7 +38,7 @@
 
     <div class="container p-4 shadow">
       <h1 class="text-center">Edit product</h1>
-      <form action="/admin/editproduct/<%= productdetails._id%>" id="myform"  enctype="multipart/form-data"  method="post" >
+      <form action="/admin/editproduct/<%= productdetails._id%>" id="editproduct"  enctype="multipart/form-data"  method="post" >
           <div class="row">
             <div class="col-md-6 mt-3">
               <label for="productname" >Product
@@ -167,41 +167,7 @@
       <script>
 
      
-        $("#myform").validate({
-          rules: {
-           
-            productname: {
-             required:true,
-             minlength:4
-            },description:{
-             required:true,
-             minlength:10,
-             maxlength:42
-            },category:{
-             required:true
-            },size:{
-             required:true,
-            },price:{
-             required:true,
-             number:true
-            },
-            // offerprice:{
-            //   required:true
-            // }
-            // ,
-            stock:{
-             required:true,
-             number:true
-       ,
-            }
-          }
-          ,messages:{
-           size:"please select one",
-           stock:"please enter stock left"
-       
-          }
-        });
-               
+     
        
              
                  </script>

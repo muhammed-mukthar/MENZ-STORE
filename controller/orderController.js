@@ -38,6 +38,7 @@ exports.placeOrderpage = (req, res) => {
     res.render("user/orderplaced");
   } catch (err) {
     console.log(err, "error happened while displaying orderPage");
+    res.redirect('/404')
   }
 };
 
@@ -45,6 +46,7 @@ exports.placeOrderpage = (req, res) => {
 
 exports.placeOrder = async (req, res) => {
   try {
+    
     let userId = req.body.userId;
 
     let cart = await Cart.findOne({ user: ObjectId(userId) });
@@ -52,7 +54,10 @@ exports.placeOrder = async (req, res) => {
     let products = cart?.products;
 
     let totalPrice = await cartServices.calculate_total(userId);
-    console.log(totalPrice, typeof totalPrice, "totalPrice in placeorder");
+
+  
+    
+    // console.log(totalPrice, typeof totalPrice, "totalPrice in placeorder");
     if (req.session.discountprice) {
       totalPrice = totalPrice - req.session.discountprice.offer;
       await Couponused.updateOne(
@@ -71,7 +76,7 @@ exports.placeOrder = async (req, res) => {
       let savedAddress = JSON.parse(req.body.savedAddress);
 
       deliverydetails = {
-        mobile: order.phone,
+        
         address1: savedAddress.address1,
         address2: savedAddress.address2,
         pincode: savedAddress.pincode,
@@ -79,7 +84,7 @@ exports.placeOrder = async (req, res) => {
       };
     } else {
       deliverydetails = {
-        mobile: order.phone,
+     
         address1: order.address1,
         address2: order.address2,
         pincode: order.postcode,
@@ -106,7 +111,7 @@ exports.placeOrder = async (req, res) => {
         .generateRazorpay(savedOrder._id, totalPrice)
         .then((response) => {
           res.json(response);
-        });
+        }).catch((err)=>{res.redirect('/admin/orderplaced')});
     } else if (req.body["paymentmethod"] === "paypal") {
       orderServices.changePaymentStatus(savedOrder._id).then((response) => {
         res.json({ paypalSuccess: true });
@@ -119,8 +124,10 @@ exports.placeOrder = async (req, res) => {
       });
     }
     await Cart.deleteOne({ user: ObjectId(order.userId) });
+  
   } catch (err) {
     console.log(err + "error happened while placing order");
+    res.redirect('/404')
   }
 };
 
@@ -141,10 +148,11 @@ exports.razorVerifyPayment = (req, res) => {
       })
       .catch((err) => {
         console.log("verify payment post");
-        res.json({ status: false, errMsg: "" });
+        res.redirect('/404');
       });
   } catch (err) {
     console.log(err, "error happened while verifying razor Payment");
+    res.redirect('/404')
   }
 };
 
@@ -167,6 +175,7 @@ exports.cancelOrder = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "error happened while cancel order");
+    res.redirect('/404')
   }
 };
 
@@ -211,6 +220,7 @@ exports.orderedProductsAdmin = async (req, res) => {
       err,
       "error happened while viewing ordered products in admin side"
     );
+    res.redirect('/404')
   }
 };
 
@@ -255,6 +265,7 @@ exports.orderedProducts = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "error happened while showing ordered products details");
+    res.redirect('/404')
   }
 };
 
@@ -313,6 +324,7 @@ exports.orderPage = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "error happened  showing orders page user side");
+    res.redirect('/404')
   }
 };
 
@@ -361,6 +373,7 @@ exports.ordersPageAdmin = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "error happened while loading orders page in admin side");
+    res.redirect('/404')
   }
 };
 
@@ -372,6 +385,7 @@ exports.monthsale = async (req, res) => {
     res.json(orders);
   } catch (err) {
     console.log(err, "error happened in order-details admin");
+    res.redirect('/404')
   }
 };
 
@@ -384,30 +398,37 @@ exports.Showstat = async (req, res) => {
     console.log(OrdersDateandAmount);
   } catch (err) {
     console.log(err, "error happened in stat");
+    res.redirect('/404')
   }
 };
 
 /* ---------------------------- ordered user Info --------------------------- */
 
 exports.orderUserInfo = async (req, res) => {
-  let orderId = req.params.id;
+  try{
+    let orderId = req.params.id;
 
-  const userDetails = await Order.aggregate([
-    {
-      $match: { _id: ObjectId(orderId) },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "userId",
-        foreignField: "_id",
-        as: "userData",
+    const userDetails = await Order.aggregate([
+      {
+        $match: { _id: ObjectId(orderId) },
       },
-    },
-  ]);
-  console.log(userDetails[0].userData[0].name);
-
-  res.render("admin/orderedusers", { userDetails });
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userData",
+        },
+      },
+    ]);
+    console.log(userDetails[0].userData[0].name);
+  
+    res.render("admin/orderedusers", { userDetails });
+  }catch(err){
+    console.log(err,'order user inf');
+    res.redirect('/404')
+  }
+ 
 };
 
 /* ------------------------ change order status admin ----------------------- */
@@ -429,25 +450,37 @@ exports.adminChangeOrderStatus = async (req, res) => {
     });
   } catch (err) {
     console.log("error happened in order status" + err);
+    res.redirect('/404')
   }
 };
 
 /* --------------------------------- paypal create order --------------------------------- */
 
 exports.paypal_createorder = async (req, res) => {
-  let userId = req.session.user._id;
-  let total = await cartServices.calculate_total(userId);
+  try{
+ let userId = req.session.user._id;
+  let total = await cartServices.calculate_total(userId).catch((err)=>{res.redirect('/404')});
   console.log(total, "total here");
   const order = await paypalServices.createOrder(total);
   res.json(order);
+}catch(err){
+  console.log(err);
+  res.redirect('/404')
+}
 };
 
 /* -------------------------- paypal capture order -------------------------- */
 
 exports.paypal_captureOrder = async (req, res) => {
-  const { orderId } = req.params;
+  try{
+const { orderId } = req.params;
   const captureData = await paypalServices.capturePayment(orderId);
   res.json(captureData);
+  }catch(err){
+    console.log(err);
+    res.redirect('/404')
+  }
+  
 };
 
 
@@ -455,83 +488,103 @@ exports.paypal_captureOrder = async (req, res) => {
 
 
 exports.datestat=async (req, res) => {
-  let date = req.body.Datestat;
-  const daysales = await Order.aggregate([
-    { $match: { status: { $nin: ["cancelled"] } } },
-    {
-      $project: {
-        order: "$userId",
-        date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
-        paymentmode: "$paymentMethod",
-        total: "$totalAmount",
+  try{
+    let date = req.body.Datestat;
+    const daysales = await Order.aggregate([
+      { $match: { status: { $nin: ["cancelled"] } } },
+      {
+        $project: {
+          order: "$userId",
+          date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          paymentmode: "$paymentMethod",
+          total: "$totalAmount",
+        },
       },
-    },
-    {
-      $match: { date: req.body.Datestat },
-    },
-  ]);
-  console.log(daysales);
-  res.render("admin/orderstat", { sales: daysales });
+      {
+        $match: { date: req.body.Datestat },
+      },
+    ]);
+    console.log(daysales);
+    res.render("admin/orderstat", { sales: daysales });
+  }catch(err){
+    console.log('error jappened in date stat');
+    res.redirect('/404')
+  }
+ 
 }
 
 /* ---------------------------stat according to month --------------------------- */
 
 exports.monthstat=async (req, res) => {
-  let matchkey = req.body.m_year + "-" + req.body.m_month;
-  console.log(matchkey);
-  const monthsales = await Order.aggregate([
-    { $match: { status: { $nin: ["cancelled"] } } },
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
-
-        yearmonth: {
-          $first: { $dateToString: { format: "%Y-%m", date: "$date" } },
+  try{
+    let matchkey = req.body.m_year + "-" + req.body.m_month;
+    console.log(matchkey);
+    const monthsales = await Order.aggregate([
+      { $match: { status: { $nin: ["cancelled"] } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+  
+          yearmonth: {
+            $first: { $dateToString: { format: "%Y-%m", date: "$date" } },
+          },
+          total: { $sum: "$totalAmount" },
+          count: { $sum: 1 },
         },
-        total: { $sum: "$totalAmount" },
-        count: { $sum: 1 },
       },
-    },
-    {
-      $sort: { _id: 1 },
-    },
-    {
-      $match: { yearmonth: matchkey },
-    },
-  ]);
+      {
+        $sort: { _id: 1 },
+      },
+      {
+        $match: { yearmonth: matchkey },
+      },
+    ]);
+  
+    console.log(monthsales);
+  
+    res.render("admin/orderstat", { sales: monthsales });
 
-  console.log(monthsales);
-
-  res.render("admin/orderstat", { sales: monthsales });
+  }catch(err){
+    console.log(err,'error happened in month stat');
+    res.redirect('/404')
+  }
+ 
 }
 
 exports.yearstat=async (req, res) => {
-  let year = req.body.yearstat;
-  const yearsales = await Order.aggregate([
-    { $match: { status: { $nin: ["cancelled"] } } },
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
-        month: {
-          $first: { $dateToString: { format: "%Y-%m", date: "$date" } },
-        },
+  try{
 
-        yearmonth: {
-          $first: { $dateToString: { format: "%Y", date: "$date" } },
+    let year = req.body.yearstat;
+    const yearsales = await Order.aggregate([
+      { $match: { status: { $nin: ["cancelled"] } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          month: {
+            $first: { $dateToString: { format: "%Y-%m", date: "$date" } },
+          },
+  
+          yearmonth: {
+            $first: { $dateToString: { format: "%Y", date: "$date" } },
+          },
+          total: { $sum: "$totalAmount" },
+          count: { $sum: 1 },
         },
-        total: { $sum: "$totalAmount" },
-        count: { $sum: 1 },
       },
-    },
-    {
-      $sort: { _id: 1 },
-    },
-    {
-      $match: { yearmonth: year },
-    },
-  ]);
-
-  console.log(yearsales, "sfsaff");
-
-  res.render("admin/orderstat", { sales: yearsales });
+      {
+        $sort: { _id: 1 },
+      },
+      {
+        $match: { yearmonth: year },
+      },
+    ]);
+  
+    console.log(yearsales, "sfsaff");
+  
+    res.render("admin/orderstat", { sales: yearsales });
+  }catch(err){
+    console.log('err in yearstat');
+    res.redirect('/404')
+  }
+ 
 }

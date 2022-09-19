@@ -21,50 +21,57 @@ const cart = require("../models/cart");
 module.exports={
 
     calculate_total:(userId)=>{
+      try{
+
         return new Promise(async(resolve,reject)=>{
-            let total=await Cart.aggregate([
-                {
-                  $match:{user:ObjectId(userId)}
-                },
-                {
-                  $unwind:'$products'
-                },{
-                  $project:{
-                    item:'$products.item',
-                    quantity:'$products.quantity'
-                  }
-                },
-                {
-                  $lookup:{
-                    from:'products',
-                    localField:'item',
-                    foreignField:'_id',
-                    as:'product'
+          let total=await Cart.aggregate([
+              {
+                $match:{user:ObjectId(userId)}
+              },
+              {
+                $unwind:'$products'
+              },{
+                $project:{
+                  item:'$products.item',
+                  quantity:'$products.quantity'
                 }
               },
               {
-                  $project: {
-                    item: 1,
-                    quantity: 1,
-                    product: { $arrayElemAt: ["$product", 0] },
-                  }, 
-              },
-              {
-                $group:{
-                  _id:null,
-                  total:{$sum:{$multiply:['$quantity','$product.offerprice']}}
-                }
+                $lookup:{
+                  from:'products',
+                  localField:'item',
+                  foreignField:'_id',
+                  as:'product'
               }
-              ])
-          let fulltotal=total[0]?.total
-          resolve(fulltotal)
-        })
+            },
+            {
+                $project: {
+                  item: 1,
+                  quantity: 1,
+                  product: { $arrayElemAt: ["$product", 0] },
+                }, 
+            },
+            {
+              $group:{
+                _id:null,
+                total:{$sum:{$multiply:['$quantity','$product.offerprice']}}
+              }
+            }
+            ])
+        let fulltotal=total[0]?.total
+        resolve(fulltotal)
+      })
 
-    },
 
-    calculate_producttotal:(userId)=>{
+    }catch(err){
+    console.log(err);
+ 
+      }
+  },
 
-    }
+      
+       
+   
     
 }
 

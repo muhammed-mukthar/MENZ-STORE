@@ -12,16 +12,26 @@ const fs = require("fs");
 
 /* ------------------------------ category page ----------------------------- */
 exports.categorypage=async(req, res) => {
-   
+  try{
     let categories= await Category.find()
     let categorylength=categories.length
     res.render("admin/admincategory",{categories,categorylength});
+  }catch(err){
+    console.log(err,'error happened in category page');
+    res.redirect('/404')
+  }
+   
+   
   }
 
+/* ------------------------------ add category ------------------------------ */
 
 
 
 exports.addCategory=async (req, res) => {
+  try{
+
+ 
   const categoryvalidate=await Category.findOne({categoryname:req.body.category})
  
       if(categoryvalidate){
@@ -50,8 +60,16 @@ exports.addCategory=async (req, res) => {
       }
     });
       }
+    }catch(err){
+      console.log(err,'errpr om add categpru');
+      res.redirect('/404')
+    }
   }
   exports.deleteCategory=async(req,res)=>{
+    try{
+
+  
+
     let existingcategory=await Category.findOne({_id:req.params.id})
     let productExist=await Product.find({category:existingcategory.categoryname})    
     if(productExist.length > 0){
@@ -64,6 +82,10 @@ exports.addCategory=async (req, res) => {
     }
   
     res.redirect('/admin/category')
+  }catch(err){
+    console.log(err,'erroo happend in delete category');
+    res.redirect('/404')
+  }
   }
 
   exports.displaybycategory=async (req, res) => {
@@ -94,6 +116,9 @@ exports.addCategory=async (req, res) => {
       }
     } catch (err) {
       console.log(err + "error in category id");
+ 
+      res.redirect('/404')
+    
     }
   }
 
@@ -120,13 +145,19 @@ exports.addCategory=async (req, res) => {
         });
     } catch (err) {
       console.log(err, "error occured on categoryoffer");
+      res.redirect('/404')
     }
   }
 
   exports.categoryofferpage=async (req, res) => {
+    try{
     let categories = await Category.find();
     let categorylength = categories;
     res.render("admin/categoryoffer", { categories, categorylength });
+     } catch(err){
+      console.log(err,'erroo happend in  category offer');
+      res.redirect('/404')
+    }
   }
 
 
@@ -138,5 +169,6 @@ exports.addCategory=async (req, res) => {
       });
     } catch (err) {
       console.log("error happened in delete category offer");
+      res.redirect('/404')
     }
   }

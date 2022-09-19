@@ -1,32 +1,9 @@
 const express = require("express");
 const router = express.Router();
-/* -------------------------------- models -------------------------------- */
-const User = require("../models/user");
-const Cart = require("../models/cart");
-const Product = require("../models/product");
-const Category = require("../models/category");
-const Order = require("../models/order");
-const Address=require('../models/savedAddress')
-const WishList=require('../models/wishlist')
-const Coupon=require('../models/couponoffer')
-/* ------------------------------------*  ----------------------------------- */
-/* ---------------------------- helpers/services ---------------------------- */
-let orderServices=require('../services/orderServices')
-let wishlistServices=require('../services/wishlistServices')
-let couponServices=require('../services/CouponServices')
-let cartServices=require('../services/cartServices')
-let paypalServices=require('../services/paypalService')
-const CouponServices = require("../services/CouponServices");
-/* ------------------------------------ * ----------------------------------- */
 
-
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const cookieParser = require("cookie-parser");
-router.use(cookieParser());
 const dotenv = require("dotenv");
 dotenv.config();
-var ObjectId = require("mongoose").Types.ObjectId;
+
 const cartController = require("../controller/cartController");
 const otpcontroller = require("../controller/otpcontroller");
 const productController = require("../controller/productcontroller");

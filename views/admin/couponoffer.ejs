@@ -56,7 +56,7 @@
             <div class="row d-flex justify-content-center  ">
                 <div class="col-md-4 -">
                   <h2 class="text-center">Add Coupon </h2> 
-                  <form action="/admin/coupon" class=" pt-2 ml-auto" id="form1"  method="post">
+                  <form action="/admin/coupon" class=" pt-2 ml-auto" id="couponoffer"  method="post">
                     <div class="my-3"> <label class="form-label" for="offer">Coupon</label>
                       <input type="text"  name="coupon" id="coupon" class="col-4 form-control">
                   </div>
@@ -68,10 +68,10 @@
                     <input class="col-4" type="number"  name="min" id="min" >
                 </div>
                        <div class="my-3"> <label class="form-label" for="validdate">Valid from</label>
-                        <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="validdate" id="validdate" >
+                        <input type="date"   name="validdate" id="validdate" >
                     </div>
                     <div> <label class="form-label" for="expiredate">expire at</label>
-                     <input type="date"  min="2022-09-08T00:00" max="2022-12-31T00:00" name="expiredate" id="validdate" >
+                     <input type="date"   name="expiredate" id="expiredate" >
                  </div >
                         <button type="submit" class="my-4 btn btn-primary text-center">submit</button>
                     </form>

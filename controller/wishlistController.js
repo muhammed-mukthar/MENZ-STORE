@@ -24,12 +24,17 @@ var ObjectId = require("mongoose").Types.ObjectId;
 /* ------------------------------ wishlist page ----------------------------- */
 
 exports.wishlist_Page=(req,res)=>{
+  try{
     let userId = req.session.user?._id;
   
     wishlistServices.getproducts(userId).then((wishlistItems)=>{
       console.log(wishlistItems);
       res.render('user/wishlist',{wishlistItems,userId,  isuser: req.session.userlogin,})
-    })
+    }).catch((err)=>{res.redirect('/404')})
+  }catch(err){
+    res.redirect('/404')
+  }
+   
   }
 
   /* ----------------------------- add to wishlist ---------------------------- */
@@ -71,6 +76,7 @@ exports.wishlist_Page=(req,res)=>{
       res.redirect("/wishlist");
     } catch (err) {
       console.log(err + "error add to wishlist");
+      res.redirect('/404')
     }
   }
     
@@ -78,14 +84,19 @@ exports.wishlist_Page=(req,res)=>{
   /* ----------------------------- remove wishlist ---------------------------- */
 
   exports.remove_wishlist=(req,res)=>{
+    try{
+      let wishlistId=req.body.wishlist;
+      let productId=req.body.product
+      let userId=req.body.user
+      console.log(wishlistId,productId,userId);
+      wishlistServices.deleteWishlistproduct(wishlistId,productId,userId).then(()=>{
+        res.json(removeproduct =true)
+      }).catch((err)=>{res.redirect('/404')})
+    }catch(err){
+      res.redirect('/404')
+    }
   
-    let wishlistId=req.body.wishlist;
-    let productId=req.body.product
-    let userId=req.body.user
-    console.log(wishlistId,productId,userId);
-    wishlistServices.deleteWishlistproduct(wishlistId,productId,userId).then(()=>{
-      res.json(removeproduct =true)
-    })
+    
   
   }
 
@@ -94,11 +105,16 @@ exports.wishlist_Page=(req,res)=>{
   
 
   exports.delete_wishlist_cart=async(req,res)=>{
-   
-    let wishlistId=req.body.wishlist
-    let productId=req.body.productId
-    wishlistServices.deleteWishlist(wishlistId,productId).then(()=>{
-      res.json(removewishlist =true)
-    })
+    try{
+ 
+      let wishlistId=req.body.wishlist
+      let productId=req.body.productId
+      wishlistServices.deleteWishlist(wishlistId,productId).then(()=>{
+        res.json(removewishlist =true)
+      }).catch((err)=>{res.redirect('/404')})
+    
+    }catch(err){
+      res.redirect('/404')
+    }
   
   }

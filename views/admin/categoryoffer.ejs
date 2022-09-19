@@ -97,7 +97,7 @@
               <label class="form-label" for="expiredate">expire at</label>
               <input
                 type="date"
-                min="2022-09-08T00:00"
+                [min]="date"
                 name="expiredate"
                 id="expiredate"
               />
@@ -175,34 +175,6 @@
     });
   }
 
-  jQuery("#offercategory").validate({
-    rules: {
-      categoryoffer: {
-        maxlength: 2,
-        Number: true,
-        required: true,
-      },
-      category: {
-        required: true,
-      },
-      validdate: "required",
-      expiredate: "required",
-    },
-    messages: {
-      percentage: {
-        maxlength: "Can only select % below 100",
-      },
-      validdate: {
-        required: "This field is reqired",
-      },
-      expiredate: {
-        required: "This field is reqired",
-      },
-    },
-    submitHandler: function (form) {
-      form.submit();
-    },
-  });
 </script>
 
 <%-include('../include/adminresfooter.ejs')-%>

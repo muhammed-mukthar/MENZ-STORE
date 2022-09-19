@@ -9,6 +9,7 @@ exports.referralPage= (req, res) => {
       });
     } catch (err) {
       console.log(err, "error happened in referal offer page");
+      res.redirect('/404')
     }
   }
 
@@ -22,12 +23,19 @@ exports.referralPage= (req, res) => {
       });
     } catch (err) {
       console.log(err, "error happened in referal offer form submit");
+      res.redirect('/404')
     }
   }
 
   exports.delete_referraloffer=(req, res) => {
-    let refferralOfferId = req.params.id;
-    referalService.delete_referralOffer(refferralOfferId).then(() => {
-      res.redirect("back");
-    });
+    try{
+      let refferralOfferId = req.params.id;
+      referalService.delete_referralOffer(refferralOfferId).then(() => {
+        res.redirect("back");
+      });
+    }catch(err){
+      console.log(err,'error happened in delete referral offer');
+      res.redirect('/404')
+    }
+   
   }

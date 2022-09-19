@@ -7,6 +7,474 @@ jQuery.validator.addMethod(
   );
 
 
+
+/* -------------------------------------------------------------------------- */
+/*                              ADMIN VALIDATION                              */
+/* -------------------------------------------------------------------------- */
+
+
+
+
+
+/* ------------------------------- admin login ------------------------------ */
+
+jQuery('#adminlogin').validate({
+  rules:{
+    email:{
+      required:true,
+     
+      email: true,
+    },
+    password:{
+      required:true,
+      minlength:3,
+      
+      
+    },
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+/* ----------------------------- admin date_stat ---------------------------- */
+
+jQuery('#date_stat').validate({
+  rules:{
+    Datestat:{
+      required:true,
+     
+
+    },
+    
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+/* ---------------------------- admin month-stat ---------------------------- */
+jQuery('#month-stat').validate({
+  rules:{
+    m_month:{
+      required:true,
+    },m_year:{
+      required:true
+    }
+    
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+
+/* ---------------------------- admin product add --------------------------- */
+
+     
+$("#addproduct").validate({
+  rules: {
+   
+    productname: {
+      lettersonly: true,
+     required:true,
+ 
+     minlength:10,
+     maxlength:40
+     
+    },description:{
+     required:true,
+     lettersonly: true,
+     minlength:10,
+     maxlength:60
+    },categoryid:{
+
+     required:true
+    },size:{
+     required:true,
+    },price:{
+     required:true,
+     number:true
+    },
+    stock:{
+     required:true,
+     number:true
+
+    } ,id_image1: { required: true, extension: "jpe?g" },
+    id_image2: { required: true, extension: "jpe?g" },
+    id_image3: { required: true, extension: "jpe?g" },
+  
+  
+  }
+, submitHandler:function(form){
+    form.submit();
+  }
+});
+
+
+/* ------------------------------- editproduct ------------------------------ */
+
+     
+$("#editproduct").validate({
+  rules: {
+   
+    productname: {
+      lettersonly: true,
+     required:true,
+ 
+     minlength:10,
+     maxlength:40
+     
+    },description:{
+     required:true,
+     lettersonly: true,
+     minlength:10,
+     maxlength:60
+    },categoryid:{
+
+     required:true
+    },size:{
+     required:true,
+    },price:{
+     required:true,
+     number:true
+    },
+    stock:{
+     required:true,
+     number:true
+
+    } ,
+  
+  }
+, submitHandler:function(form){
+    form.submit();
+  }
+});
+
+/* ------------------------------ add category ------------------------------ */
+jQuery('#categoryform').validate({
+  rules:{
+    category:{
+      required:true,
+      lettersonly:true,
+      maxlength:60
+    }
+  },messages:{
+    category:{
+      required:"Category is required",
+      
+    },
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+/* ------------------------------- add banner ------------------------------- */
+
+jQuery('#banner21').validate({
+  rules:{
+    desc:{
+      required:true,
+      minlength:6,
+      maxlength:60,
+      lettersonly: true,
+    },
+    heading:{
+      required:true,
+      minlength:6,
+      maxlength:60,
+      lettersonly: true,
+      
+    },
+    bannerimage:{      
+      required:true
+    },
+   
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+
+/* ------------------------------ categoryoffer ----------------------------- */
+
+
+jQuery('#offercategory').validate({
+  rules: {
+    categoryoffer: {
+      maxlength: 2,
+      Number: true,
+      required: true,
+    },
+    category: {
+      required: true,
+    },
+    validdate:'required',
+    expiredate:'required',
+  },
+  submitHandler: function (form) {
+    form.submit();
+  },
+
+})
+
+/* ------------------------------ coupon offer ------------------------------ */
+
+jQuery("#couponoffer").validate({
+  rules: {
+    coupon: {
+      maxlength: 2,
+      
+      required: true,
+    },
+    offer: {
+      required: true,
+      maxlength:3,
+      minlength:1
+      , Number: true,
+    },
+    min:{
+      required: true,
+      maxlength:3,
+      minlength:1,
+      Number: true,
+    },
+    validdate:'required',
+    expiredate:'required',
+    
+  },
+  submitHandler: function (form) {
+    form.submit();
+  },
+});
+
+
+/* ----------------------------- admin referral ----------------------------- */
+
+jQuery("#referraloffer").validate({
+  rules: {
+    referral: {
+      maxlength: 3,
+      
+      required: true,
+    },
+    referreduserAmount: {
+      required: true,
+      maxlength:3,
+      minlength:1,
+      Number: true,
+    },
+    min:{
+      required: true,
+      maxlength:3,
+      minlength:1,
+      Number: true,
+    },
+    validdate:'required',
+    expiredate:'required',
+  },
+  submitHandler: function (form) {
+    form.submit();
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/*                                    User                                    */
+/* -------------------------------------------------------------------------- */
+
+
+/* ------------------------------- user signup ------------------------------ */
+
+jQuery('#usersignup').validate({
+  rules:{
+   
+    name:{  
+      lettersonly: true,
+    required:true,
+  minlength:3
+},
+    email:{
+      required:true,
+      email:true
+    },
+    password:{
+      required:true,
+      minlength:3,},
+
+
+      phone:{
+      required:true,
+      number:true,
+      minlength:10,
+      maxlength:10
+  },
+  },messages:{
+    name:{
+      required:"Name is required",
+    },
+    email:{
+      required:"Email address is required",
+      email:"Enter valid email address"
+    },
+    phone:{
+      required:"Mobile number is required",
+      minlength:"Should contain 10 numbers",
+      maxlength:"Should contain only 10 numbers"
+    },
+    password:{
+      required:"Password is required",
+      minlength:"Atleast 5 character required"
+      }
+  },
+ 
+  
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+
+/* ------------------------------- user login ------------------------------- */
+
+jQuery('#userlogin').validate({
+  rules:{
+   
+
+    email:{
+      required:true,
+      email:true
+    },
+    
+    password:"required",
+    minlength:5
+  }, messages:{
+  email :{
+    required:"Enter valid email address",
+    email:"Enter valid email Id"
+  },
+  password:{
+    required:"Password is required",
+    minlength:"Atleast 5 character required"
+    }
+},
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+/* ------------------------------- userprofile ------------------------------ */
+
+
+jQuery('#userprofile').validate({
+  rules:{
+    name:{
+      required:true,
+      minlength:4,
+    },phone:{
+      required:true,
+      number:true,
+      minlength:10,
+      maxlength:10
+    },
+   
+
+    email:{
+      required:true,
+      email:true
+    },
+    password:{
+  required:true,
+    minlength:2
+    }
+  }, messages:{
+  email :{
+    required:"Enter valid email address",
+    email:"Enter valid email Id"
+  },
+  password:{
+    required:"Password is required",
+    minlength:"Atleast 5 character required"
+    }
+},
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+/* ----------------------------- change password ---------------------------- */
+
+
+
+jQuery('#passwordchange').validate({
+  
+  rules:{
+    currentPassword:{
+      required:true,
+      
+    },NewPassword:{
+      required:true,
+    },
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+
+/* ------------------------------ save address ------------------------------ */
+
+
+
+jQuery('#userdetailsaddress').validate({
+  rules:{
+    address1:{
+      required:true,
+      minlength:4,
+     
+    },address2:{
+      
+      required:true,
+      minlength:4,
+    },
+    town:{
+      lettersonly: true,
+      required:true,
+      minlength:2,
+    }
+    ,postcode:{
+      required:true,
+      number:true,
+      minlength:3,
+      maxlength:7
+    },
+  },
+  submitHandler:function(form){
+    form.submit();
+  }
+})
+
+/* ------------------- chekcout checkout-saveaddress-form ------------------- */
+// jQuery('#checkout-saveaddress-form').validate({
+//     rules:{ 
+//       savedAddress : {
+//         required :true
+//       },
+    
+//        phone:{
+//          Number:true,
+//          required:true,
+//          minlength:10,
+//          maxlength:10
+//        },
+//    },
+//      submitHandler:function(form){
+//        form.submit();
+//      }
+//    })
+
+
 /* --------------------------------- chekout -------------------------------- */
 
 

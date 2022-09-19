@@ -305,36 +305,9 @@
         font-size: 15px;
       }
     }</style>
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
--->
 <!DOCTYPE html>
 <html lang="zxx">
 
-<!-- <head>
-    <title>Fog error Responsive Widget Template :: W3layouts</title>
-   
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8" />
-    <meta name="keywords"
-        content="Fog error web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-    <!-- //Meta tag Keywords -->
-
-    <!-- google fonts -->
-  
-
-    <!-- //google fonts -->
-
-    <!--/Style-CSS -->
-    <!-- <link rel="stylesheet" href="css/style.css" type="text/css" media="all" /> -->
-    <!--//Style-CSS -->
-
-    <!--/fontAwesome-CSS -->
-    <!-- <link rel="stylesheet" href="css/fontAwesome.css" type="text/css" media="all" /> -->
-    <!--/fontAwesome-CSS -->
-<!-- </head> --> 
 
 <body>
     <div class="w3l-error-block">
@@ -343,17 +316,19 @@ Author URL: http://w3layouts.com
             <div class="content">
                 <div class="logo">
                     <a class="brand-logo" href="index.html">404 Error</a>
-                    <!-- if logo is image enable this   
-                <a class="brand-logo" href="#index.html">
-                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-                </a> 
-            -->
+                
                 </div>
                 <div class="w3l-error-grid">
                     <h1>404</h1>
                     <h2>Page not found</h2>
                     <p></p>
-                    <a href="index.html" class="home">Back to Home</a>
+                    <%if(userlog){%>
+                    <a href="/login" class="home">Back to Home</a>
+                    <%}else if(adminlog){%>
+                      <a href="/admin/login" class="home">Back to Home</a>
+                      <%}else{%>
+                        <a href="/login" class="home">Back to Home</a>
+                        <%}%>
                 </div>
 
                
