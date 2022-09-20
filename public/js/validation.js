@@ -225,7 +225,7 @@ jQuery('#offercategory').validate({
 jQuery("#couponoffer").validate({
   rules: {
     coupon: {
-      maxlength: 2,
+      minlength: 2,
       
       required: true,
     },

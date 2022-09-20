@@ -48,7 +48,7 @@ app.use("/admin", adminroute);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-mongoose.connect('mongodb://localhost:27017/Menzshop', {
+mongoose.connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
