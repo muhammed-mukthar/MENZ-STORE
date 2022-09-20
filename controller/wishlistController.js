@@ -25,7 +25,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 exports.wishlist_Page=(req,res)=>{
   try{
-    let userId = req.session.user?._id;
+    let userId = req.session.user._id;
   
     wishlistServices.getproducts(userId).then((wishlistItems)=>{
       console.log(wishlistItems);

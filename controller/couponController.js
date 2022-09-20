@@ -6,7 +6,7 @@ const CouponServices = require("../services/CouponServices");
 exports.applyCoupon=(req,res)=>{
   try{
     let coupon=req.body.coupon
-    let userId = req.session.user?._id;
+    let userId = req.session.user._id;
     let totalAmount=req.body.totalamount
     CouponServices.applyCoupon(coupon,userId,totalAmount).then((couponexist)=>{
       req.session.discountprice=couponexist

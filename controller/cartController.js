@@ -23,9 +23,9 @@ const cartServices = require("../services/cartServices");
 
 exports.displaycart = async (req, res) => {
   try {
-
+    let userId = false
     if(req.session.user._id){
-    let userId = req.session.user._id;
+    userId = req.session.user._id;
 }
     let cart = await Cart.find({ user: userId });
     let categories = await Category.find();
@@ -103,7 +103,7 @@ exports.changequantity = async (req, res, next) => {
     let singleproductprice = parseInt(req.body.singleproductprice);
     let cartid = req.body.cart;
     let productId = req.body.product;
-    let userId = req.session.user?._id;
+    let userId = req.session.user._id;
     let subtotal = Number(req.body.subtotal);
 
     /* ---------------------- //checking for category offer --------------------- */
