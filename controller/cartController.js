@@ -23,7 +23,10 @@ const cartServices = require("../services/cartServices");
 
 exports.displaycart = async (req, res) => {
   try {
-    let userId = req.session.user?._id;
+
+    if(req.session.user._id){
+    let userId = req.session.user._id;
+}
     let cart = await Cart.find({ user: userId });
     let categories = await Category.find();
 
