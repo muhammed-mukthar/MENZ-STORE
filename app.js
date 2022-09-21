@@ -78,7 +78,3 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(port, () => console.log("server hosted in localhost:8000"));
-
-app.listen(8001, () => console.log("server hosted in localhost:8001"));
-
-app.listen(8002, () => console.log("server hosted in localhost:8002"));
