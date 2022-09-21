@@ -70,7 +70,7 @@ exports.addCategory=async (req, res) => {
 
   
 
-    let existingcategory=await Category.findOne({_id:req.params.id})
+    let existingcategory=await Category.findOne({_id:ObjectId(req.params.id)})
     let productExist=await Product.find({category:existingcategory.categoryname})    
     if(productExist.length > 0){
       req.session.message = {
@@ -91,10 +91,8 @@ exports.addCategory=async (req, res) => {
   exports.displaybycategory=async (req, res) => {
     try {
       let allcategories = await Category.find();
-      let category = await Category.findOne({ _id: req.params.id });
+      let category = await Category.findOne({ _id: ObjectId(req.params.id) });
       let categoryname = category.categoryname;
-    
-    
     let offercategories=[]
     for(let j=0;j<allcategories.length;j++){
       if(allcategories[j].offer){
