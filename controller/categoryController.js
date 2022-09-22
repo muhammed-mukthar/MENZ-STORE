@@ -104,7 +104,7 @@ exports.addCategory=async (req, res) => {
         category: categoryname,
       });
       if (Prducts) {
-        res.render("user/shopCategory", {
+        res.render("user/shopcategory", {
           Products: Prducts,
           categories: allcategories,offercategories,
           isuser: req.session.userlogin
