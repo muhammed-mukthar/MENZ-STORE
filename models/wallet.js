@@ -6,7 +6,8 @@ const WalletSchema = new mongoose.Schema({
     required:true,
     default:0
   },
-  email:{type:String,required:true}
+  email:{type:String,required:true},
+  history:{type:Array}
 },{
     timestamps:true
 });

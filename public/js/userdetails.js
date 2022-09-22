@@ -1,3 +1,12 @@
+$(document).ready(function(){
+  $("#display_transaction").click(function(){
+ 
+      $("#transaction_table").toggle();
+  });
+});
+
+
+
 function myFunction() {
   // Get the text field
   var copyText = document.getElementById("myInput");

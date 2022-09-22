@@ -33,12 +33,52 @@
         <div class="row justify-content-center ">
 			<div class="col-md-10 d-flex  mb-4">
 				<div class="cart-detail shadow-sm  text-center p-3 p-md-4">
-					<h5 class=" mb-4" style="font-weight: bold;"> Wallet balance: <span class=" text-success">Rs  <%=walletdetails.amount%> </span></h5>	
+					<h5 class=" mb-2" style="font-weight: bold;"> Wallet balance: <span class=" text-success">Rs  <%=walletdetails.amount%> </span></h5>
+					
+					<button onclick="showtable()" id="display_transaction" class="btn btn-info m-2">Wallet Transactions  </button> 		
+					
+					<div class=" mt-4 table-responsive " style="display:none ;" id="transaction_table">
+					<table class="table">
+						<thead class="thead-dark">
+						  <tr>
+							
+							<th scope="col">Date & Time</th>
+							<th scope="col">Message</th>
+							<th scope="col">Transaction</th>
+							<th scope="col">Amount</th>
+						
+						  </tr>
+						</thead>
+						<tbody>
+							<%for(let j=(walletdetails.history.length - 1); j >=0 ;j--){%>
+						  <tr>
+							
+							
+							<td><%=walletdetails.history[j].Date%></td>
+							<td><%=walletdetails.history[j].message%></td>
+							<%if(walletdetails.history[j].isdebited ){%>
+							<td class="text-danger">Debited</td>
+							<td class="text-danger"><%=walletdetails.history[j].price%></td>
+							<%}else{%>
+								<td class="text-success">Credited</td>
+								<td class="text-success"><%=walletdetails.history[j].price%></td>
+								<%}%>
+						
+						  </tr>
+						  <%}%>
+						  
+						</tbody>
+					  </table>
+					  </div>
+					  
+					 
+					
 					<h5 class=" mb-4 " style="font-weight: bold;"> Referralcode</h5>	
+					
 					 <!-- The text field -->
 <input type="text" value="<%=referalcode%>" disabled id="myInput">
 <!-- The button used to copy the text -->
-<button class="btn btn-info" onclick="myFunction()">Copy text</button> 		
+<button class="btn btn-success" onclick="myFunction()">Copy text</button> 		
 						  <hr>		 
 						  </div>
 			</div>

@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const User=require('../models/user')
 const Wallet = require('../models/wallet');
 var ObjectId = require("mongoose").Types.ObjectId;
+let moment=require('moment')
 
 module.exports={
 
@@ -105,10 +106,32 @@ referralApply:(referalcode,newuser_id)=>{
           let ReferalAmountdetails=await ReferalAmount.find()
          refferaldetails= ReferalAmountdetails=ReferalAmountdetails[0]
          console.log(refferaldetails.referralAmount,'referralAmount',refferaldetails.refereduserAmount,'refereduserAmount');
+       let date=  moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a')
+         let referaluser_msg={
+            message:'referal code used ',
+            price:refferaldetails.referralAmount,
+            Date:date,
+            isdebited:  false ,
+         }
+         
+         let  referreduser_msg={
+            message:'user used your referral  ',
+            price:refferaldetails.refereduserAmount,
+            Date:date,
+            isdebited:  false
+
+         }
+        //  referaluser_msg=`referal code used credited Rs ${refferaldetails.referralAmount} `
+        // referreduser_msg=`referal   offer  credited Rs ${refferaldetails.refereduserAmount}`
+
           await Wallet.updateOne({userId:ObjectId(refferalcodematch.userId)},{$inc:{
             amount:refferaldetails.refereduserAmount
+          },$push:{
+            history:referreduser_msg
           }})
-          await Wallet.updateOne({userId:ObjectId(newuser_id)},{$inc:{amount:refferaldetails.referralAmount}})
+          await Wallet.updateOne({userId:ObjectId(newuser_id)},{$inc:{amount:refferaldetails.referralAmount},$push:{
+            history:referaluser_msg
+          }})
           }else{
             await User.deleteOne({_id:ObjectId(newuser_id)})
             await Wallet.deleteOne({userId:ObjectId(newuser_id)})

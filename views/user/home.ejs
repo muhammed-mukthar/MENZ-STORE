@@ -8,7 +8,7 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	         
 	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
 			  <%if(locals.isuser){%>
@@ -93,12 +93,12 @@
 									
 										
 									<%if(newproducts[i].price == newproducts[i].offerprice ){%>
-										<p class="price"><span class="price-sale">Rs<%=newproducts[i].price  %></span></p>
+										<p class="price"><span class="price-sale">Rs <%=newproducts[i].price  %></span></p>
 									<%}else{%>
 										
 										<div class="d-flex">
 										<p class="price span px-2"><span class="price-sale"><del>Rs <%=newproducts[i].price  %></del> </span></p>
-		    						<p class="price span"><span class="price-sale">Rs<%=newproducts[i].offerprice  %></span></p>
+		    						<p class="price span"><span class="price-sale">Rs <%=newproducts[i].offerprice  %></span></p>
 								</div>
 								
 									<%}%>

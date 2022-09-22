@@ -281,7 +281,7 @@ exports.userProfilePage=async (req, res) => {
   let userdetails = await User.findOne({ _id: userId })
   let saveaddress=await Address.find({userId:ObjectId(userId)})
   let referalcode=await ReferalServices.findreferal(userId)
-  console.log(walletdetails);
+  
   res.render("user/userdetails", {
     isuser: req.session.userlogin,
     userdetails,walletdetails,

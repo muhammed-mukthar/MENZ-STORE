@@ -212,11 +212,11 @@
             <div class="d-flex">
               <div class="pricing">		
                 <%if(products.price == products.offerprice ){%>
-                  <p class="price"><span class="price-sale" style="font-weight: 300;">Rs<%=products.price  %></span></p>
+                  <p class="price"><span class="price-sale" style="font-weight: 300;">Rs <%=products.price  %></span></p>
                 <%}else{%>  
                   <div class="d-flex">
                   <p class="price span px-2"><span class="price-sale" style="font-weight: 300;"><del>Rs <%=products.price  %></del> </span></p>
-                  <p class="price span"><span class="price-sale" style="font-weight: 300;">Rs<%=products.offerprice  %></span></p>
+                  <p class="price span"><span class="price-sale" style="font-weight: 300;">Rs <%=products.offerprice  %></span></p>
               </div>
                 <%}%>
                 </div>
@@ -232,7 +232,7 @@
 	                  	<option value="sm">sm</option>
 	                    <option value="md">md</option>
 	                    <option value="lg">lg</option>
-	                    <option value="xl">x</option>
+	                    <option value="xl">xl</option>
 	                  </select>
 	                </div>
 		            </div>
@@ -244,9 +244,9 @@
 	          	
 	          	</div>
           	</div>
-			<div class="d-flex">
-          	<p ><a href="/add-to-cart/<%=products._id%>" class="btn btn-black py-3 mx-2 px-5">Add to Cart</a></p>
-			  <p><a href="/add-to-wishlist/<%=products._id%>" class="btn btn-primary py-3  px-5">Add to wishlist</a></p>
+			<div class="">
+          	<p ><a href="/add-to-cart/<%=products._id%>" class="btn btn-black py-3 mx-2 px-5 col-sm-12">Add to Cart</a></p>
+			  <p><a href="/add-to-wishlist/<%=products._id%>" class="btn btn-primary py-3  px-5 col-sm-12 ">Add to wishlist</a></p>
 			</div>
     			</div>
     		</div>
