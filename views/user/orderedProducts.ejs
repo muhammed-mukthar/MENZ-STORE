@@ -24,53 +24,7 @@
 	    </div>
 	  </nav>
    
-<!-- 
-    <section  class="h-100 ">
-      <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-lg-10 col-xl-8">
-            <div class="card" style="border-radius: 10px;">
-              <div class="card-header px-4 py-5">
-                <h5 class="text-muted mb-0">Thanks for your Order, </h5>
-              </div>
-              <div class="card-body p-4">
-               
-              
-                <div class="card shadow-0 border mb-4">
-                  <div class="card-body">
-                    <%for(let i=0;i < orderdItems.length;i++){%>
-                      <div class="row">
-                      <div class="col-md-2">
-                          <img src="/<%=orderdItems[i].product.image[0]%>"
-                            class="img-fluid" alt="<%=orderdItems[i].product.product_name%>">
-                        </div>
-                   
-                      <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                        <p class="text-muted mb-0"><%=orderdItems[i].product.product_name%></p>
-                      </div>
-                      <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                        <p class="text-muted mb-0 small"><%=orderdItems[i].product.desc%></p>
-                      </div>
-                      <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                        <p class="text-muted mb-0 small"><%=orderdItems[i].product.price%></p>
-                      </div>
-                      <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                          <p class="text-muted mb-0 small"><%=orderdItems[i].quantity%></p>
-                        </div>
-                      
-                    </div>
-                    <%}%>
-                    
-                    </div>
-                  </div>
-                </div>
-    
-               
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
+
 
     
     <section  class="h-100 mt-4  ">
@@ -83,18 +37,20 @@
               <th scope="col">Product Image</th>
               <th scope="col">Product Name</th>
               <th scope="col"> Product description</th>
-              <th scope="col">Product Price</th>
+              <th scope="col"> Price</th>
               <th scope="col"> Product quantity</th>
 
             </tr>
           </thead>
+          <%console.log(orderdItems[0])%>
           <tbody class="searchable">
             <%for(let i=0;i < orderdItems.length;i++){%>
             <tr>
+             
               <td><img src="/<%=orderdItems[i].product.image[0]%>" width="100px"  height="100px" class="img-fluid" alt="<%=orderdItems[i].product.product_name%>"></td>
               <td><%=orderdItems[i].product.product_name%>"</td>
               <td><%=orderdItems[i].product.desc%></td>
-              <td><%=orderdItems[i].product.price%></td>
+              <td><%=orderdItems[i].product.price * orderdItems[i].quantity%></td>
               <td><%=orderdItems[i].quantity%></td>
           
             </tr>

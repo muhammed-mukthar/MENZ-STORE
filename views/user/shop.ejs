@@ -12,18 +12,18 @@
 	         
 	          <li class="nav-item"><div class="dropdown nav-link">
 				
-  <a class="  dropdown-toggle nav-item" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-  categories
-  </a>
-
-  <ul class="dropdown-menu nav-item" aria-labelledby="dropdownMenuLink">
-	
-	<%categories.forEach(function(categories){%>
-		<li><a  class="dropdown-item  nav-item" href="/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
-		
-		<%})%>
-  </ul>
-</div></li>
+				<a class=" text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+				categories
+				</a>
+			  
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				  
+				  <%categories.forEach(function(categories){%>
+					  <li><a  class="dropdown-item" href="/category/<%=categories._id%>"><%=categories.categoryname%></a></li>
+					  
+					  <%})%>
+				</ul>
+			  </div></li>
 			  <%if(locals.isuser){%>
 				<li class="nav-item"><a href="/userprofile" class="nav-link">Profile</a></li>
 				<li class="nav-item"><a href="/orders" class="nav-link">Orders</a></li>
